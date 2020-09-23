@@ -41,7 +41,7 @@ void le_matriz(int matriz[6 * MAX][10], int m, int n)
     }
 }
 
-void le_vetor(int vetor[], n)
+void le_vetor(int vetor[], int n)
 {
     int i;
     for (i = 0; i < n; i++)
@@ -69,7 +69,7 @@ int contabiliza_acertos(int matriz_apostas[6 * MAX][10], int sorteados[6], int a
                 pos_j = 0;
             }
             if (matriz_apostas[pos_i][pos_j] == 1) {
-                acertos[a] += 1
+                acertos[a] += 1;
             }
         }
     }
