@@ -29,6 +29,15 @@ valor do prêmio --> 1e6 <= n <= 1e9 -> ou seja, basta ser double
 #include <stdio.h>
 #define MAX 1000    
 
+void le_matriz(int matriz[6 * MAX][10], int m, int n) {
+    int i, j;
+    for (i = 0; i < m; i++) {
+        for (j = 0; j < n; j++) {
+            scanf("%d ", &matriz[i][j]);
+        }
+    }    
+}
+
 void le_vetor(int vetor[], n) {
     int i;
     for (i = 0; i < n; i++) {
@@ -44,7 +53,7 @@ int main(){
     int acertos[MAX];
     double premios_individuais[MAX];
     scanf("%d %lf", &apostadores, &premio_total);
-    le_matriz(matriz_apostas, apostadores);
+    le_matriz(matriz_apostas, apostadores, 10);
     le_vetor(sorteados, 6);
     contabiliza_acertos(matriz_apostas, sorteados, acertos, apostadores);
     divide_premio(premio_total, acertos, premios_individuais, apostadores);
