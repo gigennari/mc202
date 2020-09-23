@@ -20,8 +20,28 @@ m linhas onde a i-ésima linha é o valor do prêmio a ser recebido pelo i-ésim
 Restrições:
 
 nº apostas --> 5 <= m <= 1000
-valor do prêmio --> 1e6 <= n <= 1e9 -> ou seja, basta ser int (32 bits)
+valor do prêmio --> 1e6 <= n <= 1e9 -> ou seja, basta ser double
 
 
 
 */
+
+#include <stdio.h>
+#define MAX 1000    
+
+int main(){
+    int apostadores;
+    double premio_total;
+    int matriz_apostas[6 * MAX][10]; //como cada apostador ocupa 6 linhas, o max de linhas é 6000
+    int sorteados[6];
+    int acertos[MAX];
+    double premios_individuais[MAX];
+    scanf("%d %lf", &apostadores, &premio_total);
+    le_matriz(matriz_apostas, apostadores);
+    le_vetor(sorteados, 6);
+    contabiliza_acertos(matriz_apostas, sorteados, acertos, apostadores);
+    divide_premio(premio_total, acertos, premios_individuais, apostadores);
+    imprime_premios(premios_individuais);
+    return 0;
+    
+}
