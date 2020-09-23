@@ -27,25 +27,56 @@ valor do prêmio --> 1e6 <= n <= 1e9 -> ou seja, basta ser double
 */
 
 #include <stdio.h>
-#define MAX 1000    
+#define MAX 1000
 
-void le_matriz(int matriz[6 * MAX][10], int m, int n) {
+void le_matriz(int matriz[6 * MAX][10], int m, int n)
+{
     int i, j;
-    for (i = 0; i < m; i++) {
-        for (j = 0; j < n; j++) {
+    for (i = 0; i < m; i++)
+    {
+        for (j = 0; j < n; j++)
+        {
             scanf("%d ", &matriz[i][j]);
         }
-    }    
+    }
 }
 
-void le_vetor(int vetor[], n) {
+void le_vetor(int vetor[], n)
+{
     int i;
-    for (i = 0; i < n; i++) {
+    for (i = 0; i < n; i++)
+    {
         scanf("%d\n", &vetor[i]);
-    } 
+    }
 }
 
-int main(){
+int contabiliza_acertos(int matriz_apostas[6 * MAX][10], int sorteados[6], int acertos[MAX], int apostadores)
+{
+    int pos_i, pos_j; // acessar matriz de apostas
+    int s, a;         //contabilizar sorteados e apostadores??
+
+    for (s = 0; s < 6; s++)
+    {
+        for (a = 0; a < apostadores; a++)
+        {
+            pos_i = (a+1) * (sorteados[s] / 10);
+            if (sorteados[s] % 10 != 0)
+            {
+                pos_j = sorteados[s] % 10;
+            }
+            else
+            {
+                pos_j = 0;
+            }
+            if (matriz_apostas[pos_i][pos_j] == 1) {
+                acertos[a] += 1
+            }
+        }
+    }
+}
+
+int main()
+{
     int apostadores;
     double premio_total;
     int matriz_apostas[6 * MAX][10]; //como cada apostador ocupa 6 linhas, o max de linhas é 6000
@@ -59,5 +90,4 @@ int main(){
     divide_premio(premio_total, acertos, premios_individuais, apostadores);
     imprime_premios(premios_individuais);
     return 0;
-
 }
