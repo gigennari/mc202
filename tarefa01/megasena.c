@@ -29,6 +29,13 @@ valor do prêmio --> 1e6 <= n <= 1e9 -> ou seja, basta ser double
 #include <stdio.h>
 #define MAX 1000    
 
+void le_vetor(int vetor[], n) {
+    int i;
+    for (i = 0; i < n; i++) {
+        scanf("%d\n", &vetor[i]);
+    } 
+}
+
 int main(){
     int apostadores;
     double premio_total;
@@ -43,5 +50,5 @@ int main(){
     divide_premio(premio_total, acertos, premios_individuais, apostadores);
     imprime_premios(premios_individuais);
     return 0;
-    
+
 }
