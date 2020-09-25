@@ -54,7 +54,7 @@ void le_vetor(int vetor[], int n)
     }
 }
 
-int contabiliza_acertos(int matriz_apostas[6 * MAX][10], int sorteados[6], int acertos[MAX], int apostadores)
+void contabiliza_acertos(int matriz_apostas[6 * MAX][10], int sorteados[6], int acertos[MAX], int apostadores)
 {
     int pos_i, pos_j; // acessar matriz de apostas
     int s, a;         //contabilizar sorteados e apostadores
@@ -85,7 +85,7 @@ int contabiliza_acertos(int matriz_apostas[6 * MAX][10], int sorteados[6], int a
     }
 }
 
-int divide_premio(double premio_total, int acertos[], double premios_individuais[], int apostadores)
+void divide_premio(double premio_total, int acertos[], double premios_individuais[], int apostadores)
 {
     int sena = 0, quina = 0, quadra = 0;
     int i;
@@ -121,10 +121,10 @@ int divide_premio(double premio_total, int acertos[], double premios_individuais
     }
 }
 
-void imprime_premios(double premios[], int n){
+void imprime_premios(double premios_individuais[], int n){
     int i;
     for (i = 0; i < n; i++){
-        printf("%lf ", &premios[i])
+        printf("%lf ", premios_individuais[i]);
     }
 }
 
