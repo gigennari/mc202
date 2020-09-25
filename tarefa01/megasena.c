@@ -22,7 +22,11 @@ Restrições:
 nº apostas --> 5 <= m <= 1000
 valor do prêmio --> 1e6 <= n <= 1e9 -> ou seja, basta ser double
 
-
+Como dividir prêmio:
+percorrer lista de qtde de acertos, armazenar nas variáveis sena, quina e quadra a qtde de pessoas
+que acertaram os respectivos número; 
+percorrer a lista de prêmio individuais e criar 3 condições:
+se lista[i] == 6, somar 0,62*premio / sena
 
 */
 
@@ -53,26 +57,36 @@ void le_vetor(int vetor[], int n)
 int contabiliza_acertos(int matriz_apostas[6 * MAX][10], int sorteados[6], int acertos[MAX], int apostadores)
 {
     int pos_i, pos_j; // acessar matriz de apostas
-    int s, a;         //contabilizar sorteados e apostadores??
+    int s, a;         //contabilizar sorteados e apostadores
 
     for (s = 0; s < 6; s++)
     {
+        if (sorteados[s] <= 10) //posição j será igual para todos, basta calcular nesse for 1 vez
+        {
+            pos_j = sorteados[s] - 1;
+        }
+        else
+        {
+            pos_j = (sorteados[s] % 10) - 1;
+        }
+
         for (a = 0; a < apostadores; a++)
         {
-            pos_i = (a+1) * (sorteados[s] / 10);
-            if (sorteados[s] % 10 != 0)
+            pos_i = a * 6 + sorteados[s] / 10;
+
+            if (pos_i <= 6 * apostadores)
             {
-                pos_j = sorteados[s] % 10;
-            }
-            else
-            {
-                pos_j = 0;
-            }
-            if (matriz_apostas[pos_i][pos_j] == 1) {
-                acertos[a] += 1;
+                if (matriz_apostas[pos_i][pos_j] == 1)
+                {
+                    acertos[a] += 1;
+                }
             }
         }
     }
+}
+
+int divide_premio()
+{
 }
 
 int main()
