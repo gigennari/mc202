@@ -121,6 +121,13 @@ int divide_premio(double premio_total, int acertos[], double premios_individuais
     }
 }
 
+void imprime_premios(double premios[], int n){
+    int i;
+    for (i = 0; i < n; i++){
+        printf("%lf ", &premios[i])
+    }
+}
+
 int main()
 {
     int apostadores;
@@ -134,6 +141,6 @@ int main()
     le_vetor(sorteados, 6);
     contabiliza_acertos(matriz_apostas, sorteados, acertos, apostadores);
     divide_premio(premio_total, acertos, premios_individuais, apostadores);
-    imprime_premios(premios_individuais);
+    imprime_premios(premios_individuais, apostadores);
     return 0;
 }
