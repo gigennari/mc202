@@ -9,7 +9,7 @@ Da dvisão do prêmio:
 Os ganhadores da mesma faixa dividem o prêmio entre si 
 
 Entradas:
-1ª linha - int m (nº de apostadores) e float n (valor do prêmio)
+1ª linha - int m (nº de apostadores) e double n (valor do prêmio)
 m matriz binárias de dimesão 6 x 10
 1 = nº marcado; 0 = não marcado
 última linha - 6 números sorteados
@@ -33,10 +33,11 @@ se lista[i] == 6, somar 0,62*premio / sena
 #include <stdio.h>
 #define MAX 1000
 
+
 void le_matriz(int matriz[6 * MAX][10], int m, int n)
 {
     int i, j;
-    for (i = 0; i < m; i++)
+    for (i = 0; i < 6 * m; i++)
     {
         for (j = 0; j < n; j++)
         {
@@ -59,30 +60,19 @@ void contabiliza_acertos(int matriz_apostas[6 * MAX][10], int sorteados[6], int 
     int pos_i, pos_j; // acessar matriz de apostas
     int s, a;         //contabilizar sorteados e apostadores
 
-    for (s = 0; s < 6; s++)
+    for (a = 0; a < apostadores; a++)
     {
-        if (sorteados[s] <= 10) //posição j será igual para todos, basta calcular nesse for 1 vez
-        {
-            pos_j = sorteados[s] - 1;
-        }
-        else
+        acertos[a] = 0;
+        for (s = 0; s < 6; s++)
         {
             pos_j = (sorteados[s] % 10) - 1;
-        }
-
-        for (a = 0; a < apostadores; a++)
-        {
             pos_i = a * 6 + sorteados[s] / 10;
-
-            if (matriz_apostas[pos_i][pos_j] == 1)
-            {
-                acertos[a] = acertos[a] + 1;
-            }
+            acertos[a] = acertos[a] + matriz_apostas[pos_i][pos_j];
         }
     }
 }
 
-void divide_premio(float premio_total, int acertos[], float premios_individuais[], int apostadores)
+void divide_premio(double premio_total, int acertos[], double premios_individuais[], int apostadores)
 {
     int sena = 0, quina = 0, quadra = 0;
     int i;
@@ -90,52 +80,42 @@ void divide_premio(float premio_total, int acertos[], float premios_individuais[
     for (i = 0; i < apostadores; i++)
     {
         if (acertos[i] == 6)
-        {
             sena += 1;
-        }
         else if (acertos[i] == 5)
-        {
             quina += 1;
-        }
         else if (acertos[i] == 4)
-            ;
-        quadra += 1;
+            quadra += 1;
     }
 
     for (i = 0; i < apostadores; i++)
     {
         if (acertos[i] == 6)
-        {
             premios_individuais[i] = 0.62 * premio_total / sena;
-        }
         else if (acertos[i] == 5)
-        {
             premios_individuais[i] = 0.19 * premio_total / quina;
-        }
         else if (acertos[i] == 4)
-            ;
-        premios_individuais[i] = 0.19 * premio_total / quadra;
+            premios_individuais[i] = 0.19 * premio_total / quadra;
     }
 }
 
-void imprime_premios(float premios_individuais[], int n)
+void imprime_premios(double premios_individuais[], int n)
 {
     int i;
     for (i = 0; i < n; i++)
     {
-        printf("%f\n", premios_individuais[i]);
+        printf("%.2lf\n", premios_individuais[i]);
     }
 }
 
 int main()
 {
     int apostadores;
-    float premio_total;
+    double premio_total;
     int matriz_apostas[6 * MAX][10]; //como cada apostador ocupa 6 linhas, o max de linhas é 6000
     int sorteados[6];
     int acertos[MAX];
-    float premios_individuais[MAX];
-    scanf("%d %f", &apostadores, &premio_total);
+    double premios_individuais[MAX];
+    scanf("%d %lf", &apostadores, &premio_total);
     le_matriz(matriz_apostas, apostadores, 10);
     le_vetor(sorteados, 6);
     contabiliza_acertos(matriz_apostas, sorteados, acertos, apostadores);
