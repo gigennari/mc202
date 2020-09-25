@@ -85,8 +85,40 @@ int contabiliza_acertos(int matriz_apostas[6 * MAX][10], int sorteados[6], int a
     }
 }
 
-int divide_premio()
+int divide_premio(double premio_total, int acertos[], double premios_individuais[], int apostadores)
 {
+    int sena = 0, quina = 0, quadra = 0;
+    int i;
+
+    for (i = 0; i < apostadores; i++)
+    {
+        if (acertos[i] == 6)
+        {
+            sena += 1;
+        }
+        else if (acertos[i] == 5)
+        {
+            quina += 1;
+        }
+        else if (acertos[i] == 4)
+            ;
+        quadra += 1;
+    }
+
+    for (i = 0; i < apostadores; i++)
+    {
+        if (acertos[i] == 6)
+        {
+            premios_individuais[i] = 0.62 * premio_total / sena;
+        }
+        else if (acertos[i] == 5)
+        {
+            premios_individuais[i] = 0.62 * premio_total / quina;
+        }
+        else if (acertos[i] == 4)
+            ;
+        premios_individuais[i] = 0.62 * premio_total / quadra;
+    }
 }
 
 int main()
