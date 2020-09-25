@@ -9,7 +9,7 @@ Da dvisão do prêmio:
 Os ganhadores da mesma faixa dividem o prêmio entre si 
 
 Entradas:
-1ª linha - int m (nº de apostadores) e double n (valor do prêmio)
+1ª linha - int m (nº de apostadores) e float n (valor do prêmio)
 m matriz binárias de dimesão 6 x 10
 1 = nº marcado; 0 = não marcado
 última linha - 6 números sorteados
@@ -74,18 +74,15 @@ void contabiliza_acertos(int matriz_apostas[6 * MAX][10], int sorteados[6], int 
         {
             pos_i = a * 6 + sorteados[s] / 10;
 
-            if (pos_i <= 6 * apostadores)
+            if (matriz_apostas[pos_i][pos_j] == 1)
             {
-                if (matriz_apostas[pos_i][pos_j] == 1)
-                {
-                    acertos[a] += 1;
-                }
+                acertos[a] = acertos[a] + 1;
             }
         }
     }
 }
 
-void divide_premio(double premio_total, int acertos[], double premios_individuais[], int apostadores)
+void divide_premio(float premio_total, int acertos[], float premios_individuais[], int apostadores)
 {
     int sena = 0, quina = 0, quadra = 0;
     int i;
@@ -121,22 +118,24 @@ void divide_premio(double premio_total, int acertos[], double premios_individuai
     }
 }
 
-void imprime_premios(double premios_individuais[], int n){
+void imprime_premios(float premios_individuais[], int n)
+{
     int i;
-    for (i = 0; i < n; i++){
-        printf("%lf\n ", premios_individuais[i]);
+    for (i = 0; i < n; i++)
+    {
+        printf("%f\n", premios_individuais[i]);
     }
 }
 
 int main()
 {
     int apostadores;
-    double premio_total;
+    float premio_total;
     int matriz_apostas[6 * MAX][10]; //como cada apostador ocupa 6 linhas, o max de linhas é 6000
     int sorteados[6];
     int acertos[MAX];
-    double premios_individuais[MAX];
-    scanf("%d %lf", &apostadores, &premio_total);
+    float premios_individuais[MAX];
+    scanf("%d %f", &apostadores, &premio_total);
     le_matriz(matriz_apostas, apostadores, 10);
     le_vetor(sorteados, 6);
     contabiliza_acertos(matriz_apostas, sorteados, acertos, apostadores);
