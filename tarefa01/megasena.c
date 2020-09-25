@@ -113,18 +113,18 @@ void divide_premio(double premio_total, int acertos[], double premios_individuai
         }
         else if (acertos[i] == 5)
         {
-            premios_individuais[i] = 0.62 * premio_total / quina;
+            premios_individuais[i] = 0.19 * premio_total / quina;
         }
         else if (acertos[i] == 4)
             ;
-        premios_individuais[i] = 0.62 * premio_total / quadra;
+        premios_individuais[i] = 0.19 * premio_total / quadra;
     }
 }
 
 void imprime_premios(double premios_individuais[], int n){
     int i;
     for (i = 0; i < n; i++){
-        printf("%lf ", premios_individuais[i]);
+        printf("%lf\n ", premios_individuais[i]);
     }
 }
 
