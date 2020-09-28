@@ -7,8 +7,8 @@ Exemplos do uso de strcmp copiado de http://linguagemc.com.br/a-biblioteca-strin
 
 int main (void)
 {
-    char str1[4] = "abc";
-    char str2[4] = "abd";
+    char str1[10] = "Emanoel";
+    char str2[10] = "Tiago";
     int retorno;
     
     retorno = strcmp(str1, str2);
