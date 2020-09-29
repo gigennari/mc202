@@ -1,26 +1,26 @@
-#TIPO FLOAT/DOUBLE
+# TIPO FLOAT/DOUBLE
 
-##Float
+## Float
 
-*%f 
-*%e (notação científica)
-%g o mais curto dos dois 
-precisão simples, 32bits
+* %f 
+* %e (notação científica)
+* %g o mais curto dos dois 
+* precisão simples, 32bits
 
-##Double 
+## Double 
 
-*%lf
-*%le (notação científica)
-%lg o mais curto dos dois 
-maior precisão, 64bits
-*fabs pra devolver valor absolyto
+* %lf
+* %le (notação científica)
+* %lg o mais curto dos dois 
+* maior precisão, 64bits
+* fabs pra devolver valor absoluto
 
-##Convertendo
+## Convertendo
 
 <(double) x>
 1 --> 1.0
 
-#MATRIZES
+# MATRIZES
 
-*vetor de vetores
-*não podemos devolver matrizes 
+* vetor de vetores
+* não podemos devolver matrizes 
