@@ -70,7 +70,7 @@ int realizar_operacoes(Turma turmas[], int qtd_turmas, int num_operacoes)
         }
         else
         {
-            printf("Essa operacao nao eh valida.\n")
+            printf("Essa operacao nao eh valida.\n");
         }
         
     }
