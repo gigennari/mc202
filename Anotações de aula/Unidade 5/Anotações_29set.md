@@ -84,7 +84,18 @@ v = malloc(10 * sizeof(int));
 * espaço deve ser liberado usando free
 * alocação dinâmica permite devolver a variável 
 
-## Recita para alocação dinâmica de vetores
+## Receita para alocação dinâmica de vetores
 
 * Incluir a biblioteca stdlib.h
 * 
+
+# Ponteiros, vetores, structs e funções 
+
+* Funções naõ podem devolver vetores, mas podem devolver ponteiros 
+
+* d do tipo struct data *
+    - (*d).mes
+    - vá para essa posição de memória
+    - acesse o ccampo mes deste registro 
+    - sugar language: **d->mes**  - d é o ponteiro e acessa o mês
+    
