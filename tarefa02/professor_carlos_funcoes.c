@@ -34,6 +34,33 @@ Aluno procura_novo_na_turma(Turma t[], int qtd_turmas, int j)
         return mais_novo;
     }
 
+
+Aluno procura_velho_na_turma(Turma t[], int qtd_turmas, int j){
+    
+    Aluno mais_velho;
+    mais_velho = t[j].alunos[0];
+    for (int i = 1; i < t[j].qtd; i++)
+    {
+        if (t[j].alunos[i].nascimento.ano < mais_velho.nascimento.ano)
+            mais_velho = t[j].alunos[i];
+        else if (t[j].alunos[i].nascimento.ano == mais_velho.nascimento.ano)
+        {
+            if (t[j].alunos[i].nascimento.mes < mais_velho.nascimento.mes)
+                mais_velho = t[j].alunos[i];
+            else if (t[j].alunos[i].nascimento.mes == mais_velho.nascimento.mes)
+            {
+                if (t[j].alunos[i].nascimento.dia < mais_velho.nascimento.dia)
+                    mais_velho = t[j].alunos[i];
+                else if (t[j].alunos[i].nascimento.dia == mais_velho.nascimento.dia)
+                {
+                    mais_velho = desempate_lexicografico(t[j].alunos[i], mais_velho);
+                }
+            }
+        }
+        return mais_velho;
+    }  
+}
+
     int ocorre(char nome[], int pos, char padrao[])
     {
         for (int j = 0; padrao[j] != '\0'; j++)
