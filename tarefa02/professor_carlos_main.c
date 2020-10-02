@@ -12,15 +12,15 @@ Aluno ler_aluno()
 {
     Aluno A;
     int dia, mes, ano;
-    ("%c %c %d %d %d", &A.nome, &A.sobrenome, &A.nascimento.dia, &A.nascimento.mes, &A.nascimento.ano = ano);
+    ("%c %c %d %d %d", &A.nome, &A.sobrenome, &A.nascimento.dia, &A.nascimento.mes, &A.nascimento.ano);
     return A;
 }
 
 Turma criar_turmas(Turma turmas[], int num_turmas)
 {
     for (int i = 0; i < num_turmas; i++)
-    {    
-        int qtd_alunos = 0;
+    {
+        int qtd_alunos;
         scanf("%d ", &qtd_alunos);
         for (int j = 0; j < qtd_alunos; j++)
         {
@@ -35,41 +35,58 @@ int realizar_operacoes(Turma turmas[], int qtd_turmas, int num_operacoes)
 {
     for (int i = 0; i < num_operacoes; i++)
     {
-        int operacao;
+        int operacao, j;
         scanf("%d ", &operacao);
+        Aluno A;
+
         if (operacao == 1)
         {
-            int j;
             scanf("%d ", &j);
-            procura_novo_na_turma(turmas, qtd_turmas, j);
+            A = procura_novo_na_turma(turmas, qtd_turmas, j);
+            printf("%s\n", &A.nome);
         }
         else if (operacao == 2)
         {
-            int j;
             scanf("%d ", &j);
-            procura_velho_na_turma(turmas, qtd_turmas, j);
+            A = procura_velho_na_turma(turmas, qtd_turmas, j);
+            printf("%s\n", &A.sobrenome);
+            
         }
         else if (operacao == 3)
         {
-            /* code */
+            A = procura_velho_todas_turmas(turmas, qtd_turmas);
+            printf("%s\n", &A.nome);
         }
         else if (operacao == 4)
         {
-            /* code */
+            A = procura_novo_todas_turmas(turmas, qtd_turmas);
+            printf("%s\n", &A.sobrenome);
         }
         else if (operacao == 5)
         {
-            /* code */
+            char *padrao;
+            scanf("%s", &padrao);
+            j = conta_substrings(turmas, qtd_turmas, *padrao);
+            printf("%d\n", &j);
         }
         else if (operacao == 6)
         {
-            /* code */
+            int alunos_restantes;
+            scanf("%d %s %s %d %d %d", &j, &A.nome, &A.sobrenome, &A.nascimento.dia, &A.nascimento.mes, &A.nascimento.ano);
+            alunos_restantes = add_aluno(turmas, A, j);
+            printf("%d\n", &alunos_restantes);
+        }
+        else if (operacao == 7)
+        {
+            int alunos_restantes;
+            scanf("%d", &j);
+            alunos_restantes = remove_aluno(turmas, j);
+            printf("%d\n", &alunos_restantes);
         }
         else
         {
             printf("Essa operacao nao eh valida.\n");
         }
-        
     }
 }
 

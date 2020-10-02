@@ -8,12 +8,15 @@
 #include <stdio.h>
 
 
-int ocorre(char texto[], int pos, char padrao[]){   //0 se não ocorre, 1 se ocorre
+int ocorre(char texto[], int pos, char padrao[])
+{   //0 se não ocorre, 1 se ocorre
     int j;
-    for (j = 0, padrao[j] != '\0', j++) 
+    for (j = 0, padrao[j] != '\0', j++)
+    {
         if (texto[pos+j] == '\0') || (texto[pos+j] != padrao[j] && padrao[j] != '*'))
             return 0;   //retorna falso se a posição é espaço ou coringa 
-    return 1;   
+        return 1;  
+    } 
 }
 
 void imprime(char texto[], int ini, int tam) {
