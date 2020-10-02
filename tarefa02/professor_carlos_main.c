@@ -66,7 +66,7 @@ int realizar_operacoes(Turma turmas[], int qtd_turmas, int num_operacoes)
         }
         else if (operacao == 5)
         {
-            char *padrao;
+            char padrao[5];
             scanf("%s", &padrao);
             j = conta_substrings(turmas, qtd_turmas, *padrao);
             printf("%d\n", &j);
