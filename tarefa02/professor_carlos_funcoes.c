@@ -5,48 +5,72 @@ Implementação
 #include <stdio.h>
 #include <professor_carlos.h>
 
+Aluno desempate_lexicografico(Aluno A, Aluno B)
+{
+}
 
 Aluno procura_novo_na_turma(Turma t[], int qtd_turmas, int j)
 {
-}
-
-int ocorre(char nome[], int pos, char padrao[])
-{
-    for (int j = 0; padrao[j] != '\0'; j++)
-        if ((nome[pos + j] == '\0') || (nome[pos+j] != padrao[j] && padrao[j] != '*'))
-            return 0;
-        return 1;        
-}
-
-int conta_substrings(Turma t[], int qtd_turmas, char *padrao)
-{
-    int ocorrencias = 0;
-    for (int j = 0; j < qtd_turmas; j++) // para cada turma
+    Aluno mais_novo;
+    mais_novo = t[j].alunos[0];
+    for (int i = 1; i < t[j].qtd; i++)
     {
-        for (int i = 0; i < t[j].qtd; i++) //para cada aluno da turma
+        if (t[j].alunos[i].nascimento.ano > mais_novo.nascimento.ano)
+            mais_novo = t[j].alunos[i];
+        else if (t[j].alunos[i].nascimento.ano == mais_novo.nascimento.ano)
         {
-            for (int c = 0; t[j].alunos[i].nome[c] != '\0'; c++)
+            if (t[j].alunos[i].nascimento.mes > mais_novo.nascimento.mes)
+                mais_novo = t[j].alunos[i];
+            else if (t[j].alunos[i].nascimento.mes == mais_novo.nascimento.mes)
             {
-                if (ocorre(t[j].alunos[i].nome, c, *padrao))
+                if (t[j].alunos[i].nascimento.dia > mais_novo.nascimento.dia)
+                    mais_novo = t[j].alunos[i];
+                else if (t[j].alunos[i].nascimento.dia == mais_novo.nascimento.dia)
                 {
-                    ocorrencias += 1;
+                    mais_novo = desempate_lexicografico(t[j].alunos[i], mais_novo);
                 }
             }
         }
+        return mais_novo;
     }
 
-    return ocorrencias;
-}
+    int ocorre(char nome[], int pos, char padrao[])
+    {
+        for (int j = 0; padrao[j] != '\0'; j++)
+            if ((nome[pos + j] == '\0') || (nome[pos + j] != padrao[j] && padrao[j] != '*'))
+                return 0;
+        return 1;
+    }
 
-int add_aluno(Turma t[], Aluno A, int j)
-{
-    t[j].alunos[t[j].qtd] = A;
-    t[j].qtd++;
-    return t[j].qtd;
-}
+    int conta_substrings(Turma t[], int qtd_turmas, char *padrao)
+    {
+        int ocorrencias = 0;
+        for (int j = 0; j < qtd_turmas; j++) // para cada turma
+        {
+            for (int i = 0; i < t[j].qtd; i++) //para cada aluno da turma
+            {
+                for (int c = 0; t[j].alunos[i].nome[c] != '\0'; c++)
+                {
+                    if (ocorre(t[j].alunos[i].nome, c, *padrao))
+                    {
+                        ocorrencias += 1;
+                    }
+                }
+            }
+        }
 
-int remove_aluno(Turma t[], int j)
-{
-    t[j].qtd--;
-    return t[j].qtd;
-}
+        return ocorrencias;
+    }
+
+    int add_aluno(Turma t[], Aluno A, int j)
+    {
+        t[j].alunos[t[j].qtd] = A;
+        t[j].qtd++;
+        return t[j].qtd;
+    }
+
+    int remove_aluno(Turma t[], int j)
+    {
+        t[j].qtd--;
+        return t[j].qtd;
+    }
