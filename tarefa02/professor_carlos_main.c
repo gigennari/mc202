@@ -11,7 +11,6 @@ Cliente
 Aluno ler_aluno()
 {
     Aluno A;
-    int dia, mes, ano;
     ("%c %c %d %d %d", &A.nome, &A.sobrenome, &A.nascimento.dia, &A.nascimento.mes, &A.nascimento.ano);
     return A;
 }
@@ -22,11 +21,14 @@ Turma criar_turmas(Turma turmas[], int num_turmas)
     {
         int qtd_alunos;
         scanf("%d ", &qtd_alunos);
+        turmas[i].qtd = 0;  //inicialiaza qtde de alunos na turma i como 0, 1ª posição do 1º aluno
+
         for (int j = 0; j < qtd_alunos; j++)
         {
             Aluno A;
             A = ler_aluno();
             add_aluno(turmas, A, i);
+            
         }
     }
 }
@@ -72,7 +74,7 @@ int realizar_operacoes(Turma turmas[], int qtd_turmas, int num_operacoes)
         else if (operacao == 6)
         {
             int alunos_restantes;
-            scanf("%d %s %s %d %d %d", &j, &A.nome, &A.sobrenome, &A.nascimento.dia, &A.nascimento.mes, &A.nascimento.ano);
+            A = ler_aluno();
             alunos_restantes = add_aluno(turmas, A, j);
             printf("%d\n", &alunos_restantes);
         }
