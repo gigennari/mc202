@@ -12,10 +12,7 @@ Aluno ler_aluno()
 {
     Aluno A;
     int dia, mes, ano;
-    ("%c %c %d %d %d", &A.nome, &A.sobrenome, &dia, &mes, &ano);
-    A.nascimento.dia = dia;
-    A.nascimento.mes = mes;
-    A.nascimento.ano = ano;
+    ("%c %c %d %d %d", &A.nome, &A.sobrenome, &A.nascimento.dia, &A.nascimento.mes, &A.nascimento.ano = ano);
     return A;
 }
 
