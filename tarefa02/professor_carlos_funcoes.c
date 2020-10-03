@@ -109,7 +109,7 @@ Aluno procura_novo_todas_turmas(Turma t[], int qtd_turmas)
     Aluno mais_novo;
     qtd_turmas += 1;
     for(int i = 0; i < qtd_turmas - 1; i++){    //procura o mais velho em cada turma
-        t[qtd_turmas].alunos[i] = procura_novo_na_turma(t, qtd_turmas, qtd_turmas);
+        t[qtd_turmas].alunos[i] = procura_novo_na_turma(t, qtd_turmas-1, i);
     }
     mais_novo = procura_novo_na_turma(t, qtd_turmas, qtd_turmas);
     qtd_turmas -= 1;
@@ -121,7 +121,7 @@ Aluno procura_velho_todas_turmas(Turma t[], int qtd_turmas)
     Aluno mais_velho;
     qtd_turmas += 1;
     for(int i = 0; i < qtd_turmas - 1; i++){    //procura o mais velho em cada turma
-        t[qtd_turmas].alunos[i] = procura_velho_na_turma(t, qtd_turmas, qtd_turmas);
+        t[qtd_turmas].alunos[i] = procura_velho_na_turma(t, qtd_turmas-1, i);
     }
     mais_velho = procura_velho_na_turma(t, qtd_turmas, qtd_turmas);
     qtd_turmas -= 1;
@@ -131,7 +131,7 @@ Aluno procura_velho_todas_turmas(Turma t[], int qtd_turmas)
 int ocorre(char nome[], int pos, char *padrao)
 {
     for (int j = 0; padrao[j] != '\0'; j++)
-        if ((nome[pos + j] == '\0') || (nome[pos + j] != padrao[j] && padrao[j] != '*'))
+        if ((nome[pos + j] == '\0') || (nome[pos + j] != padrao[j]))
             return 0;
     return 1;
 }
@@ -148,6 +148,7 @@ int conta_substrings(Turma t[], int qtd_turmas, char *padrao)
                 if (ocorre(t[j].alunos[i].nome, c, padrao))
                 {
                     ocorrencias += 1;
+                    break;
                 }
             }
         }

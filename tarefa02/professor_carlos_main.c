@@ -11,7 +11,7 @@ Cliente
 Aluno ler_aluno()
 {
     Aluno A;
-    scanf("%c %c %d %d %d\n", (A.nome), (A.sobrenome), &(A.nascimento.dia), &(A.nascimento.mes), &(A.nascimento.ano));
+    scanf("%s %s %d %d %d\n", (A.nome), (A.sobrenome), &(A.nascimento.dia), &(A.nascimento.mes), &(A.nascimento.ano));
     return A;
 }
 
@@ -40,18 +40,17 @@ void realizar_operacoes(Turma turmas[], int qtd_turmas, int num_operacoes)
         int operacao;
         int j;
         scanf("%d", &operacao);
-        printf("%d", operacao);
         Aluno A;
 
         if (operacao == 1)
         {
-            scanf("%d ", &j);
+            scanf("%d", &j);
             A = procura_novo_na_turma(turmas, qtd_turmas, j);
             printf("%s\n", A.nome);
         }
         else if (operacao == 2)
         {
-            scanf("%d ", &j);
+            scanf("%d", &j);
             A = procura_velho_na_turma(turmas, qtd_turmas, j);
             printf("%s\n", A.sobrenome);
             
@@ -69,13 +68,14 @@ void realizar_operacoes(Turma turmas[], int qtd_turmas, int num_operacoes)
         else if (operacao == 5)
         {
             char padrao[5];
-            scanf("%c", padrao);
+            scanf("%s", padrao);
             j = conta_substrings(turmas, qtd_turmas, padrao);
             printf("%d\n", j);
         }
         else if (operacao == 6)
         {
             int alunos_restantes;
+            scanf("%d", &j);
             A = ler_aluno();
             alunos_restantes = add_aluno(turmas, A, j);
             printf("%d\n", alunos_restantes);
