@@ -11,16 +11,16 @@ Cliente
 Aluno ler_aluno()
 {
     Aluno A;
-    ("%c %c %d %d %d", &A.nome, &A.sobrenome, &A.nascimento.dia, &A.nascimento.mes, &A.nascimento.ano);
+    scanf("%c %c %d %d %d\n", (A.nome), (A.sobrenome), &(A.nascimento.dia), &(A.nascimento.mes), &(A.nascimento.ano));
     return A;
 }
 
-Turma criar_turmas(Turma turmas[], int num_turmas)
+void criar_turmas(Turma turmas[], int num_turmas)
 {
     for (int i = 0; i < num_turmas; i++)
     {
         int qtd_alunos;
-        scanf("%d ", &qtd_alunos);
+        scanf("%d\n", &qtd_alunos);
         turmas[i].qtd = 0;  //inicialiaza qtde de alunos na turma i como 0, 1ª posição do 1º aluno
 
         for (int j = 0; j < qtd_alunos; j++)
@@ -33,57 +33,59 @@ Turma criar_turmas(Turma turmas[], int num_turmas)
     }
 }
 
-int realizar_operacoes(Turma turmas[], int qtd_turmas, int num_operacoes)
+void realizar_operacoes(Turma turmas[], int qtd_turmas, int num_operacoes)
 {
     for (int i = 0; i < num_operacoes; i++)
     {
-        int operacao, j;
-        scanf("%d ", &operacao);
+        int operacao;
+        int j;
+        scanf("%d", &operacao);
+        printf("%d", operacao);
         Aluno A;
 
         if (operacao == 1)
         {
             scanf("%d ", &j);
             A = procura_novo_na_turma(turmas, qtd_turmas, j);
-            printf("%s\n", &A.nome);
+            printf("%s\n", A.nome);
         }
         else if (operacao == 2)
         {
             scanf("%d ", &j);
             A = procura_velho_na_turma(turmas, qtd_turmas, j);
-            printf("%s\n", &A.sobrenome);
+            printf("%s\n", A.sobrenome);
             
         }
         else if (operacao == 3)
         {
             A = procura_velho_todas_turmas(turmas, qtd_turmas);
-            printf("%s\n", &A.nome);
+            printf("%s\n", A.nome);
         }
         else if (operacao == 4)
         {
             A = procura_novo_todas_turmas(turmas, qtd_turmas);
-            printf("%s\n", &A.sobrenome);
+            printf("%s\n", A.sobrenome);
         }
         else if (operacao == 5)
         {
             char padrao[5];
-            scanf("%s", &padrao);
-            j = conta_substrings(turmas, qtd_turmas, *padrao);
-            printf("%d\n", &j);
+            scanf("%c", padrao);
+            j = conta_substrings(turmas, qtd_turmas, padrao);
+            printf("%d\n", j);
         }
         else if (operacao == 6)
         {
             int alunos_restantes;
             A = ler_aluno();
             alunos_restantes = add_aluno(turmas, A, j);
-            printf("%d\n", &alunos_restantes);
+            printf("%d\n", alunos_restantes);
         }
         else if (operacao == 7)
         {
             int alunos_restantes;
             scanf("%d", &j);
             alunos_restantes = remove_aluno(turmas, j);
-            printf("%d\n", &alunos_restantes);
+            printf("%d\n", alunos_restantes);
         }
         else
         {
@@ -96,7 +98,8 @@ int main()
 {
     int qtd_turmas, num_operacoes;
     Turma turmas[N];
-    scanf("%d %d", &qtd_turmas, num_operacoes);
+    scanf("%d %d\n", &qtd_turmas, &num_operacoes);
     criar_turmas(turmas, qtd_turmas);
     realizar_operacoes(turmas, qtd_turmas, num_operacoes);
+    return 0;
 }

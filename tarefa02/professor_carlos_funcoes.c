@@ -11,7 +11,7 @@ Aluno desempate_lexicografico(Aluno A, Aluno B)
     int diferenca = 0;
     for (int i = 0; A.nome[i] != '\0' && B.nome[i] != '\0'; i++)
     {
-        diferenca = 'A.nome[i]' - 'B.nome[i]';
+        diferenca = A.nome[i] - B.nome[i];
         if (diferenca > 0)
         {
             C = B;
@@ -32,7 +32,7 @@ Aluno desempate_lexicografico(Aluno A, Aluno B)
             {
                 for (int i = 0; A.sobrenome[i] != '\0' && B.sobrenome[i] != '\0'; i++)
                 {
-                    diferenca = 'A.sobrenome[i]' - 'B.sobrenome[i]';
+                    diferenca = A.sobrenome[i] - B.sobrenome[i];
                     if (diferenca > 0)
                     {
                         C = B;
@@ -128,7 +128,7 @@ Aluno procura_velho_todas_turmas(Turma t[], int qtd_turmas)
     return mais_velho;
 }
 
-int ocorre(char nome[], int pos, char padrao[])
+int ocorre(char nome[], int pos, char *padrao)
 {
     for (int j = 0; padrao[j] != '\0'; j++)
         if ((nome[pos + j] == '\0') || (nome[pos + j] != padrao[j] && padrao[j] != '*'))
@@ -145,7 +145,7 @@ int conta_substrings(Turma t[], int qtd_turmas, char *padrao)
         {
             for (int c = 0; t[j].alunos[i].nome[c] != '\0'; c++)
             {
-                if (ocorre(t[j].alunos[i].nome, c, *padrao))
+                if (ocorre(t[j].alunos[i].nome, c, padrao))
                 {
                     ocorrencias += 1;
                 }
