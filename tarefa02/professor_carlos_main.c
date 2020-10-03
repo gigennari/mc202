@@ -3,7 +3,7 @@ Cliente
 */
 
 #include <stdio.h>
-#include <professor_carlos.h>
+#include "professor_carlos.h"
 #define N 50 //numero máx de turmas
 #define M 40 //numero max de alunos por turma
 #define K 50 //numero max de operacoes

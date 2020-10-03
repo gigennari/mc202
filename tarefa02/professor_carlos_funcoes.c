@@ -3,7 +3,7 @@ Implementação
 */
 
 #include <stdio.h>
-#include <professor_carlos.h>
+#include "professor_carlos.h"
 
 Aluno desempate_lexicografico(Aluno A, Aluno B)
 {
@@ -45,9 +45,9 @@ Aluno desempate_lexicografico(Aluno A, Aluno B)
                     }
                 }
             }
-        }
-        return C;
+        }  
     }
+    return C;
 }
 
 Aluno procura_novo_na_turma(Turma t[], int qtd_turmas, int j)
@@ -99,8 +99,9 @@ Aluno procura_velho_na_turma(Turma t[], int qtd_turmas, int j)
                 }
             }
         }
-        return mais_velho;
+        
     }
+    return mais_velho;
 }
 
 Aluno procura_novo_todas_turmas(Turma t[], int qtd_turmas)
