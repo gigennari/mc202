@@ -106,26 +106,26 @@ Aluno procura_velho_na_turma(Turma t[], int qtd_turmas, int j)
 Aluno procura_novo_todas_turmas(Turma t[], int qtd_turmas)
 {
     Aluno mais_novo;
-    qtd_turmas += 1;
-    for(int i = 0; i < qtd_turmas - 1; i++){    //procura o mais velho em cada turma
-        t[qtd_turmas].alunos[i] = procura_novo_na_turma(t, qtd_turmas-1, i);
-        t[qtd_turmas].qtd += 1;
+    Turma turma_extra[1];
+    turma_extra[0].qtd = 0;
+    for(int i = 0; i < qtd_turmas; i++){    //procura o mais novo em cada turma
+        turma_extra[0].alunos[i] = procura_novo_na_turma(t, qtd_turmas, i);
+        turma_extra[0].qtd += 1;
     }
-    mais_novo = procura_novo_na_turma(t, qtd_turmas, qtd_turmas);
-    qtd_turmas -= 1;
+    mais_novo = procura_novo_na_turma(turma_extra, 1, 0);
     return mais_novo;
 }
 
 Aluno procura_velho_todas_turmas(Turma t[], int qtd_turmas)
 {
     Aluno mais_velho;
-    qtd_turmas += 1;
-    for(int i = 0; i < qtd_turmas - 1; i++){    //procura o mais velho em cada turma
-        t[qtd_turmas].alunos[i] = procura_velho_na_turma(t, qtd_turmas-1, i);
-        t[qtd_turmas].qtd += 1;
+    Turma turma_extra[1];
+    turma_extra[0].qtd = 0;
+    for(int i = 0; i < qtd_turmas; i++){    //procura o mais velho em cada turma
+        turma_extra[0].alunos[i] = procura_velho_na_turma(t, qtd_turmas, i);
+        turma_extra[0].qtd += 1;
     }
-    mais_velho = procura_velho_na_turma(t, qtd_turmas, qtd_turmas);
-    qtd_turmas -= 1;
+    mais_velho = procura_velho_na_turma(turma_extra, 1, 0);
     return mais_velho;
 }
 
