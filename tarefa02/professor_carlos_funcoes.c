@@ -110,6 +110,7 @@ Aluno procura_novo_todas_turmas(Turma t[], int qtd_turmas)
     qtd_turmas += 1;
     for(int i = 0; i < qtd_turmas - 1; i++){    //procura o mais velho em cada turma
         t[qtd_turmas].alunos[i] = procura_novo_na_turma(t, qtd_turmas-1, i);
+        t[qtd_turmas].qtd += 1;
     }
     mais_novo = procura_novo_na_turma(t, qtd_turmas, qtd_turmas);
     qtd_turmas -= 1;
@@ -122,6 +123,7 @@ Aluno procura_velho_todas_turmas(Turma t[], int qtd_turmas)
     qtd_turmas += 1;
     for(int i = 0; i < qtd_turmas - 1; i++){    //procura o mais velho em cada turma
         t[qtd_turmas].alunos[i] = procura_velho_na_turma(t, qtd_turmas-1, i);
+        t[qtd_turmas].qtd += 1;
     }
     mais_velho = procura_velho_na_turma(t, qtd_turmas, qtd_turmas);
     qtd_turmas -= 1;
