@@ -105,67 +105,29 @@ Aluno procura_velho_na_turma(Turma t[], int qtd_turmas, int j)
 
 Aluno procura_novo_todas_turmas(Turma t[], int qtd_turmas)
 {
-    Aluno A, B, mais_novo;
-
-    for (int i = 0; i < qtd_turmas-1; i++)
-    {
-        A = procura_novo_na_turma(t, qtd_turmas, i);
-        B = procura_novo_na_turma(t, qtd_turmas, i + 1);
-
-        mais_novo = A;
-
-        if (B.nascimento.ano > mais_novo.nascimento.ano)
-            mais_novo = B;
-        else if (B.nascimento.ano == mais_novo.nascimento.ano)
-        {
-            if (B.nascimento.mes > mais_novo.nascimento.mes)
-                mais_novo = B;
-            else if (B.nascimento.mes == mais_novo.nascimento.mes)
-            {
-                if (B.nascimento.dia > mais_novo.nascimento.dia)
-                    mais_novo = B;
-                else if (B.nascimento.dia == mais_novo.nascimento.dia)
-                {
-                    mais_novo = desempate_lexicografico(B, mais_novo);
-                }
-            }
-        }
+    Aluno mais_novo;
+    qtd_turmas += 1;
+    for(int i = 0; i < qtd_turmas - 1; i++){    //procura o mais velho em cada turma
+        t[qtd_turmas].alunos[i] = procura_novo_na_turma(t, qtd_turmas-1, i);
+        t[qtd_turmas].qtd += 1;
     }
+    mais_novo = procura_novo_na_turma(t, qtd_turmas, qtd_turmas);
+    qtd_turmas -= 1;
     return mais_novo;
 }
 
 Aluno procura_velho_todas_turmas(Turma t[], int qtd_turmas)
 {
-    Aluno A, B, mais_velho;
-
-    for (int i = 0; i < qtd_turmas-1; i++)
-    {
-        A = procura_velho_na_turma(t, qtd_turmas, i);
-        B = procura_velho_na_turma(t, qtd_turmas, i + 1);
-
-        mais_velho = A;
-        
-                    if (B.nascimento.ano < mais_velho.nascimento.ano)
-                mais_velho = B;
-            else if (B.nascimento.ano == mais_velho.nascimento.ano)
-            {
-                if (B.nascimento.mes < mais_velho.nascimento.mes)
-                    mais_velho = B;
-                else if (B.nascimento.mes == mais_velho.nascimento.mes)
-                {
-                    if (B.nascimento.dia < mais_velho.nascimento.dia)
-                        mais_velho = B;
-                    else if (B.nascimento.dia == mais_velho.nascimento.dia)
-                    {
-                        mais_velho = desempate_lexicografico(B, mais_velho);
-                    }
-                }
-            }
-        
+    Aluno mais_velho;
+    qtd_turmas += 1;
+    for(int i = 0; i < qtd_turmas - 1; i++){    //procura o mais velho em cada turma
+        t[qtd_turmas].alunos[i] = procura_velho_na_turma(t, qtd_turmas-1, i);
+        t[qtd_turmas].qtd += 1;
     }
+    mais_velho = procura_velho_na_turma(t, qtd_turmas, qtd_turmas);
+    qtd_turmas -= 1;
     return mais_velho;
 }
-
 
 
 int ocorre(char nome[], int pos, char *padrao)
