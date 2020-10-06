@@ -50,8 +50,8 @@ int main()
 {
     struct turma_s *p_ed;
     p_ed = nova_turma();
-    calcular_maior_nota(p_ed);
+    calcular_maior_nota(&p_ed);
     printf("Maior: %lf\n", p_ed->maior_nota);
-    liberar_turma(p_ed);
+    liberar_turma(&p_ed);
     return 0;
 }
