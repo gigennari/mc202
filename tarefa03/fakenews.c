@@ -93,6 +93,11 @@ void calcular_dados(int num_termos, int dias, Termo *termos)
 
 void imprime_dados(Termo *termos, int num_termos)
 {
+    for(int i = 0; i < num_termos; i++){
+        printf("%s", termos[i].palavra);
+
+        printf("%lf %lf %lf %lf\n", termos[i].maximo, termos[i].minimo, termos[i].media, termos[i].desvio_padrao);
+    }
 }
 
 C inicializa_categorias(C categorias, int n)
