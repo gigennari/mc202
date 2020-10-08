@@ -133,7 +133,7 @@ int main()
     categorias = malloc(num_categorias * sizeof(C));
     for (int i = 0; i < num_termos; i++)
     {
-        categorias[i].termos = malloc(num_termos * sizeof(Termo *t));
+        categorias[i].termos = malloc(num_termos * sizeof(Termo *t)); // como alocar ponteiro da struct?
     }
 
 
@@ -154,7 +154,6 @@ int main()
      * Libera memória
      * */
     
-    free();
     free(categorias);
 
     for (int i = 0; i < num_termos; i++)
