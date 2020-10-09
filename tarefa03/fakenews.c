@@ -41,7 +41,7 @@ void le_termos_teclado(int num_termos, int dias, Termo *termos)
 
 void encontra_maximo(Termo *termo, int dias)
 {
-    int maximo = termo->relevancia_diaria[0];
+    double maximo = termo->relevancia_diaria[0];
     for (int i = 1; i < dias; i++)
     {
         if (termo->relevancia_diaria[i] > maximo)
@@ -54,7 +54,7 @@ void encontra_maximo(Termo *termo, int dias)
 
 void encontra_minimo(Termo *termo, int dias)
 {
-    int minimo = termo->relevancia_diaria[0];
+    double minimo = termo->relevancia_diaria[0];
     for (int i = 1; i < dias; i++)
     {
         if (termo->relevancia_diaria[i] < minimo)
@@ -89,7 +89,7 @@ void calcula_desvio(Termo *termo, int dias)
 /**
  * Calcula maximo, mínimo, média e desvio para cada termo
  * */
-int calcular_dados(int num_termos, int dias, Termo *termos)
+void calcular_dados(int num_termos, int dias, Termo *termos)
 {
     for (int i = 0; i < num_termos; i++)
     {
@@ -100,17 +100,18 @@ int calcular_dados(int num_termos, int dias, Termo *termos)
     }
 }
 
-int imprime_dados(Termo *termos, int num_termos)
+void imprime_dados(Termo *termos, int num_termos)
 {
     for (int i = 0; i < num_termos; i++)
     {
-        printf("%s", termos[i].palavra);
+        printf("%s ", termos[i].palavra);
 
-        printf("%lf %lf %lf %lf\n", termos[i].maximo, termos[i].minimo, termos[i].media, termos[i].desvio_padrao);
+        printf("%.2lf %.2lf %.2lf %.2lf\n", termos[i].maximo, termos[i].minimo, termos[i].media, termos[i].desvio_padrao);
     }
+    printf("\n");
 }
 
-int inicializa_categorias(C *categorias)
+void inicializa_categorias(C *categorias)
 {
     categorias->bot = 0;
     categorias->surpreendente = 0;
@@ -119,7 +120,7 @@ int inicializa_categorias(C *categorias)
     categorias->irrelevante = 0;
 }
 
-C aloca_termos_categorias(Termo *termos, int num_termos, C *categorias)
+void aloca_termos_categorias(Termo *termos, int num_termos, C *categorias)
 {
     for (int i = 0; i < num_termos; i++)
     {
@@ -162,23 +163,24 @@ void eh_da_categoria(int num_termos, Termo *termos, int num_categoria)
     }
 }
 
-void imprime_categorias(C *categorias, Termo *termos, int n)
+void imprime_categorias(C *categorias, Termo *termos, int num_categorias, int num_termos)
 {
     printf("RESULTADO:\n");
-    for (int i = 0; i < n - 1; i++)
+    for (int i = 0; i < num_categorias; i++)
     {
         if (i == 0)
             printf("Bot (%d):", categorias->bot);
         if (i == 1)
-            printf("Surpreendente (%d):", categorias->surpreendente);
+            printf("Surpreendente (%d):", categorias->surpreendente);            
         if (i == 2)
             printf("Normal (%d):", categorias->normal);
         if (i == 3)
             printf("Local (%d):", categorias->local);
         if (i == 4)
-            printf("Irelevante (%d):", categorias->irrelevante);
+            printf("Irrelevante (%d):", categorias->irrelevante);
+        eh_da_categoria(num_termos, termos, i);
 
-        printf('\n');
+        printf("\n");
     }
 }
 
@@ -211,7 +213,7 @@ int main()
 
     inicializa_categorias(categorias);
     aloca_termos_categorias(termos, num_termos, categorias);
-    imprime_categorias(categorias, termos, NUM_CATEGORIAS);
+    imprime_categorias(categorias, termos, NUM_CATEGORIAS, num_termos);
 
     /**
      * Libera memória
