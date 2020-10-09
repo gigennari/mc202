@@ -89,7 +89,7 @@ void calcula_desvio(Termo *termo, int dias)
 /**
  * Calcula maximo, mínimo, média e desvio para cada termo
  * */
-void calcular_dados(int num_termos, int dias, Termo *termos)
+int calcular_dados(int num_termos, int dias, Termo *termos)
 {
     for (int i = 0; i < num_termos; i++)
     {
@@ -100,7 +100,7 @@ void calcular_dados(int num_termos, int dias, Termo *termos)
     }
 }
 
-void imprime_dados(Termo *termos, int num_termos)
+int imprime_dados(Termo *termos, int num_termos)
 {
     for (int i = 0; i < num_termos; i++)
     {
@@ -110,20 +110,42 @@ void imprime_dados(Termo *termos, int num_termos)
     }
 }
 
-C inicializa_categorias(C categorias)
+int inicializa_categorias(C *categorias)
 {
-    categorias.bot = 0;
-    categorias.surpreendente = 0;
-    categorias.normal = 0;
-    categorias.local = 0;
-    categorias.irrelevante = 0;
+    categorias->bot = 0;
+    categorias->surpreendente = 0;
+    categorias->normal = 0;
+    categorias->local = 0;
+    categorias->irrelevante = 0;
 }
 
-C aloca_termos_categorias(C *todas, Termo *termos, int num_termos)
+C aloca_termos_categorias(Termo *termos, int num_termos, C *categorias)
 {
+    for (int i = 0; i < num_termos; i++){
+        if (termos[i].media >= 60 && termos[i].desvio_padrao > 15){
+            termos[i].categoria = 0;
+            categorias->bot += 1;
+        }
+        if (termos[i].media >= 60 && termos[i].desvio_padrao <= 15){
+            termos[i].categoria = 1;
+            categorias->surpreendente += 1;
+        }
+        if (termos[i].media < 60 && termos[i].maximo >= 80 && termos[i].minimo > 20){
+            termos[i].categoria = 2;
+            categorias->normal += 1;
+        }
+        if (termos[i].media < 60 && termos[i].maximo >= 80 && termos[i].minimo <= 20){
+            termos[i].categoria = 3;
+            categorias->local += 1;
+        }
+        if (termos[i].media < 60 && termos[i].maximo < 80){
+            termos[i].categoria = 4;
+            categorias->irrelevante += 1;
+        }
+    }
 }
 
-void imprime_categorias()
+void imprime_categorias(C *categorias, Termo *termos, int n )
 {
 }
 
@@ -155,8 +177,8 @@ int main()
     imprime_dados(termos, num_termos);
 
     inicializa_categorias(categorias);
-    aloca_termos_categorias(categorias, termos, num_termos);
-    imprime_categorias(categorias);
+    aloca_termos_categorias(termos, num_termos, categorias);
+    imprime_categorias(categorias, termos, NUM_CATEGORIAS);
 
     /**
      * Libera memória
