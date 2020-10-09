@@ -221,6 +221,9 @@ int main()
 
     for (int i = 0; i < num_termos; i++)
         free(termos[i].relevancia_diaria);
+    for (int i = 0; i < num_termos; i++)
+        free(termos[i].palavra);
+    
     free(termos);
 
     return 0;
