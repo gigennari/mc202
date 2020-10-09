@@ -121,74 +121,105 @@ int inicializa_categorias(C *categorias)
 
 C aloca_termos_categorias(Termo *termos, int num_termos, C *categorias)
 {
-    for (int i = 0; i < num_termos; i++){
-        if (termos[i].media >= 60 && termos[i].desvio_padrao > 15){
+    for (int i = 0; i < num_termos; i++)
+    {
+        if (termos[i].media >= 60 && termos[i].desvio_padrao > 15)
+        {
             termos[i].categoria = 0;
             categorias->bot += 1;
         }
-        if (termos[i].media >= 60 && termos[i].desvio_padrao <= 15){
+        if (termos[i].media >= 60 && termos[i].desvio_padrao <= 15)
+        {
             termos[i].categoria = 1;
             categorias->surpreendente += 1;
         }
-        if (termos[i].media < 60 && termos[i].maximo >= 80 && termos[i].minimo > 20){
+        if (termos[i].media < 60 && termos[i].maximo >= 80 && termos[i].minimo > 20)
+        {
             termos[i].categoria = 2;
             categorias->normal += 1;
         }
-        if (termos[i].media < 60 && termos[i].maximo >= 80 && termos[i].minimo <= 20){
+        if (termos[i].media < 60 && termos[i].maximo >= 80 && termos[i].minimo <= 20)
+        {
             termos[i].categoria = 3;
             categorias->local += 1;
         }
-        if (termos[i].media < 60 && termos[i].maximo < 80){
+        if (termos[i].media < 60 && termos[i].maximo < 80)
+        {
             termos[i].categoria = 4;
             categorias->irrelevante += 1;
         }
     }
 }
 
-void imprime_categorias(C *categorias, Termo *termos, int n )
-{
+void eh_da_categoria(int num_termos, Termo *termos, int num_categoria){
+    for (int j = 0; j < num_termos; j++){
+        if (termos[j].categoria == num_categoria){
+            printf(" %s", termos[j].palavra);
+        }
+    }
+
 }
 
-int main()
+void imprime_categorias(C *categorias, Termo *termos, int n)
 {
-    int num_termos, dias;
-    Termo *termos;
-    C *categorias;
+    printf("RESULTADO:\n"); 
+    for (int i = 0; i < n - 1; i++)
+    {
+        if (i == 0)
+            printf("Bot (%d):", categorias->bot);
+        if (i == 1)
+            printf("Surpreendente (%d):", categorias->surpreendente);
+        if (i == 2)
+            printf("Normal (%d):", categorias->normal);
+        if (i == 3)
+            printf("Local (%d):", categorias->local);
+        if (i == 4)
+            printf("Irelevante (%d):", categorias->irrelevante);
+        
+        printf('\n');
+        
+    }
 
-    /**
+    int main()
+    {
+        int num_termos, dias;
+        Termo *termos;
+        C *categorias;
+
+        /**
      * Aloca memória dinamicamente
      * */
-    scanf("%d %d", &num_termos, &dias);
-    termos = malloc(num_termos * sizeof(Termo));
-    for (int i = 0; i < num_termos; i++)
-    {
-        termos[i].palavra = malloc(TAM_TERMO * sizeof(char));
-    }
-    for (int i = 0; i < num_termos; i++)
-    {
-        termos[i].relevancia_diaria = malloc(dias * sizeof(double));
-    }
+        scanf("%d %d", &num_termos, &dias);
+        termos = malloc(num_termos * sizeof(Termo));
+        for (int i = 0; i < num_termos; i++)
+        {
+            termos[i].palavra = malloc(TAM_TERMO * sizeof(char));
+        }
+        for (int i = 0; i < num_termos; i++)
+        {
+            termos[i].relevancia_diaria = malloc(dias * sizeof(double));
+        }
 
-    categorias = malloc(sizeof(C));
+        categorias = malloc(sizeof(C));
 
-    le_termos_teclado(num_termos, dias, termos);
+        le_termos_teclado(num_termos, dias, termos);
 
-    calcular_dados(num_termos, dias, termos);
-    imprime_dados(termos, num_termos);
+        calcular_dados(num_termos, dias, termos);
+        imprime_dados(termos, num_termos);
 
-    inicializa_categorias(categorias);
-    aloca_termos_categorias(termos, num_termos, categorias);
-    imprime_categorias(categorias, termos, NUM_CATEGORIAS);
+        inicializa_categorias(categorias);
+        aloca_termos_categorias(termos, num_termos, categorias);
+        imprime_categorias(categorias, termos, NUM_CATEGORIAS);
 
-    /**
+        /**
      * Libera memória
      * */
 
-    free(categorias);
+        free(categorias);
 
-    for (int i = 0; i < num_termos; i++)
-        free(termos[i].relevancia_diaria);
-    free(termos);
+        for (int i = 0; i < num_termos; i++)
+            free(termos[i].relevancia_diaria);
+        free(termos);
 
-    return 0;
-}
+        return 0;
+    }
