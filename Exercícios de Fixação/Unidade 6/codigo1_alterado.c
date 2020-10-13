@@ -2,14 +2,15 @@
 #include <stdlib.h>
 
 void f(int *a, int *b){
-    int *c = a;
-    a = b;
-    b = c;
+    int aux;
+    aux = *a;
+    *a = *b;
+    *b = aux;
 }
 
 
-void g(int *c, int n){
-    c = malloc(sizeof(int) * n);
+void g(int **c, int n){
+    *c = malloc(sizeof(int) * n);
 }
 
 void h(int *h){
@@ -17,14 +18,29 @@ void h(int *h){
 }
 
 int main(){
-    int a = 1, b = 2, c = 3;
+    int a = 1;
+    int b = 2; 
+    int c = 3;
     int **d;
-    d = malloc(sizeof(int*));
-    f(&a, &b);
-    g(d[1], 1);
+
+    /**
+     * Aloca memória dinamicamente
+     * */
+    d = malloc (sizeof(int*));
+    if (d == NULL){
+        printf("Nao ha memoria suficiente!\n");
+        exit(1);
+    }
+
+
+    f(&a, &b); 
+    g(d, 1); 
     h(*d);
-    printf("%d %d %d", a, c, d[1][1]);
-    free(*d);
+
+    printf("%d %d %d", a, c, d[0][0]);
+
+    
+    free(d[0]);
     free(d);
     return 0;
 }
