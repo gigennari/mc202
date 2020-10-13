@@ -43,9 +43,9 @@ Seja a = c2 + c3 + c5 + c6, b = c3 + c4 e d = a + b
 Se n>=1, 
 c2+c3(n+1)+c4 * n+c5+c6 = c2+c3+c5+c6+(c3+c4) * n = a+b*n
 
-```
+
 **a+b * n <= a * n + b * n = d * n**
-```
+
 
 **Ordem de n**: De modo geral, o tempo de execução é linearmente dependente do tamanho da entrada - f(n) = n.
 c2 + (n+1) c3 + n c4 + c5 + c6 = O(n)
@@ -143,27 +143,40 @@ para todo n >= n_0, com n suficientemente grande.
 Se g(n) já é maior do que f(n), basta escolher c = 1.
 
 Exemplos:
-* Constante
+
+* **Constante**:
+
 1 = O(1)
 1000000 = O(1)
+
 Ex: atribuição e leitura de variável, operações aritméticas, comparações, operadores booleanos, acesso a uma posição de vetor
 
-* Linear
+* **Linear**:
+
 5n + 2 = O(n)
+
     - quando n dobra, o tempo dobra
+
 Ex: busca linear, econtrar máximo/mínimo de um vetor, produto interno de dois vetores
 
-* Quadrático
-5n^2 + 5n + 2 = O(n^2)
+* **Quadrático**:
+
+5n² + 5n + 2 = O(n²)
+
     - quando n dobra, o tempo quadruplica
+
 Ex: bubble sort, slecrion sort, insertion sort
 
-* Cúbico
-n^3 + 10 = O(n^3)
+* **Cúbico**:
+
+n³ + 10 = O(n³)
+
     - quando n dobra, o tempo octuplica 
+
 Ex: multiplicação de matrizes
 
-* Logarítmico
+* **Logarítmico**:
+
 log_2(n) = O(log(n))
 
 log n/ log 2 = (1/log 2) * log n
@@ -175,7 +188,9 @@ OU seja, (1/log 2) é uma constante
 
 Ex: busca binária
 
-* O(n lg n):
+* **O(n lg n)**:
+
     - quando n dobra, o tempo um pouco mais que dobra
+
 Ex: algoritmos de ordenação que veremos
 
