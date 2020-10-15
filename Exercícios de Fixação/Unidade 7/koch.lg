@@ -1,0 +1,21 @@
+to KOCH :levels :size
+if :levels=0 [
+fd :size
+lt 60
+fd :size
+rt 120
+fd :size
+lt 60
+fd :size
+]
+if :levels>0 [
+KOCH :levels-1 :size/3
+lt 60
+KOCH :levels-1 :size/3
+rt 120
+KOCH :levels-1 :size/3
+lt 60
+KOCH :levels-1 :size/3
+]
+end
+
