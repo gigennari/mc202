@@ -37,6 +37,16 @@ void libera_matriz(char **matriz, int n, int m){
     }
 }
 
+void ler_matriz(char **matriz, int n, int m){
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++){
+            scanf(" %c", &matriz[i][j]);
+        }
+    }
+}
+
+
+
 
 int main(){
     int n, m, q;
@@ -49,8 +59,8 @@ int main(){
     texto = aloca_matriz(n, m);
     palavras_buscadas = aloca_matriz(q, TAM);
 
-    ler_texto(texto, n, m);
-    ler_palavras(palavras_buscadas, q, TAM);
+    ler_matriz(texto, n, m);
+    ler_matriz(palavras_buscadas, q, TAM);
 
     caca_palavras(palavras_buscadas, texto, q, n, m);
 
