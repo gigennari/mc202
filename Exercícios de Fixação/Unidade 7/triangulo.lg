@@ -1,0 +1,22 @@
+BACKGROUND ## [10]
+SETXY 1000 1000
+to TRIANGULO :levels :sz
+[
+repeat :levels 
+[
+repeat 3 [wait 10 fd :sz rt 120] 
+rt 60 
+wait 10
+fd :sz
+wait 10
+rt 120
+]
+
+]
+
+x :levels do.while[TRIANGULO :levels :sz make "x: x-1] :x>1
+
+repeat 3 [fd :sz rt 120]
+
+end
+
