@@ -28,6 +28,15 @@ char **aloca_matriz(int n, int m){
     return matriz;
 }
 
+void libera_matriz(char **matriz, int n, int m){
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++){
+            free(matriz[i][j]);
+        }
+        free(matriz[i]);
+    }
+}
+
 
 int main(){
     int n, m, q;
