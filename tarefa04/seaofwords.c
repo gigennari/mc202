@@ -9,7 +9,7 @@ q linhas com as palvras que devem ser buscadas
 */
 #include <stdio.h>
 #include <stdlib.h>
-#define TAM 20
+#define TAM 21
 
 char **aloca_matriz(int n, int m)
 {
@@ -41,15 +41,13 @@ void libera_matriz(char **matriz, int n, int m)
     free(matriz);
 }
 
-void ler_matriz(char **matriz, int n, int m)
+void ler_matriz(char **matriz, int n)
 {
     for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < m; j++)
-        {
-            scanf(" %c", &matriz[i][j]);
-        }
+        scanf(" %s", matriz[i]);
     }
+
 }
 
 int fora_do_limite(int n, int m, int i, int j)
@@ -78,11 +76,11 @@ int procura_recur(char *palavra, char **texto, int n, int m, int chamada, int i,
      * Retornamos 0 (falso) quando está fora do limite da matriz, se a posição não é a proxima letra ou se já visitamos a posição
      * */
 
-    else if (fora_do_limite(n, m, i, j) || texto[i][j] != palavra[chamada] || texto[i][j] == '-')
+    else if (fora_do_limite(n, m, i, j) || texto[i][j] != palavra[chamada])
     {
         return 0;
     }
-    else if (texto[i][j] == palavra[chamada])
+    else 
     {
         char aux = texto[i][j];
         texto[i][j] = '-';
@@ -108,32 +106,24 @@ int procura_recur(char *palavra, char **texto, int n, int m, int chamada, int i,
             texto[i][j] = aux;
             return 1;
         }
+        texto[i][j] = aux;
     }
     return 0;
 }
 
-int encontra_primeira_letra(char *palavra, char **texto, int n, int m, int chamada, int i, int j)
+int encontra_primeira_letra(char *palavra, char **texto, int n, int m, int chamada)
 {
 
     for (int linha = 0; linha < n; linha++)
     {
         for (int coluna = 0; coluna < m; coluna++)
         {
-            if (texto[linha][coluna] == palavra[chamada])
+            if (texto[linha][coluna] == palavra[0])
             {
-                char aux = texto[linha][coluna];
-                texto[linha][coluna] = '-';
-                i = linha;
-                j = coluna;
-                if (procura_recur(palavra, texto, n, m, chamada + 1, i, j))
+                if (procura_recur(palavra, texto, n, m, chamada, linha, coluna))
                 {
                     return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-                texto[linha][coluna] = aux;
+                } 
             }
         }
     }
@@ -142,17 +132,16 @@ int encontra_primeira_letra(char *palavra, char **texto, int n, int m, int chama
 
 void caca_palavras(char **palavras, char **texto, int qtd, int n, int m)
 {
-    int q;
-    for (q = 0; q < qtd; q++)
+    for (int q = 0; q < qtd; q++)
     {
-        int chamada = 0, i = 0, j = 0;
-        if (encontra_primeira_letra(palavras[q], texto, n, m, chamada, i, j))
+        int chamada = 0;
+        if (encontra_primeira_letra(palavras[q], texto, n, m, chamada))
         {
-            printf("sim");
+            printf("sim\n");
         }
         else
         {
-            printf("nao");
+            printf("nao\n");
         }
     }
 }
@@ -169,16 +158,10 @@ int main()
     texto = aloca_matriz(n, m);
     palavras_buscadas = aloca_matriz(q, TAM);
 
-    ler_matriz(texto, n, m);
-    ler_matriz(palavras_buscadas, q, TAM);
+    ler_matriz(texto, n);
+    ler_matriz(palavras_buscadas, q);
 
-    for(int i = 0; i < n; i++){
-        for (int j = 0; j < m; j++){
-            printf("%c", palavras_buscadas[i][j]);
-        }
-        printf("\n");
-        }
-
+    
     caca_palavras(palavras_buscadas, texto, q, n, m);
 
     /**
