@@ -22,7 +22,7 @@ char **aloca_matriz(int n, int m)
 
     for (int i = 0; i < n; i++)
     {
-        matriz[i] = malloc(m * sizeof(char));
+        matriz[i] = malloc(m * sizeof(char *));
         if (matriz[i] == NULL)
         {
             printf("Nao ha memoria suficiente!\n");
