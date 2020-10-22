@@ -38,3 +38,18 @@ uso de espaço:
 
 Na maioria das vezes compensa utilizar um vetor dinâmico. A lista do python é o que chamamos de vetor dinâmico em C.
 
+# Operações com Listas Ligadas
+
+* criar: 1ª lista é nula 
+* add elemento: add na frente; novo ponteiro aponta para a lista antiga
+
+* copiar: 
+
+# Lista Circular 
+* lista aponta para o último nó por conveção 
+* o último por sua vez, aponta para o primeiro elemento, e assim por diante 
+
+Assim, 
+* o dado do 1º nó elemento é: ``` lista->prox->dado```
+* o dado do último nó elemento é: ``` lista->dado```
+

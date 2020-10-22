@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "lista_ligada.c"
+#include "listas_circulares.c"
 
 /**
  * Guarda o registro inteiro 
@@ -31,4 +32,8 @@ void imprime_lista_inversa(p_no lista);
 
 void destruir_lista(p_no lista);
 
+/**
+ * Circulares
+ * */
 
+p_no inserir_circular(p_no lista, int x);
