@@ -6,8 +6,12 @@ q(x) = 4x⁴ + 2x²+x
 A saída deve ser a soma desses polinômios
 s(x) = 4x⁴ + 3x² + x + 2
 
-
+Estrutura de dados:
+O polinômio é representado por uma lista ligada não vazia de monômios
+tal que os graus estão em ordem.
+Um monômio é um registro do tipo struct nó (abaixo).
 */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "lista_ligada.h"
@@ -17,6 +21,7 @@ s(x) = 4x⁴ + 3x² + x + 2
  * 
  * */
 typedef struct No *p_no; 
+typedef struct lista *p_li
 
 typedef struct No
 {
@@ -25,9 +30,42 @@ typedef struct No
     p_no prox;
 } No;
 
+struct lista
+{
+    p_no cabeca;
+};
+
+
 p_no criar_lista()
 {
     return NULL;
+}
+
+p_lista criar_lista()
+{
+    p_lista lista = malloc(sizeof(*lista));
+    return NULL;
+}
+
+void liberar_lista(p_lista lista){
+    p_no no;
+    no = lista->cabeca;
+    while (no != NULL)
+    {
+        p_no aux = no;
+        no = no->prox;
+        free(aux);
+    }
+    free(lista);
+    
+}
+
+void adicionar_no(p_lista lista, int x){
+    p_novo;
+    novo = malloc(sizeof(struct no));
+    novo->dado = x;
+    novo->prox = *p_lista;
+    *p_lista = novo; 
 }
 
 /**
