@@ -58,19 +58,18 @@ void imprime_lista(p_lista lista)
     p_no no;
     no = lista->ini;
 
-    do{
+    do
+    {
         printf("%d\n", no->dado);
         no = no->prox;
-    } while(no != lista->ini);
-
+    } while (no != lista->ini);
 }
 
 void libera_memoria(p_no no)
 {
     destruir_lista(no->prox);
-    free(no); 
+    free(no);
 }
-
 
 /**
  * Implementacao das funcoes principais
@@ -95,7 +94,7 @@ void executa_operacao(char operacao, p_lista num1, p_lista num2)
 
     if (operacao == '+')
     {
-        resultado = soma(num1, num2);
+        resultado = soma(resultado, num1, num2);
     }
     else if (operacao == '-')
     {
@@ -123,19 +122,42 @@ void executa_operacao(char operacao, p_lista num1, p_lista num2)
  * Implementacao das operacoes da calculadora
  * */
 
-soma(p_lista num1, p_lista num2)
+p_lista soma(p_lista resultado, p_lista num1, p_lista num2)
+{
+    for (int i = 0; i < num1->tamanho && i < num2->tamanho; i++)
+    {
+    }
+    if (num1->tamanho > num2->tamanho)
+    {
+    }
+    else if (num1->tamanho < num2->tamanho)
+    {
+    }
+    return resultado;
+}
+
+void add_resultado(p_lista resultado, int num)
+{
+    if (num > 10)
+    {
+        int x = num % 10;
+        add_elemento(resultado, x);
+        int resto = num - x;
+        add_resultado(resultado, resto);
+    }
+    else
+    {
+        add_elemento(resultado, num);
+    }
+}
+
+p_listasubtrai(p_lista resultado, p_lista num1, p_lista num2)
 {
 }
 
-subtrai(p_lista num1, p_lista num2)
+multiplica(p_lista resultado, p_lista num1, p_lista num2)
 {
 }
-
-multiplica(p_lista num1, p_lista num2)
-{
-}
-
-
 
 int main()
 {
