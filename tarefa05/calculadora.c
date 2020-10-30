@@ -19,23 +19,43 @@ typedef struct Lista
 
 typedef struct Lista *p_lista;
 
-
 /**
  * Implementacao das funcoes para ponteiros de listas e ponteiros de nós 
  * */
 
-p_lista add_elemento(p_lista lista, char c){
-
-    return lista; 
+p_lista criar_lista()
+{
+    p_lista lista = malloc(sizeof(p_lista));
+    return NULL;
 }
 
-void imprime_lista(p_lista lista){
+p_lista add_elemento(p_lista lista, char c)
+{
 
+    p_no novo;
+    novo = malloc(sizeof(No));
+    novo->dado = c;
+    if (lista == NULL)
+    {
+        lista->ini = novo;
+        lista->fim = novo;
+    }
+    else
+    {
+        novo->prox = lista->ini;
+        novo->ant = lista->fim;
+        lista->fim->prox = novo;
+        lista->ini->ant = novo;
+        lista->ini = novo;
+    }
+    lista->tamanho += 1;
+
+    return lista;
 }
 
-
-
-
+void imprime_lista(p_lista lista)
+{
+}
 
 /**
  * Implementacao das funcoes principais
@@ -43,14 +63,13 @@ void imprime_lista(p_lista lista){
 
 p_lista converte_str(char *vetor)
 {
-    p_lista lista;
+    p_lista lista = criar_lista();
     lista->tamanho = 0;
-    for (int i = 0; vetor[1] != '0'; i++){
+    for (int i = 0; vetor[1] != '0'; i++)
+    {
         lista = add_elemento(lista, vetor[i]);
-
     }
     return lista;
-
 }
 
 void executa_operacao(char operacao, p_lista num1, p_lista num2)
@@ -58,18 +77,20 @@ void executa_operacao(char operacao, p_lista num1, p_lista num2)
     p_lista resultado;
     resultado->tamanho = 0;
 
-    if (operacao == '+'){
+    if (operacao == '+')
+    {
         resultado = soma(num1, num2);
     }
-    else if (operacao == '-'){
+    else if (operacao == '-')
+    {
         resultado = subtrai(num1, num2);
-
     }
-    else if (operacao == '*'){
+    else if (operacao == '*')
+    {
         resultado = multiplica(num1, num2);
-
     }
-    else if ((operacao == '/')){
+    else if ((operacao == '/'))
+    {
         printf("%c", "0");
     }
 
@@ -80,17 +101,18 @@ void executa_operacao(char operacao, p_lista num1, p_lista num2)
  * Implementacao das operacoes da calculadora
  * */
 
-soma(p_lista num1, p_lista num2){
-
+soma(p_lista num1, p_lista num2)
+{
 }
 
-subtrai(p_lista num1, p_lista num2){
-    
+subtrai(p_lista num1, p_lista num2)
+{
 }
 
-multiplica(p_lista num1, p_lista num2){
-    
+multiplica(p_lista num1, p_lista num2)
+{
 }
+
 
 
 int main()
