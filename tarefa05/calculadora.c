@@ -65,6 +65,13 @@ void imprime_lista(p_lista lista)
 
 }
 
+void libera_memoria(p_no no)
+{
+    destruir_lista(no->prox);
+    free(no); 
+}
+
+
 /**
  * Implementacao das funcoes principais
  * */
@@ -82,7 +89,8 @@ p_lista converte_str(char *vetor)
 
 void executa_operacao(char operacao, p_lista num1, p_lista num2)
 {
-    p_lista resultado;
+    p_lista resultado = criar_lista();
+
     resultado->tamanho = 0;
 
     if (operacao == '+')
@@ -103,6 +111,12 @@ void executa_operacao(char operacao, p_lista num1, p_lista num2)
     }
 
     imprime_lista(resultado);
+    libera_memoria(num1->ini);
+    libera_memoria(num2->ini);
+    libera_memoria(resultado->ini);
+    free(num1);
+    free(num2);
+    free(resultado);
 }
 
 /**
