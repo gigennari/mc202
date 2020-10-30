@@ -55,6 +55,14 @@ p_lista add_elemento(p_lista lista, char c)
 
 void imprime_lista(p_lista lista)
 {
+    p_no no;
+    no = lista->ini;
+
+    do{
+        printf("%d\n", no->dado);
+        no = no->prox;
+    } while(no != lista->ini);
+
 }
 
 /**
