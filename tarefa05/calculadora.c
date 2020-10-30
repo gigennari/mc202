@@ -20,12 +20,33 @@ typedef struct Lista
 typedef struct Lista *p_lista;
 
 
+/**
+ * Implementacao das funcoes para ponteiros de listas e ponteiros de nós 
+ * */
+
+p_lista add_elemento(p_lista lista, char c){
+
+    return lista; 
+}
+
+void imprime_lista(p_lista lista){
+
+}
+
+
+
+
+
+/**
+ * Implementacao das funcoes principais
+ * */
+
 p_lista converte_str(char *vetor)
 {
     p_lista lista;
     lista->tamanho = 0;
     for (int i = 0; vetor[1] != '0'; i++){
-        add_elemento(lista, vetor[i]);
+        lista = add_elemento(lista, vetor[i]);
 
     }
     return lista;
@@ -55,6 +76,21 @@ void executa_operacao(char operacao, p_lista num1, p_lista num2)
     imprime_lista(resultado);
 }
 
+/**
+ * Implementacao das operacoes da calculadora
+ * */
+
+soma(p_lista num1, p_lista num2){
+
+}
+
+subtrai(p_lista num1, p_lista num2){
+    
+}
+
+multiplica(p_lista num1, p_lista num2){
+    
+}
 
 
 int main()
