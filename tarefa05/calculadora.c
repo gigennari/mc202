@@ -10,16 +10,50 @@ typedef struct No
 
 typedef struct No *p_no;
 
-typedef struct lista
+typedef struct Lista
 {
     int tamanho;
-    int ini, fim;
-    struct Lista *p_lista;
+    p_no ini, fim;
+
 } Lista;
 
 typedef struct Lista *p_lista;
 
 
+p_lista converte_str(char *vetor)
+{
+    p_lista lista;
+    lista->tamanho = 0;
+    for (int i = 0; vetor[1] != '0'; i++){
+        add_elemento(lista, vetor[i]);
+
+    }
+    return lista;
+
+}
+
+void executa_operacao(char operacao, p_lista num1, p_lista num2)
+{
+    p_lista resultado;
+    resultado->tamanho = 0;
+
+    if (operacao == '+'){
+        resultado = soma(num1, num2);
+    }
+    else if (operacao == '-'){
+        resultado = subtrai(num1, num2);
+
+    }
+    else if (operacao == '*'){
+        resultado = multiplica(num1, num2);
+
+    }
+    else if ((operacao == '/')){
+        printf("%c", "0");
+    }
+
+    imprime_lista(resultado);
+}
 
 
 
