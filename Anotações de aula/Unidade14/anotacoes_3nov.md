@@ -32,7 +32,7 @@
 
 ## Implementação 
 1. 
-![Árvore](/Anotações de aula/Unidade14/rep1.PNG)
+![Árvore](ra198010/Anotações de aula/Unidade14/rep1.PNG)
 
 * ruim para identificar pai do nó 
 https://ibb.co/nb9bhVg 
