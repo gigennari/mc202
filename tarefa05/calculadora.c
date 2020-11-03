@@ -37,6 +37,7 @@ p_lista add_direita(p_lista lista, int c)
     novo->dado = c;
     if (lista == NULL)
     {
+        lista = malloc(sizeof(Lista));
         lista->ini = novo;
         lista->fim = novo;
         novo->prox = novo;
@@ -63,6 +64,7 @@ p_lista add_esquerda(p_lista lista, int c)
     novo->dado = c;
     if (lista == NULL)
     {
+        lista = malloc(sizeof(Lista));
         lista->ini = novo;
         lista->fim = novo;
         novo->prox = novo;
@@ -104,78 +106,98 @@ void libera_memoria(p_no no)
  * Implementacao das operacoes da calculadora
  * */
 
-p_lista soma(p_lista resultado, p_lista num1, p_lista num2)
-{
-    for (int i = 0; i < num1->tamanho && i < num2->tamanho; i++)
-    {
-    }
-    if (num1->tamanho > num2->tamanho)
-    {
-    }
-    else if (num1->tamanho < num2->tamanho)
-    {
-    }
-    return resultado;
-}
 
-void add_resultado(p_lista resultado, int num)
-{
-    if (num > 10)
+void somar_em_no(p_lista num1, p_lista num2, p_lista resultado, int x){
+    
+    if ((num1->ini == num1->fim)  && (num2->ini == num2->fim)){
+        add_esquerda(resultado, x);
+    }
+    else if ((num1->ini == num1->fim)  && (num2->ini != num2->fim)){
+        num2->fim->ant->dado += 1; 
+    }
+    else if ((num1->ini != num1->fim)  && (num2->ini == num2->fim))
     {
-        int x = num % 10;
-        add_esquerda
-    (resultado, x);
-        int resto = num - x;
-        add_resultado(resultado, resto);
+        num1->fim->ant->dado += 1;
+    }
+}
+void add_resultado(p_lista num1, p_lista num2, p_lista resultado, int soma){
+    if (soma > 10)
+    {
+        int x = soma % 10;
+        add_esquerda(resultado, x);
+        somar_em_no(num1, num2, resultado, 1);
     }
     else
     {
-        add_esquerda
-    (resultado, num);
+        add_esquerda(resultado, soma);
     }
 }
 
+p_lista soma(p_lista resultado, p_lista num1, p_lista num2)
+{
+    for (int i = 0; (i <= num1->tamanho) || (i <= num2->tamanho) ; i++)
+    {
+        int soma = num1->fim->dado + num2->fim->dado;
+        
+        add_resultado(num1, num2, resultado, soma);
+
+        num1->fim = num1->fim->ant;
+        num2->fim = num2->fim->ant;
+    }
+
+    /**
+     * Caso o numero 1 tenha mais algarismos que o 2,
+     * precisamos terminar de copiá-lo
+     * */
+    if (num1->ini != num1->fim)
+    {
+        for (int i = 0; num1->ini != num1->fim; i++){
+            add_esquerda(resultado, num1->fim->dado);
+            num1->fim = num1->fim->ant;
+        }
+    }
+    else if (num2->ini != num2->fim)
+    {
+        for (int i = 0; num2->ini != num2->fim; i++){
+            add_esquerda(resultado, num2->fim->dado);
+            num2->fim = num2->fim->ant;
+        }
+    }
+
+    return resultado;
+}
+
+
+
+
+
+/**
+ * 
 p_lista subtrai(p_lista resultado, p_lista num1, p_lista num2)
 {
+    return NULL;
 }
 
 p_lista multiplica(p_lista resultado, p_lista num1, p_lista num2)
 {
+    return NULL; 
 } 
+*/
+
 /**
  * Implementacao das funcoes principais
  * */
 
 
-p_lista converte_str(char *vetor)
-{
-
-    p_lista lista = criar_lista();
-    lista->tamanho = 0;
-
-    int tamanho_str = 0;
-    for (int i = 0; vetor[i] != '0'; i++){
-        tamanho_str += 1;
-    }
-
-    for (int i = tamanho_str; i > 0 ; i--)
-    {
-        int num = vetor[i] - '0';
-        lista = add_esquerda
-    (lista, num);
-    }
-    return lista;
-}
-
 void executa_operacao(char operacao, p_lista num1, p_lista num2)
 {
-    p_lista resultado = malloc(sizeof(Lista));
-    resultado->tamanho = 0;
+    p_lista resultado = criar_lista();
 
     if (operacao == '+')
     {
         resultado = soma(resultado, num1, num2);
     }
+    /**
     else if (operacao == '-')
     {
         resultado = subtrai(resultado, num1, num2);
@@ -188,9 +210,11 @@ void executa_operacao(char operacao, p_lista num1, p_lista num2)
     {
         printf("%d", 0);
     }
+    */
 
     imprime_lista(resultado);
-    printf('\n');
+    printf("\n");
+
     libera_memoria(num1->ini);
     libera_memoria(num2->ini);
     libera_memoria(resultado->ini);
@@ -199,8 +223,10 @@ void executa_operacao(char operacao, p_lista num1, p_lista num2)
     free(resultado);
 }
 
-p_lista ler_numero(p_lista num){
+p_lista ler_numero(){
     char caractere;
+    p_lista num = malloc(sizeof(Lista));
+    
     do{
             scanf("%c", &caractere);
 
@@ -217,17 +243,19 @@ p_lista ler_numero(p_lista num){
 int main()
 {
     int num_operacoes;
-    char operacao;
-    p_lista num1, num2;
 
-    scanf("%d", num_operacoes);
+    scanf("%d", &num_operacoes);
     
     for (int i = 0; i < num_operacoes; i++)
     {
-        scanf("%c", operacao);
+        char operacao;
+        scanf("%c", &operacao);
+
         
-        num1 = ler_numero(num1);
-        num2 = ler_numero(num2);
+        p_lista num1 = ler_numero();
+        p_lista num2 = ler_numero();
+
+        imprime_lista(num1);
 
         executa_operacao(operacao, num1, num2);
 
