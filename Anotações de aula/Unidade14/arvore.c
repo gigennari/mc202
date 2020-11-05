@@ -26,10 +26,7 @@ typedef No *p_no;
  * ou NULL se não houver
  * */
 p_no procurar_no(p_no raiz, int x){
-    if(raiz == NULL){
-        return NULL;
-    }
-    else if(x == raiz->dado){
+    if(raiz == NULL || x == raiz->dado){
         return raiz;
     }
     else{
@@ -72,6 +69,64 @@ int altura(p_no raiz){
         maior = h_dir;
     }
     return 1 + maior;
+}
+
+
+void pre_ordem(p_no raiz){
+    if (raiz != NULL){
+        printf("%d, raiz->dado");
+        pre_ordem(raiz->esq);
+        pre_ordem(raiz->dir);
+    }
+}
+
+void pos_ordem(p_no raiz){
+    if (raiz != NULL){
+        pos_ordem(raiz->esq);
+        pos_ordem(raiz->dir);
+        printf("%d", raiz->dado);
+    }
+}
+
+void inordem(p_no raiz){
+    if (raiz != NULL){
+        inordem(raiz->esq);
+        printf("%d", raiz->dado);
+        inordem(raiz->dir);
+    }
+}
+
+/**
+ * funções de pilha na unidade anterior
+ * */
+void pre_ordem_iter(p_no raiz){
+    p_pilha p;
+    p = criar_pilha();
+    empilhar(p, raiz);
+    while(!pilha_vazia(p)){
+        raiz = desempilhar(p);
+        if(raiz != NULL){
+            empilhar(p, raiz->dir);
+            empilhar(p, raiz->esq);
+            printf("%d", raiz->dado);
+        }
+    }
+    destruir_pilha(p);
+}
+
+void percorre_largura(p_no raiz){
+    p_fila f;
+    f = criar_fila();
+    enfileirar(f, raiz);
+    while(!fila_vazia(f)){
+        raiz = desenfileirar(f);
+        if (raiz != NULL){
+            enfileirar(f, raiz->esq);
+            enfileirar(f, raiz->dir);
+            printf("%d", raiz->dado);
+    }    
+    }
+    destruir_fila(f);
 }
 
 int main(){

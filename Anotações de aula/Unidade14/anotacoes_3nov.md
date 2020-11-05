@@ -61,3 +61,41 @@ int altura(p_no raiz);
 
 Olhar **arvore.c**
 
+## Percorrendo os nós recursivamente
+
+### Pré ordem 
+* começa pela raiz 
+* depois a subarvore esquerda recursivamente
+* depois a direita recur
+
+### Pós ordem 
+* esquerda 
+* direita 
+* raiz 
+
+### Inordem 
+* primeira visita a subarvore esquerda
+* depois a raiz
+* por último a subarvore da direita
+
+### Percurso em profundidade e expressões
+![Exemplo](https://ibb.co/cKBg7YC)
+
+* Pré-fixa = / + 7 - - 3 9 ^ * 3 9 2 
+* Pós fixa: 7 3 - 9 - + 3 9 * 2
+* Infixa: 7 + -3 -9 / 3 * 9 ^ 2
+
+## Percorrendo os nós com pilha 
+* condição de parada: **pilha** estar vazia
+
+### Pré-ordem
+* armazena esq na pilha, depois direito na pilha 
+* quando um nó não tem filhos, tira da pilha e vai p o próxima
+
+
+## Percorrendo em largura 
+* visita os nós por níveis 
+* da direita p esquerda 
+
+* processa assim que descobre
+* **fila**: quem eu colocar primeiro, sai primeiro (FIFO)
