@@ -32,10 +32,10 @@
 
 ## Implementação 
 1. 
-![Árvore](/Anotações de aula/Unidade14/rep1.PNG)
+![Árvore](https://ibb.co/nb9bhVg)
 
 * ruim para identificar pai do nó 
-https://ibb.co/nb9bhVg 
+
 
 2. 
 ![Árvore](https://ibb.co/S01BQGJ)
