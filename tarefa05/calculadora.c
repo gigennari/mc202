@@ -40,19 +40,18 @@ p_lista add_direita(p_lista lista, int c)
         lista = malloc(sizeof(Lista));
         lista->ini = novo;
         lista->fim = novo;
-        novo->prox = novo;
-        novo->ant = novo;
+        lista->tamanho = 1;
+        novo->prox = NULL;
+        novo->ant = NULL;
     }
     else
     {
-        novo->prox = lista->ini;
+        novo->prox = NULL;
         novo->ant = lista->fim;
-        lista->ini->ant = novo;
         lista->fim->prox = novo;
         lista->fim = novo;
+        lista->tamanho += 1;
     }
-    lista->tamanho += 1;
-
     return lista;
 }
 
@@ -67,38 +66,50 @@ p_lista add_esquerda(p_lista lista, int c)
         lista = malloc(sizeof(Lista));
         lista->ini = novo;
         lista->fim = novo;
-        novo->prox = novo;
-        novo->ant = novo;
+        lista->tamanho = 1;
+        novo->prox = NULL;
+        novo->ant = NULL;
     }
     else
     {
         novo->prox = lista->ini;
-        novo->ant = lista->fim;
-        lista->fim->prox = novo;
+        novo->ant = NULL;
         lista->ini->ant = novo;
         lista->ini = novo;
+        lista->tamanho += 1;
     }
-    lista->tamanho += 1;
-
     return lista;
 }
 
 void imprime_lista(p_lista lista)
 {
-    p_no no;
-    no = lista->ini;
-
-    do
+    if (lista != NULL)
     {
-        printf("%d\n", no->dado);
-        no = no->prox;
-    } while (no != lista->ini);
+        p_no atual;
+        atual = malloc(sizeof(No));
+        atual = lista->ini;
+        
+        do{
+            printf("%d", atual->dado);
+            atual = atual->prox;
+        }while(atual != NULL);
+        
+        free(atual);
+    }
 }
 
-void libera_memoria(p_no no)
-{
-    libera_memoria(no->prox);
+void liberar_memoria(p_lista lista){
+    p_no no;
+    no = lista->ini;
+    while (no != NULL)
+    {
+        p_no aux = no;
+        no = no->prox;
+        free(aux);
+    }
+    free(lista);
     free(no);
+    
 }
 
 
@@ -110,12 +121,12 @@ void libera_memoria(p_no no)
 void somar_em_no(p_lista num1, p_lista num2, p_lista resultado, int x){
     
     if ((num1->ini == num1->fim)  && (num2->ini == num2->fim)){
-        add_esquerda(resultado, x);
+        resultado = add_esquerda(resultado, x);
     }
-    else if ((num1->ini == num1->fim)  && (num2->ini != num2->fim)){
+    else if (num1->ini == num1->fim){
         num2->fim->ant->dado += 1; 
     }
-    else if ((num1->ini != num1->fim)  && (num2->ini == num2->fim))
+    else if (num2->ini == num2->fim)
     {
         num1->fim->ant->dado += 1;
     }
@@ -124,20 +135,21 @@ void add_resultado(p_lista num1, p_lista num2, p_lista resultado, int soma){
     if (soma > 10)
     {
         int x = soma % 10;
-        add_esquerda(resultado, x);
+        resultado = add_esquerda(resultado, x);
         somar_em_no(num1, num2, resultado, 1);
     }
     else
     {
-        add_esquerda(resultado, soma);
+        resultado = add_esquerda(resultado, soma);
     }
 }
 
 p_lista soma(p_lista resultado, p_lista num1, p_lista num2)
 {
-    for (int i = 0; (i <= num1->tamanho) || (i <= num2->tamanho) ; i++)
+    int soma;
+    for (int i = 0; (i < num1->tamanho) && (i < num2->tamanho); i++)
     {
-        int soma = num1->fim->dado + num2->fim->dado;
+        soma = num1->fim->dado + num2->fim->dado;
         
         add_resultado(num1, num2, resultado, soma);
 
@@ -151,15 +163,16 @@ p_lista soma(p_lista resultado, p_lista num1, p_lista num2)
      * */
     if (num1->ini != num1->fim)
     {
-        for (int i = 0; num1->ini != num1->fim; i++){
-            add_esquerda(resultado, num1->fim->dado);
+        while(num1->ini != num1->fim){
+            resultado = add_esquerda(resultado, num1->fim->dado);
             num1->fim = num1->fim->ant;
         }
     }
     else if (num2->ini != num2->fim)
     {
-        for (int i = 0; num2->ini != num2->fim; i++){
-            add_esquerda(resultado, num2->fim->dado);
+        
+        while(num2->ini != num2->fim){
+            resultado = add_esquerda(resultado, num2->fim->dado);
             num2->fim = num2->fim->ant;
         }
     }
@@ -215,27 +228,22 @@ void executa_operacao(char operacao, p_lista num1, p_lista num2)
     imprime_lista(resultado);
     printf("\n");
 
-    libera_memoria(num1->ini);
-    libera_memoria(num2->ini);
-    libera_memoria(resultado->ini);
-    free(num1);
-    free(num2);
-    free(resultado);
+    liberar_memoria(num1);
+    liberar_memoria(num2);
+    liberar_memoria(resultado);
 }
 
-p_lista ler_numero(){
+p_lista ler_numero(p_lista num){
     char caractere;
-    p_lista num = malloc(sizeof(Lista));
+    scanf("%c", &caractere);
+    while(caractere <= '9' && caractere >= '0'){
     
-    do{
-            scanf("%c", &caractere);
-
             if (caractere != '\0'){
                 int algarismo = caractere - '0';
-                add_direita(num, algarismo);
-            }
-            
-    }while(caractere != '0');
+                num = add_direita(num, algarismo);
+                scanf("%c", &caractere);
+            }       
+    }
 
     return num;
 }
@@ -243,23 +251,20 @@ p_lista ler_numero(){
 int main()
 {
     int num_operacoes;
+    char operacao;
+    p_lista num1, num2;
+    num1 = criar_lista();
+    num2 = criar_lista();
+    scanf("%d ", &num_operacoes);
 
-    scanf("%d", &num_operacoes);
-    
     for (int i = 0; i < num_operacoes; i++)
     {
-        char operacao;
-        scanf("%c", &operacao);
-
-        
-        p_lista num1 = ler_numero();
-        p_lista num2 = ler_numero();
-
+        scanf("%c ", &operacao);
+        num1 = ler_numero(num1);
+        num2 = ler_numero(num2);
         imprime_lista(num1);
-
         executa_operacao(operacao, num1, num2);
-
     }
-
     return 0;
 }
+

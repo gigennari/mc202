@@ -21,7 +21,7 @@
 * armazenar conjuntos dinâmicos 
 * criar hierarquias
 
-* se a altura é **h**:
+* se a altura é **h**:s é INCORRETO afirmar: *
     * no mínimo, h nós
     * no máximo, N = 2^0 + 2^1 + ... + 2^(h-1) = **2^h - 1** 
 
@@ -33,7 +33,7 @@
 ## Implementação 
 1. 
 ![Árvore](https://ibb.co/nb9bhVg)
-
+s é INCORRETO afirmar: *
 * ruim para identificar pai do nó 
 
 
