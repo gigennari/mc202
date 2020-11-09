@@ -92,7 +92,7 @@ void imprime_lista(p_lista lista)
             printf("%d", atual->dado);
             atual = atual->prox;
         } while (atual != NULL);
-        printf('\n');
+        printf("\n");
 
         free(atual);
     }
@@ -132,10 +132,13 @@ void somar_em_no(p_lista num1, p_lista num2, p_lista resultado, int x)
     {
         num1->fim->ant->dado += 1;
     }
+    else{
+        num1->fim->ant->dado += 1;
+    }
 }
-void add_resultado(p_lista num1, p_lista num2, p_lista resultado, int soma)
+p_lista add_resultado(p_lista num1, p_lista num2, p_lista resultado, int soma)
 {
-    if (soma > 10)
+    if (soma >= 10)
     {
         int x = soma % 10;
         resultado = add_esquerda(resultado, x);
@@ -145,6 +148,7 @@ void add_resultado(p_lista num1, p_lista num2, p_lista resultado, int soma)
     {
         resultado = add_esquerda(resultado, soma);
     }
+    return resultado;
 }
 
 p_lista soma(p_lista resultado, p_lista num1, p_lista num2)
@@ -154,32 +158,42 @@ p_lista soma(p_lista resultado, p_lista num1, p_lista num2)
     {
         soma = num1->fim->dado + num2->fim->dado;
 
-        add_resultado(num1, num2, resultado, soma);
+        resultado = add_resultado(num1, num2, resultado, soma);
 
         num1->fim = num1->fim->ant;
         num2->fim = num2->fim->ant;
+
+    }
+
+    //atualiza tamanhos
+    if(num1->tamanho > num2->tamanho){
+        num1->tamanho = num1->tamanho - num2->tamanho;
+        num2->tamanho = 0;
+    }
+    else if(num2->tamanho > num1->tamanho){
+        num2->tamanho = num2->tamanho - num1->tamanho;
+        num1->tamanho = 0;
     }
 
     /**
      * Caso o numero 1 tenha mais algarismos que o 2,
      * precisamos terminar de copiá-lo
      * */
-    if (num1->ini != num1->fim)
+    if (num1->fim != num1->ini->ant)
     {
-        while (num1->ini != num1->fim)
+        do
         {
             resultado = add_esquerda(resultado, num1->fim->dado);
             num1->fim = num1->fim->ant;
-        }
+        }while (num1->fim != num1->ini->ant);
     }
-    else if (num2->ini != num2->fim)
+    else if (num2->fim != num1->ini->ant)
     {
-
-        while (num2->ini != num2->fim)
+        do
         {
             resultado = add_esquerda(resultado, num2->fim->dado);
             num2->fim = num2->fim->ant;
-        }
+        }while (num2->fim != num1->ini->ant);
     }
 
     return resultado;
@@ -351,16 +365,16 @@ int main()
     int num_operacoes;
     char operacao;
     p_lista num1, num2;
-    num1 = criar_lista();
-    num2 = criar_lista();
+    
     scanf("%d ", &num_operacoes);
 
     for (int i = 0; i < num_operacoes; i++)
     {
+        num1 = criar_lista();
+        num2 = criar_lista();
         scanf("%c ", &operacao);
         num1 = ler_numero(num1);
         num2 = ler_numero(num2);
-        imprime_lista(num1);
         executa_operacao(operacao, num1, num2);
     }
     return 0;
