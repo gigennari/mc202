@@ -86,7 +86,6 @@ void imprime_lista(p_lista lista)
     if (lista != NULL)
     {
         p_no atual;
-        atual = malloc(sizeof(No));
         atual = lista->ini;
         
         do{
@@ -118,6 +117,7 @@ void liberar_memoria(p_lista lista){
  * */
 
 
+//soma
 void somar_em_no(p_lista num1, p_lista num2, p_lista resultado, int x){
     
     if ((num1->ini == num1->fim)  && (num2->ini == num2->fim)){
@@ -183,14 +183,60 @@ p_lista soma(p_lista resultado, p_lista num1, p_lista num2)
 
 
 
+//subtrai
+
+p_lista completar_zeros(p_lista num, int qtde){
+    for (int i = 0; i < qtde; i++){
+        num = add_esquerda(num, 0);
+    }
+}
+
+p_lista numero_maior(p_lista num1, p_lista num2){
+
+    if (num1->tamanho > num2->tamanho){
+        num2 = completar_zeros(num2, num1->tamanho - num2->tamanho);
+        return num1;
+    }
+    else if (num2->tamanho > num1->tamanho){
+        num1 = completar_zeros(num1, num2->tamanho - num1->tamanho);
+        return num2;
+    }
+    else{
+        p_no atual_1, atual_2;
+        atual_1 = num1->ini;
+        atual_2 = num2->ini;
+
+        do{
+            if(atual_1->dado > atual_2->dado){
+                return num1;
+            }
+            else if(atual_2->dado > atual_1->dado){
+                return num2;
+            }
+            atual_1 = atual_1->prox;
+            atual_2 = atual_2->prox;
+        }while (atual_1 != num1->fim);
+    }
+}
+
+p_lista subtrai(p_lista resultado, p_lista num1, p_lista num2)
+{
+    p_lista maior, menor;
+    maior = numero_maior(num1, num2);
+    int diferenca;
+
+    while(maior->fim != maior->ini){
+        if (maior->fim->dado > menor->fim->dado){
+            maior->fim->ant->dado -= 1;
+            maior->fim->dado += 10;
+            diferenca = maior->fim->dado
+
+        }
+    }
+}
 
 /**
  * 
-p_lista subtrai(p_lista resultado, p_lista num1, p_lista num2)
-{
-    return NULL;
-}
-
 p_lista multiplica(p_lista resultado, p_lista num1, p_lista num2)
 {
     return NULL; 
@@ -210,11 +256,12 @@ void executa_operacao(char operacao, p_lista num1, p_lista num2)
     {
         resultado = soma(resultado, num1, num2);
     }
-    /**
+    
     else if (operacao == '-')
     {
         resultado = subtrai(resultado, num1, num2);
     }
+    /**
     else if (operacao == '*')
     {
         resultado = multiplica(resultado, num1, num2);
