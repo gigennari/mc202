@@ -210,12 +210,15 @@ p_lista numero_maior(p_lista num1, p_lista num2){
             if(atual_1->dado > atual_2->dado){
                 return num1;
             }
-            else if(atual_2->dado > atual_1->dado){
+            else {
                 return num2;
             }
             atual_1 = atual_1->prox;
             atual_2 = atual_2->prox;
         }while (atual_1 != num1->fim);
+
+        //se forem iguais, tanto faz qual devolver
+        return num1;
     }
 }
 
@@ -223,16 +226,26 @@ p_lista subtrai(p_lista resultado, p_lista num1, p_lista num2)
 {
     p_lista maior, menor;
     maior = numero_maior(num1, num2);
+    if (maior == num1){
+        menor = num2;
+    }
+    else{
+        menor = num1;
+    }
+    
     int diferenca;
-
-    while(maior->fim != maior->ini){
-        if (maior->fim->dado > menor->fim->dado){
+    do{
+        if (maior->fim->dado < menor->fim->dado){
             maior->fim->ant->dado -= 1;
             maior->fim->dado += 10;
-            diferenca = maior->fim->dado
+        }        
+        diferenca = maior->fim->dado - menor->fim->dado;
+        resultado = add_esquerda(resultado, diferenca);
+        maior->fim = maior->fim->ant;
+        menor->fim = menor->fim->ant;
+    }while(maior->fim != maior->ini);
 
-        }
-    }
+    return resultado;
 }
 
 /**
