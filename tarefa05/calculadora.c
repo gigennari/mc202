@@ -80,10 +80,43 @@ p_lista add_esquerda(p_lista lista, int c)
     return lista;
 }
 
+int apenas_zeros(p_lista num){
+    p_no no;
+    no = num->fim;
+
+    do{
+        if (no->dado != 0){
+            return 0;
+        }
+        no = no->ant;
+
+    }while(no != NULL);
+    return 1;
+}
+
+p_lista eliminar_zeros_inicio(p_lista num){
+    p_no aux;
+
+    while(num->ini->dado == 0){
+    aux = num->ini;
+    num->ini = num->ini->prox;
+    free(aux);
+    }
+
+    return num;
+
+}
+
 void imprime_lista(p_lista lista)
 {
     if (lista != NULL)
     {
+        
+        if (apenas_zeros(lista)){
+            printf("%d", 0);
+        }
+        else{
+        lista = eliminar_zeros_inicio(lista);
         p_no atual;
         atual = lista->ini;
 
@@ -92,9 +125,9 @@ void imprime_lista(p_lista lista)
             printf("%d", atual->dado);
             atual = atual->prox;
         } while (atual != NULL);
-        printf("\n");
-
         free(atual);
+        }
+        printf("\n");
     }
 }
 
@@ -132,7 +165,8 @@ void somar_em_no(p_lista num1, p_lista num2, p_lista resultado, int x)
     {
         num1->fim->ant->dado += 1;
     }
-    else{
+    else
+    {
         num1->fim->ant->dado += 1;
     }
 }
@@ -162,15 +196,16 @@ p_lista soma(p_lista resultado, p_lista num1, p_lista num2)
 
         num1->fim = num1->fim->ant;
         num2->fim = num2->fim->ant;
-
     }
 
     //atualiza tamanhos
-    if(num1->tamanho > num2->tamanho){
+    if (num1->tamanho > num2->tamanho)
+    {
         num1->tamanho = num1->tamanho - num2->tamanho;
         num2->tamanho = 0;
     }
-    else if(num2->tamanho > num1->tamanho){
+    else if (num2->tamanho > num1->tamanho)
+    {
         num2->tamanho = num2->tamanho - num1->tamanho;
         num1->tamanho = 0;
     }
@@ -185,7 +220,7 @@ p_lista soma(p_lista resultado, p_lista num1, p_lista num2)
         {
             resultado = add_esquerda(resultado, num1->fim->dado);
             num1->fim = num1->fim->ant;
-        }while (num1->fim != num1->ini->ant);
+        } while (num1->fim != num1->ini->ant);
     }
     else if (num2->fim != num1->ini->ant)
     {
@@ -193,7 +228,7 @@ p_lista soma(p_lista resultado, p_lista num1, p_lista num2)
         {
             resultado = add_esquerda(resultado, num2->fim->dado);
             num2->fim = num2->fim->ant;
-        }while (num2->fim != num1->ini->ant);
+        } while (num2->fim != num1->ini->ant);
     }
 
     return resultado;
@@ -215,12 +250,10 @@ p_lista numero_maior(p_lista num1, p_lista num2)
 
     if (num1->tamanho > num2->tamanho)
     {
-        num2 = completar_zeros(num2, num1->tamanho - num2->tamanho);
         return num1;
     }
     else if (num2->tamanho > num1->tamanho)
     {
-        num1 = completar_zeros(num1, num2->tamanho - num1->tamanho);
         return num2;
     }
     else
@@ -229,7 +262,7 @@ p_lista numero_maior(p_lista num1, p_lista num2)
         atual_1 = num1->ini;
         atual_2 = num2->ini;
 
-        do
+        while (atual_1 != num1->fim)
         {
             if (atual_1->dado > atual_2->dado)
             {
@@ -237,29 +270,55 @@ p_lista numero_maior(p_lista num1, p_lista num2)
             }
             else if (atual_2->dado > atual_1->dado)
             {
-                    return num2;
+                return num2;
             }
-            
+
             atual_1 = atual_1->prox;
             atual_2 = atual_2->prox;
-        } while (atual_1 != num1->fim);
+        } 
 
         //se forem iguais, tanto faz qual devolver
         return num1;
     }
 }
 
+p_lista achar_dif_zero(p_lista num)
+{
+    p_no atual;
+    atual = num->fim->ant; //já sabemos que é 0
+    int i = 0;
+
+    while (atual->dado == 0)
+    {
+        atual = atual->ant;
+        i += 1;
+        if (atual->dado != 0)
+        {
+            atual->dado -= 1;
+        }
+    }
+
+    for (int j = 0; j < i; j++)
+    {
+        num->fim->ant->dado = 9;
+        
+    }
+
+    num->fim->dado += 10;
+
+    return num;
+}
 p_lista subtrai(p_lista resultado, p_lista num1, p_lista num2)
 {
     p_lista maior, menor;
     maior = numero_maior(num1, num2);
     if (maior == num1)
     {
-        menor = num2;
+        menor = completar_zeros(num2, num1->tamanho - num2->tamanho);
     }
     else
     {
-        menor = num1;
+        menor = completar_zeros(num1, num2->tamanho - num1->tamanho);
     }
 
     int diferenca;
@@ -267,14 +326,22 @@ p_lista subtrai(p_lista resultado, p_lista num1, p_lista num2)
     {
         if (maior->fim->dado < menor->fim->dado)
         {
-            maior->fim->ant->dado -= 1;
-            maior->fim->dado += 10;
+
+            if (maior->fim->ant->dado == 0)
+            {
+                maior = achar_dif_zero(maior);
+            }
+            else
+            {
+                maior->fim->ant->dado -= 1;
+                maior->fim->dado += 10;
+            }
         }
         diferenca = maior->fim->dado - menor->fim->dado;
         resultado = add_esquerda(resultado, diferenca);
         maior->fim = maior->fim->ant;
         menor->fim = menor->fim->ant;
-    } while (maior->fim != maior->ini);
+    } while (maior->fim != maior->ini->ant);
 
     return resultado;
 }
@@ -323,7 +390,7 @@ void executa_operacao(char operacao, p_lista num1, p_lista num2)
     {
         resultado = subtrai(resultado, num1, num2);
     }
-     /**
+    /**
     else if (operacao == '*')
     {
         resultado = multiplica(resultado, num1, num2);
@@ -365,7 +432,7 @@ int main()
     int num_operacoes;
     char operacao;
     p_lista num1, num2;
-    
+
     scanf("%d ", &num_operacoes);
 
     for (int i = 0; i < num_operacoes; i++)
