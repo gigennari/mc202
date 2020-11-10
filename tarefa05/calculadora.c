@@ -352,20 +352,24 @@ p_lista subtrai(p_lista resultado, p_lista num1, p_lista num2)
 
 p_lista multiplica(p_lista resultado, p_lista num1, p_lista num2)
 {
-    p_lista parcial, zerada;
+    p_lista parcial, zerada, maior;
     parcial = criar_lista();
     zerada = criar_lista();
 
-
-    resultado = add_esquerda(resultado, 0);
-    
     p_no atual_1, atual_2;
-    atual_1 = num1->fim;
-    atual_2 = num2->fim;
+    maior = numero_maior(num1, num2);
+    if (maior == num1) {
+        atual_1 = num1->fim;
+        atual_2 = num2->fim;
+    }
+    else{
+        atual_1 = num2->fim;
+        atual_2 = num1->fim;
+    }
+    
+    resultado = add_esquerda(resultado, 0); 
     int iter = 0, resto = 0;
     int produto, x;
-
-
 
     do
     {
@@ -386,18 +390,25 @@ p_lista multiplica(p_lista resultado, p_lista num1, p_lista num2)
                         
         }while (atual_1 != num1->ini->ant);
 
+        if(resto != 0){
+            parcial = add_esquerda(parcial, resto);
+        }
         resultado = soma(zerada, resultado, parcial);
         liberar_memoria(parcial);
         parcial = criar_lista();
 
         atual_2 = atual_2->ant;
         atual_1 = num1->fim;
-        iter += 1; 
+        
+        iter += 1;
         for (int i = 0; i < iter; i++){
             parcial = add_esquerda(parcial, 0);
         }
+        
+
     } while (atual_2 != num2->ini->ant);
     liberar_memoria(zerada);
+    liberar_memoria(parcial);
     return resultado;
 }
 
