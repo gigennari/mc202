@@ -67,3 +67,26 @@ p_no antecessor(p_no x);
     * pior caso O(n)
 
 
+### Remover sucessor 
+
+
+
+
+```C
+void remove_sucessor(p_no raiz){
+    p_no min = raiz->dir;   //será o minimo da subarvore direita
+    p_no pai = raiz;    //pai do nó mínimo
+    while(min->esq != NULL){
+        pai = min;
+        min = min->esq;
+    }
+    if (pai->esq == min){
+        pai->esq = min->dir;
+    }
+    else{
+        pai->dir = min->dir;
+ 
+    }
+    raiz->chave = min->chave;
+}
+```
