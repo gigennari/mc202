@@ -133,7 +133,8 @@ void imprime_lista(p_lista lista)
 
 void liberar_memoria(p_lista lista)
 {
-    p_no no;
+    if (lista != NULL){
+        p_no no;
     no = lista->ini;
     while (no != NULL)
     {
@@ -143,6 +144,8 @@ void liberar_memoria(p_lista lista)
     }
     free(lista);
     free(no);
+    }
+    
 }
 
 /**
@@ -295,7 +298,7 @@ p_lista achar_dif_zero(p_lista num)
     }// cheagamos em um atual->dado != 0
 
     atual->dado -= 1;
-    
+
 
     for (int j = 0; j < i; j++)
     {
@@ -346,32 +349,58 @@ p_lista subtrai(p_lista resultado, p_lista num1, p_lista num2)
     return resultado;
 }
 
-//multiplica
-/**
+
 p_lista multiplica(p_lista resultado, p_lista num1, p_lista num2)
 {
-    p_lista parcial;
-    p_no atual;
-    atual = num2->fim;
-    int iter = 0;
-    int produto, restante;
+    p_lista parcial, zerada;
+    parcial = criar_lista();
+    zerada = criar_lista();
+
+
+    resultado = add_esquerda(resultado, 0);
+    
+    p_no atual_1, atual_2;
+    atual_1 = num1->fim;
+    atual_2 = num2->fim;
+    int iter = 0, resto = 0;
+    int produto, x;
+
+
 
     do
     {
         do
         {
-            produto = num1->fim->dado * atual->dado;
 
+            produto = (atual_2->dado * atual_1->dado) + resto;
+            if(produto >= 10){
+                x = produto % 10;
+                resto = produto / 10;
+            }
+            else{
+                x = produto;
+                resto = 0;
+            }
+            parcial = add_esquerda(parcial, x);
+            atual_1 = atual_1->ant;
+                        
+        }while (atual_1 != num1->ini->ant);
 
-            iter += 1;
-            atual = atual->ant;
-        } while (atual != num2->ini);
+        resultado = soma(zerada, resultado, parcial);
+        liberar_memoria(parcial);
+        parcial = criar_lista();
 
-        num1->fim = num1->fim->ant;
-
-    } while (num1->fim != num1->ini);
+        atual_2 = atual_2->ant;
+        atual_1 = num1->fim;
+        iter += 1; 
+        for (int i = 0; i < iter; i++){
+            parcial = add_esquerda(parcial, 0);
+        }
+    } while (atual_2 != num2->ini->ant);
+    liberar_memoria(zerada);
+    return resultado;
 }
-*/
+
 
 /**
  * Implementacao das funcoes principais
@@ -390,12 +419,11 @@ void executa_operacao(char operacao, p_lista num1, p_lista num2)
     {
         resultado = subtrai(resultado, num1, num2);
     }
-    /**
     else if (operacao == '*')
     {
         resultado = multiplica(resultado, num1, num2);
     }
-   
+    /**
     else if ((operacao == '/'))
     {
         printf("%d", 0);
