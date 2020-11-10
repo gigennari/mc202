@@ -352,20 +352,13 @@ p_lista subtrai(p_lista resultado, p_lista num1, p_lista num2)
 
 p_lista multiplica(p_lista resultado, p_lista num1, p_lista num2)
 {
-    p_lista parcial, zerada, maior;
+    p_lista parcial, zerada;
     parcial = criar_lista();
     zerada = criar_lista();
 
     p_no atual_1, atual_2;
-    maior = numero_maior(num1, num2);
-    if (maior == num1) {
-        atual_1 = num1->fim;
-        atual_2 = num2->fim;
-    }
-    else{
-        atual_1 = num2->fim;
-        atual_2 = num1->fim;
-    }
+    atual_1 = num1->fim;
+    atual_2 = num2->fim;
     
     resultado = add_esquerda(resultado, 0); 
     int iter = 0, resto = 0;
