@@ -386,6 +386,7 @@ p_lista multiplica(p_lista resultado, p_lista num1, p_lista num2)
         if(resto != 0){
             parcial = add_esquerda(parcial, resto);
         }
+        resto = 0;
         resultado = soma(zerada, resultado, parcial);
         liberar_memoria(parcial);
         parcial = criar_lista();
