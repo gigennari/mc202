@@ -289,18 +289,18 @@ p_lista achar_dif_zero(p_lista num)
     int i = 0;
 
     while (atual->dado == 0)
-    {
-        atual = atual->ant;
+    {      
+        atual = atual->ant;  
         i += 1;
-        if (atual->dado != 0)
-        {
-            atual->dado -= 1;
-        }
-    }
+    }// cheagamos em um atual->dado != 0
+
+    atual->dado -= 1;
+    
 
     for (int j = 0; j < i; j++)
     {
-        num->fim->ant->dado = 9;
+        atual = atual->prox;
+        atual->dado = 9;
         
     }
 
