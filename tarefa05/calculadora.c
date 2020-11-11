@@ -392,8 +392,10 @@ p_lista multiplica(p_lista resultado, p_lista num1, p_lista num2)
             parcial = add_esquerda(parcial, resto);
         }
         resto = 0;
+        p_lista aux = resultado;
         resultado = soma(zerada, resultado, parcial);
         liberar_memoria(parcial);
+        liberar_memoria(aux);
         parcial = criar_lista();
 
         atual_2 = atual_2->ant;
@@ -404,15 +406,11 @@ p_lista multiplica(p_lista resultado, p_lista num1, p_lista num2)
         {
             parcial = add_esquerda(parcial, 0);
         }
-        liberar_memoria(zerada);
-        liberar_memoria(parcial);
-        parcial = criar_lista();
-        zerada = criar_lista();
-
 
     } while (atual_2 != num2->ini->ant);
-    
-    
+
+    liberar_memoria(zerada);
+    liberar_memoria(parcial);
     return resultado;
 }
 
