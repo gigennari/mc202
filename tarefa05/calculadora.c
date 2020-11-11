@@ -80,52 +80,58 @@ p_lista add_esquerda(p_lista lista, int c)
     return lista;
 }
 
-int apenas_zeros(p_lista num){
+int apenas_zeros(p_lista num)
+{
     p_no no;
     no = num->fim;
 
-    do{
-        if (no->dado != 0){
+    do
+    {
+        if (no->dado != 0)
+        {
             return 0;
         }
         no = no->ant;
 
-    }while(no != NULL);
+    } while (no != NULL);
     return 1;
 }
 
-p_lista eliminar_zeros_inicio(p_lista num){
+p_lista eliminar_zeros_inicio(p_lista num)
+{
     p_no aux;
 
-    while(num->ini->dado == 0){
-    aux = num->ini;
-    num->ini = num->ini->prox;
-    free(aux);
+    while (num->ini->dado == 0)
+    {
+        aux = num->ini;
+        num->ini = num->ini->prox;
+        free(aux);
     }
 
     return num;
-
 }
 
 void imprime_lista(p_lista lista)
 {
     if (lista != NULL)
     {
-        
-        if (apenas_zeros(lista)){
+
+        if (apenas_zeros(lista))
+        {
             printf("%d", 0);
         }
-        else{
-        lista = eliminar_zeros_inicio(lista);
-        p_no atual;
-        atual = lista->ini;
-
-        do
+        else
         {
-            printf("%d", atual->dado);
-            atual = atual->prox;
-        } while (atual != NULL);
-        free(atual);
+            lista = eliminar_zeros_inicio(lista);
+            p_no atual;
+            atual = lista->ini;
+
+            do
+            {
+                printf("%d", atual->dado);
+                atual = atual->prox;
+            } while (atual != NULL);
+            free(atual);
         }
         printf("\n");
     }
@@ -133,19 +139,18 @@ void imprime_lista(p_lista lista)
 
 void liberar_memoria(p_lista lista)
 {
-    if (lista != NULL){
-        p_no no;
-    no = lista->ini;
-    while (no != NULL)
+    if (lista != NULL)
     {
-        p_no aux = no;
-        no = no->prox;
-        free(aux);
+        p_no no;
+        no = lista->ini;
+        while (no != NULL)
+        {
+            p_no aux = no;
+            no = no->prox;
+            free(aux);
+        }
+        free(lista);
     }
-    free(lista);
-    free(no);
-    }
-    
 }
 
 /**
@@ -278,7 +283,7 @@ p_lista numero_maior(p_lista num1, p_lista num2)
 
             atual_1 = atual_1->prox;
             atual_2 = atual_2->prox;
-        } 
+        }
 
         //se forem iguais, tanto faz qual devolver
         return num1;
@@ -292,19 +297,17 @@ p_lista achar_dif_zero(p_lista num)
     int i = 0;
 
     while (atual->dado == 0)
-    {      
-        atual = atual->ant;  
+    {
+        atual = atual->ant;
         i += 1;
-    }// cheagamos em um atual->dado != 0
+    } // cheagamos em um atual->dado != 0
 
     atual->dado -= 1;
-
 
     for (int j = 0; j < i; j++)
     {
         atual = atual->prox;
         atual->dado = 9;
-        
     }
 
     num->fim->dado += 10;
@@ -349,7 +352,6 @@ p_lista subtrai(p_lista resultado, p_lista num1, p_lista num2)
     return resultado;
 }
 
-
 p_lista multiplica(p_lista resultado, p_lista num1, p_lista num2)
 {
     p_lista parcial, zerada;
@@ -359,8 +361,8 @@ p_lista multiplica(p_lista resultado, p_lista num1, p_lista num2)
     p_no atual_1, atual_2;
     atual_1 = num1->fim;
     atual_2 = num2->fim;
-    
-    resultado = add_esquerda(resultado, 0); 
+
+    resultado = add_esquerda(resultado, 0);
     int iter = 0, resto = 0;
     int produto, x;
 
@@ -370,20 +372,23 @@ p_lista multiplica(p_lista resultado, p_lista num1, p_lista num2)
         {
 
             produto = (atual_2->dado * atual_1->dado) + resto;
-            if(produto >= 10){
+            if (produto >= 10)
+            {
                 x = produto % 10;
                 resto = produto / 10;
             }
-            else{
+            else
+            {
                 x = produto;
                 resto = 0;
             }
             parcial = add_esquerda(parcial, x);
             atual_1 = atual_1->ant;
-                        
-        }while (atual_1 != num1->ini->ant);
 
-        if(resto != 0){
+        } while (atual_1 != num1->ini->ant);
+
+        if (resto != 0)
+        {
             parcial = add_esquerda(parcial, resto);
         }
         resto = 0;
@@ -393,19 +398,18 @@ p_lista multiplica(p_lista resultado, p_lista num1, p_lista num2)
 
         atual_2 = atual_2->ant;
         atual_1 = num1->fim;
-        
+
         iter += 1;
-        for (int i = 0; i < iter; i++){
+        for (int i = 0; i < iter; i++)
+        {
             parcial = add_esquerda(parcial, 0);
         }
-        
 
     } while (atual_2 != num2->ini->ant);
     liberar_memoria(zerada);
     liberar_memoria(parcial);
     return resultado;
 }
-
 
 /**
  * Implementacao das funcoes principais

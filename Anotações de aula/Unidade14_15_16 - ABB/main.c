@@ -3,7 +3,7 @@
 #include "interface_fila.h"
 #define NUM_ESPECIALIDADES 9
 
-char HORARIO = {'0', '8', '0', '0'};
+int HORARIO[] = {0, 8, 0, 0};
 
 p_deque cria_hospital(p_deque hospital[]){
     hospital[0] = criar_deque(10);
@@ -22,31 +22,58 @@ p_deque cria_hospital(p_deque hospital[]){
 
 
 void atualiza_horario(){
-
+    //caso seja minuto 50, hora vira (2 casos)
+    if (HORARIO[2] == 5){
+        HORARIO[2] = 0;
+        if (HORARIO[1] < 9){
+            HORARIO[1] += 1;
+        }
+        else{
+            HORARIO[0] += 1;
+            HORARIO[1] = 0;
+        }
+    }
+    else{
+        HORARIO[2] += 1;
+    }
 }
 
 void imprime_horario(){
-    
+    for(int i = 0; i < 4; i++){
+        if(i == 2){
+            printf("%c", ':');  //imprimir dois pontos quando chegar nos minutos
+        }
+        printf("%d", HORARIO[i]);
+    }
+}
+
+p_deque add_pacientes_fila(p_deque hospital[], p_deque pacientes){
+
 }
 
 
 p_deque roda_filas(){
     atualiza_horario();
+    p_deque temporario;
+    
     //para cada especialidade (elemento do vetor hospital)
 
     //se fila não estiver vazia
         //remover qtde_medicos pacientes ou até a fila esvaziar
             //se o paciente removido ainda tiver uma sala para visitar
-                //inserir na fila da sala (hospital[paciente->salas->prox] = inserir_paciente) 
+                //inserir em um deque temporário
             //caso contrário, imprimir o horário de saída e paciente->nome    
-
+    //inserir pacientes do deque temporário nas filas
 }
 
 
 int main(){
-    p_deque hospital[NUM_ESPECIALIDADES];
+    struct Deque *hospital[NUM_ESPECIALIDADES];
     hospital[NUM_ESPECIALIDADES] = cria_hospital(hospital);
-    le_entrada();
+    p_deque pacientes;
+    pacientes = le_entrada();
+
+    hospital[NUM_ESPECIALIDADES] = add_pacientes_fila(hospital, pacientes);
     roda_filas();
 
 
