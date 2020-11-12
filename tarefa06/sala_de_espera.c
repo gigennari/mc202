@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "interface_fila.h"
+#include "lista_ligada.h"
+
 #define NUM_ESPECIALIDADES 9
 
 int HORARIO[] = {0, 8, 0, 0};
@@ -48,25 +51,28 @@ void imprime_horario(){
 }
 
 p_deque le_pacientes(p_deque pacientes){
+    scanf("%*c");
+    int retorno = 1;
     do{
         char nome[50];
         char aspas;
         char status [11];
-        p_no_int salas = criar_lista();
+        p_lista salas = criar_lista();
         p_paciente paciente;
 
         scanf("%[^\"]", &nome);
         scanf("%s", &status);
         enum Preferencia x = status;
         
+        int num;
         do{
-            int num;
+            
             scanf(" %d", &num);
             salas = adicionar_direita(salas, num);
         }while(num != '\n');
 
         scanf("%*c"); // lê quebra de linha
-        int retorno = scanf("%c", &aspas);
+        retorno = scanf("%c", &aspas);
 
         paciente = criar_paciente(nome, x, salas);
         pacientes = insere_paciente(pacientes, paciente);

@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "lista_ligada.h"
 
 typedef struct No_int
 {
@@ -8,15 +10,6 @@ typedef struct No_int
 } No_int;
 
 typedef No_int *p_no_int;
-
-typedef struct No
-{
-    struct Paciente paciente;
-    struct No *prox;
-    struct No *ant;
-} No;
-
-typedef struct No *p_no;
 
 typedef struct Deque
 {
@@ -36,38 +29,27 @@ typedef struct Paciente
 {
     char nome[50];
     enum Preferencia status;
-    p_no_int salas;
+    p_lista salas;
 } Paciente;
 
 typedef Paciente *p_paciente;
 
+typedef struct No
+{
+    p_paciente paciente;
+    struct No *prox;
+    struct No *ant;
+} No;
+
+typedef struct No *p_no;
 
 /**
  * Funções de lista ligada simples p_no
  * */
 
-p_no_int criar_lista()
-{
-    return NULL;
-}
 
-p_no_int adicionar_direita(p_no_int lista, int sala)
-{
-    p_no_int novo;
-    novo = malloc(sizeof(No_int)); 
-    novo->sala = sala;
-    if (lista == NULL){
-        lista = novo;
-        novo->prox = NULL;
-    }
-    else{
-        lista->prox = novo;
-        novo->prox = NULL;
-    }
-    return novo;
-}
 
-p_no_int remover_esquerda(p_no_int lista){
+p_no_int remover_esquerda(p_lista lista){
     //se há mais de uma sala
     if (lista->prox != NULL){
         p_no_int aux = lista;
@@ -80,7 +62,6 @@ p_no_int remover_esquerda(p_no_int lista){
         return NULL;    
     }
 }
-
 
 /**
  * Funções de deque 
@@ -113,10 +94,10 @@ p_deque remove_paciente(p_deque especialidade, p_paciente paciente){
  * Funções de paciente
  * */
 
-p_paciente cria_paciente(char *nome, enum Preferencia x, p_lista salas){
+p_paciente cria_paciente(char *nome, enum Preferencia x, p_no_int salas){
     p_paciente paciente;
     paciente = malloc(sizeof(Paciente));
-    paciente->nome = *nome;
+    strcpy(paciente->nome, nome);
     paciente->status = x;
     paciente->salas = salas;
     return paciente;

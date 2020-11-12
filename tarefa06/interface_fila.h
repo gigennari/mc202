@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "implementacao_fila.c"
 
 typedef struct No_int
