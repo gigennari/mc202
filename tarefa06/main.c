@@ -47,10 +47,40 @@ void imprime_horario(){
     }
 }
 
+p_deque le_pacientes(p_deque pacientes){
+    do{
+        char nome[50];
+        char aspas;
+        char status [11];
+        p_no_int salas = criar_lista();
+        p_paciente paciente;
+
+        scanf("%[^\"]", &nome);
+        scanf("%s", &status);
+        enum Preferencia x = status;
+        
+        do{
+            int num;
+            scanf(" %d", &num);
+            salas = adicionar_direita(salas, num);
+        }while(num != '\n');
+
+        scanf("%*c"); // lê quebra de linha
+        int retorno = scanf("%c", &aspas);
+
+        paciente = criar_paciente(nome, x, salas);
+        pacientes = insere_paciente(pacientes, paciente);
+
+
+    }while(retorno != EOF);
+
+    return pacientes;
+}
+
+//atualiza deques do vetor hospital 
 p_deque add_pacientes_fila(p_deque hospital[], p_deque pacientes){
 
 }
-
 
 p_deque roda_filas(){
     atualiza_horario();
@@ -71,7 +101,8 @@ int main(){
     struct Deque *hospital[NUM_ESPECIALIDADES];
     hospital[NUM_ESPECIALIDADES] = cria_hospital(hospital);
     p_deque pacientes;
-    pacientes = le_entrada();
+    pacientes = criar_deque;
+    pacientes = le_entrada(pacientes);
 
     hospital[NUM_ESPECIALIDADES] = add_pacientes_fila(hospital, pacientes);
     roda_filas();

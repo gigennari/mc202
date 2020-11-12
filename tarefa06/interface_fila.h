@@ -2,14 +2,13 @@
 #include <stdlib.h>
 #include "implementacao_fila.c"
 
-typedef struct No_normal
+typedef struct No_int
 {
     int sala;
     struct No *prox;
-    struct No *ant;
-} No_normal;
+} No_int;
 
-typedef No_normal *p_no_normal;
+typedef No_int *p_no_int;
 
 typedef struct No
 {
@@ -38,8 +37,11 @@ typedef struct Paciente
 {
     char nome[50];
     enum Preferencia status;
-    struct No_normal *salas;
+    struct No_int *salas;
 } Paciente;
+
+
+
 
 //cria um deque com a quantidade de médico daquela especilidade
 p_deque criar_deque(int qtde_medicos);
