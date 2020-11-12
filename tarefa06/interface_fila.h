@@ -41,9 +41,6 @@ typedef struct Paciente
     struct No_int *salas;
 } Paciente;
 
-
-
-
 //cria um deque com a quantidade de médico daquela especilidade
 p_deque criar_deque(int qtde_medicos);
 
@@ -52,3 +49,10 @@ int fila_vazia(p_deque especialidade);
 
 //verifica prioridade e insere paciente em outro deque
 p_deque insere_paciente(p_deque especialidade, p_paciente paciente);
+
+//remove paciente do final 
+p_deque remove_paciente(p_deque especialidade, p_no paciente);
+
+//cria um "nó" de paciente com seus dados
+p_paciente cria_paciente(char *nome, enum Preferencia x, p_lista salas);
+

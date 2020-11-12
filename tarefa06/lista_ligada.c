@@ -61,7 +61,7 @@ p_lista eliminar_esquerda(p_lista num)
     }
 }
 
-void liberar_memoria(p_lista lista)
+void liberar_memoria_lista(p_lista lista)
 {
     if (lista != NULL)
     {

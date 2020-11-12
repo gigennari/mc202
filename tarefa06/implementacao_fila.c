@@ -18,23 +18,15 @@ enum Preferencia
     prioridade
 };
 
+typedef Paciente *p_paciente;
+
 typedef struct Paciente
 {
     char nome[50];
     enum Preferencia status;
     p_lista salas;
+    p_paciente prox, ant;
 } Paciente;
-
-typedef Paciente *p_paciente;
-
-typedef struct No
-{
-    p_paciente paciente;
-    struct No *prox;
-    struct No *ant;
-} No;
-
-typedef struct No *p_no;
 
 
 /**
@@ -58,29 +50,24 @@ int fila_vazia(p_deque especialidade){
     
 
 //para pacientes prioridade
-p_deque insere_incio(p_deque especialidade, p_paciente paciente){
+p_deque insere_incio(p_deque especialidade, p_no paciente){
 
 }
 
 //para pacientes normal 
-p_deque insere_fim(p_deque especialidade, p_paciente paciente){
+p_deque insere_fim(p_deque especialidade, p_no paciente){
 
 }
 
-p_deque insere_paciente(p_deque especialidade, p_paciente paciente){
+p_deque insere_paciente(p_deque especialidade, p_no paciente){
 
 }
 
 
 //sempre remove do início
-p_deque remove_paciente(p_deque especialidade, p_paciente paciente){
+p_deque remove_paciente(p_deque especialidade, p_no paciente){
 
 }
-
-
-
-
-
 
 
 
@@ -96,8 +83,8 @@ p_paciente cria_paciente(char *nome, enum Preferencia x, p_lista salas){
     strcpy(paciente->nome, nome);
     paciente->status = x;
     paciente->salas = salas;
+    paciente->prox = paciente->ant = NULL; //definimos prox e ant na hora de inserir na fila
     return paciente;
-
 }
 
 
