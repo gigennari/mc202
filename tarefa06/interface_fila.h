@@ -18,7 +18,7 @@ p_lista eliminar_esquerda(p_lista num);
 void liberar_memoria_lista(p_lista lista);
 
 //cria um "nó" de paciente com seus dados
-p_paciente criar_paciente(char *nome, char *status, p_lista salas);
+p_paciente criar_paciente(char *nome, Preferencia x, p_lista salas, int posicao);
 
 //cria um deque com a quantidade de médico daquela especilidade
 p_deque criar_deque(int qtde_medicos);

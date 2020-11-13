@@ -38,6 +38,7 @@ typedef struct Paciente
     char nome[50];
     Preferencia status;
     p_lista salas;
+    int posicao;
     struct Paciente *prox, *ant;
 } Paciente;
 
@@ -129,12 +130,13 @@ void liberar_memoria_lista(p_lista lista)
  * Funções de paciente ("nó")
  * */
 
-p_paciente criar_paciente(char *nome, char *status, p_lista salas){
+p_paciente criar_paciente(char *nome, Preferencia x, p_lista salas, int posicao){
     p_paciente paciente;
     paciente = malloc(sizeof(Paciente));
     strcpy(paciente->nome, nome);
-    paciente->status = status;
+    paciente->status = x;
     paciente->salas = salas;
+    paciente->posicao = posicao;
     paciente->prox = paciente->ant = NULL; //definimos prox e ant na hora de inserir na fila
     return paciente;
 }
@@ -180,9 +182,6 @@ p_deque insere_fim(p_deque especialidade, p_paciente paciente){
 
 }
 
-p_deque inserir_paciente(p_deque especialidade, p_paciente paciente){
-
-}
 
 
 //sempre remove do início
@@ -193,3 +192,6 @@ p_deque remover_paciente(p_deque especialidade){
 
 
 
+p_deque inserir_paciente(p_deque especialidade, p_paciente paciente){
+    return NULL;
+}
