@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 /**
  * Usaremos No para armazenar salas que o paciente visita
  * */
@@ -27,7 +26,7 @@ typedef struct Lista *p_lista;
 /**
  * Usaremos um deque de pacientes
  * */
-typedef enum 
+typedef enum
 {
     normal,
     prioridade
@@ -46,12 +45,11 @@ typedef Paciente *p_paciente;
 
 typedef struct Deque
 {
-    p_paciente ini, fim;   // prox posição livre
+    p_paciente ini, fim; // prox posição livre
     int qtde_medicos, qtde_pacientes;
 } Deque;
 
 typedef Deque *p_deque;
-
 
 /**
  * Funções para lista de salas com cabeça e cauda
@@ -124,13 +122,12 @@ void liberar_memoria_lista(p_lista lista)
     }
 }
 
-
-
 /**
  * Funções de paciente ("nó")
  * */
 
-p_paciente criar_paciente(char *nome, Preferencia x, p_lista salas, int posicao){
+p_paciente criar_paciente(char *nome, Preferencia x, p_lista salas, int posicao)
+{
     p_paciente paciente;
     paciente = malloc(sizeof(Paciente));
     strcpy(paciente->nome, nome);
@@ -141,11 +138,23 @@ p_paciente criar_paciente(char *nome, Preferencia x, p_lista salas, int posicao)
     return paciente;
 }
 
+void colocar_pacientes_vetor(p_paciente *vetor, p_deque pacientes, int num_pacientes)
+{
+    for (int i = 0; i < num_pacientes; i++)
+    {
+        vetor[i] = pacientes->ini;
+        p_paciente aux = pacientes->ini;
+        pacientes->ini = pacientes->ini->prox;
+        free(aux);
+    }
+    free(pacientes);
+}
 
 /**
  * Funções de deque 
  * */
-p_deque criar_deque(int qtde_medicos){
+p_deque criar_deque(int qtde_medicos)
+{
     p_deque deque;
     deque = malloc(sizeof(Deque));
     deque->qtde_medicos = qtde_medicos;
@@ -154,44 +163,87 @@ p_deque criar_deque(int qtde_medicos){
     return deque;
 }
 
-void liberar_memoria_deque(p_deque fila){
-    while(fila->ini != fila->fim->prox){
+void liberar_memoria_deque(p_deque fila)
+{
+    while (fila->ini != fila->fim->prox)
+    {
         p_paciente aux = fila->ini;
         fila->ini = fila->ini->prox;
         free(aux);
     }
     free(fila);
-    
 }
 
-int fila_vazia(p_deque especialidade){
-    if (especialidade->qtde_pacientes == 0 || especialidade->ini == NULL){
+int fila_vazia(p_deque especialidade)
+{
+    if (especialidade->qtde_pacientes == 0 || especialidade->ini == NULL)
+    {
         return 1;
     }
     return 0; //se fila não for vazia, remover pacientes existentes de acordo com qtde de médicos
 }
-    
-/**
+
 //para pacientes prioridade
-p_deque insere_incio(p_deque especialidade, p_paciente paciente){
-
+void insere_incio(p_deque especialidade, p_paciente paciente)
+{
+    if (especialidade->qtde_pacientes == 0)
+    {
+        especialidade->ini = paciente;
+        especialidade->fim = paciente;
+    }
+    else
+    {
+        paciente->prox = especialidade->ini;
+        especialidade->ini->ant = paciente;
+        especialidade->ini = paciente;
+    }
+    especialidade->qtde_pacientes += 1;
 }
 
-//para pacientes normal 
-p_deque insere_fim(p_deque especialidade, p_paciente paciente){
-
+//para pacientes normal
+void insere_fim(p_deque especialidade, p_paciente paciente)
+{
+    if (especialidade->qtde_pacientes == 0)
+    {
+        especialidade->ini = paciente;
+        especialidade->fim = paciente;
+    }
+    else
+    {
+        paciente->ant = especialidade->fim;
+        especialidade->fim->prox = paciente;
+        especialidade->fim = paciente;
+    }
+    especialidade->qtde_pacientes += 1;
 }
-
-
 
 //sempre remove do início
-p_deque remover_paciente(p_deque especialidade){
-
+p_paciente remover_paciente(p_deque especialidade)
+{
+    p_paciente aux = especialidade->ini;
+    if (especialidade->qtde_pacientes == 1)
+    {
+        especialidade->ini = NULL;
+        especialidade->fim = NULL;
+    }
+    else
+    {
+        especialidade->ini = especialidade->ini->prox;
+        especialidade->ini->ant = NULL;
+    }
+    especialidade->qtde_pacientes -= 1;
+    aux->prox = NULL;
+    return aux;
 }
-*/
 
-
-
-p_deque inserir_paciente(p_deque especialidade, p_paciente paciente){
-    return NULL;
+void inserir_paciente(p_deque especialidade, p_paciente paciente)
+{
+    if (paciente->status == normal)
+    {
+        insere_fim(especialidade, paciente);
+    }
+    else
+    {
+        insere_incio(especialidade, paciente);
+    }
 }
