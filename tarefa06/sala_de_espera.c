@@ -112,7 +112,6 @@ int entrou_antes(p_paciente p1, p_paciente p2){
     }
 }
 
-
 p_deque add_pacientes_fila(p_deque hospital[], p_paciente *vetor, int num_pacientes){
     for (int sala = 0; sala < NUM_ESPECIALIDADES; sala++){
         p_paciente sala_atual[num_pacientes];   //num_pacientes é o maximo que precisa, caso todos vao p mesma sala
@@ -122,10 +121,8 @@ p_deque add_pacientes_fila(p_deque hospital[], p_paciente *vetor, int num_pacien
             //se a proxima sala for a que estamos visitando (1° for), add em um vetor sala_atual
             if (vetor[p]->salas->ini == sala){
                 sala_atual[qtde] = vetor[p];
-                p_no no = vetor[p]->salas->ini;
-                vetor[p]->salas->ini = vetor[p]->salas->ini->prox;
-                vetor[p]->salas->tamanho -= 1; 
-                free(no);
+                vetor[p]->salas = eliminar_esquerda(vetor[p]->salas);
+
                 qtde += 1;
         }
 
