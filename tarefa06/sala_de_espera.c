@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "interface_fila.h"
-#include "lista_ligada.h"
 
 #define NUM_ESPECIALIDADES 9
 
@@ -20,7 +19,6 @@ p_deque cria_hospital(p_deque hospital[]){
     hospital[8] = criar_deque(4);
 
     return hospital;
-
 }
 
 
@@ -49,33 +47,33 @@ void imprime_horario(){
         printf("%d", HORARIO[i]);
     }
 }
-
-p_deque le_pacientes(p_deque pacientes){
+                        
+p_deque le_entrada(p_deque pacientes){
     scanf("%*c");
     int retorno = 1;
     do{
         char nome[50];
         char aspas;
         char status [11];
-        p_lista salas = criar_lista();
+        p_lista salas;
+        salas = criar_lista();
         p_paciente paciente;
 
         scanf("%[^\"]", &nome);
         scanf("%s", &status);
-        enum Preferencia x = status;
         
         int num;
         do{
             
             scanf(" %d", &num);
-            salas = adicionar_direita(salas, num);
+            salas = add_direita(salas, num);
         }while(num != '\n');
 
         scanf("%*c"); // lê quebra de linha
         retorno = scanf("%c", &aspas);
 
-        paciente = criar_paciente(nome, x, salas);
-        pacientes = insere_paciente(pacientes, paciente);
+        paciente = criar_paciente(nome, status, salas);
+        pacientes = inserir_paciente(pacientes, paciente);
 
 
     }while(retorno != EOF);
@@ -83,6 +81,7 @@ p_deque le_pacientes(p_deque pacientes){
     return pacientes;
 }
 
+/**
 //atualiza deques do vetor hospital 
 p_deque add_pacientes_fila(p_deque hospital[], p_deque pacientes){
 
@@ -101,18 +100,19 @@ p_deque roda_filas(){
             //caso contrário, imprimir o horário de saída e paciente->nome    
     //inserir pacientes do deque temporário nas filas
 }
-
+*/
 
 int main(){
-    struct Deque *hospital[NUM_ESPECIALIDADES];
-    hospital[NUM_ESPECIALIDADES] = cria_hospital(hospital);
+    struct Deque ** hospital = malloc(sizeof(p_deque) * NUM_ESPECIALIDADES);
+    hospital = cria_hospital(hospital);
     p_deque pacientes;
     pacientes = criar_deque;
     pacientes = le_entrada(pacientes);
 
-    hospital[NUM_ESPECIALIDADES] = add_pacientes_fila(hospital, pacientes);
+    /**
+    hospital = add_pacientes_fila(hospital, pacientes);
     roda_filas();
-
+    */
 
     return 0;
 }

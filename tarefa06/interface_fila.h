@@ -3,43 +3,22 @@
 #include <string.h>
 #include "implementacao_fila.c"
 
-typedef struct No_int
-{
-    int sala;
-    struct No *prox;
-} No_int;
 
-typedef No_int *p_no_int;
 
-typedef struct No
-{
-    struct Paciente paciente;
-    struct No *prox;
-    struct No *ant;
-} No;
+//devolve lista nula 
+p_lista criar_lista();
 
-typedef struct No *p_no;
+//insere à direita as novas salas
+p_lista add_direita(p_lista lista, int c);
 
-typedef struct Deque
-{
-    p_no ini, fim;   // prox posição livre
-    int qtde_medicos, qtde_pacientes;
-}Deque;
+//remove da esquerda salas já visitadas
+p_lista eliminar_esquerda(p_lista num);
 
-typedef Deque *p_deque;
+//libera memória de uma lista de nós
+void liberar_memoria_lista(p_lista lista);
 
-enum Preferencia
-{
-    normal,
-    prioridade
-};
-
-typedef struct Paciente
-{
-    char nome[50];
-    enum Preferencia status;
-    struct No_int *salas;
-} Paciente;
+//cria um "nó" de paciente com seus dados
+p_paciente criar_paciente(char *nome, char *status, p_lista salas);
 
 //cria um deque com a quantidade de médico daquela especilidade
 p_deque criar_deque(int qtde_medicos);
@@ -47,12 +26,13 @@ p_deque criar_deque(int qtde_medicos);
 //verifica se uma fila está vazia, antes de fazer algum tipo de remoção
 int fila_vazia(p_deque especialidade);
 
+//libera memória alocada para uma fila e todos os seus pacientes
+void liberar_memoria_deque(p_deque fila);
+
 //verifica prioridade e insere paciente em outro deque
-p_deque insere_paciente(p_deque especialidade, p_paciente paciente);
+p_deque inserir_paciente(p_deque especialidade, p_paciente paciente);
 
 //remove paciente do final 
-p_deque remove_paciente(p_deque especialidade, p_no paciente);
+p_deque remover_paciente(p_deque especialidade);
 
-//cria um "nó" de paciente com seus dados
-p_paciente cria_paciente(char *nome, enum Preferencia x, p_lista salas);
 
