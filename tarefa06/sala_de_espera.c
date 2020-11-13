@@ -89,7 +89,7 @@ p_deque le_entrada(p_deque pacientes)
             {
                 salas = add_direita(salas, num);
             }
-        } while(ret == 1);
+        } while (ret == 1);
 
         retorno = scanf("%c", &aspas);
 
@@ -102,8 +102,10 @@ p_deque le_entrada(p_deque pacientes)
 }
 
 //devolve 1
-int entrou_antes(p_paciente p1, p_paciente p2){
-    if (p1->posicao > p2->posicao){
+int entrou_antes(p_paciente p1, p_paciente p2)
+{
+    if (p1->posicao > p2->posicao)
+    {
         return 1; //retorna p2 que tem menor posição
     }
     else
@@ -112,67 +114,97 @@ int entrou_antes(p_paciente p1, p_paciente p2){
     }
 }
 
-p_deque add_pacientes_fila(p_deque hospital[], p_paciente *vetor, int num_pacientes){
-    for (int sala = 0; sala < NUM_ESPECIALIDADES; sala++){
-        p_paciente sala_atual[num_pacientes];   //num_pacientes é o maximo que precisa, caso todos vao p mesma sala
+void add_pacientes_fila(p_deque hospital[], p_paciente *vetor, int num_pacientes)
+{
+    for (int sala = 0; sala < NUM_ESPECIALIDADES; sala++)
+    {
+        p_paciente sala_atual[num_pacientes]; //num_pacientes é o maximo que precisa, caso todos vao p mesma sala
         int qtde = 0;
         //percorre pacientes de um vetor e verifica proxima sala
-        for (int p = 0; p < num_pacientes; p++){
+        for (int p = 0; p < num_pacientes; p++)
+        {
             //se a proxima sala for a que estamos visitando (1° for), add em um vetor sala_atual
-            if (vetor[p]->salas->ini == sala){
+            if (vetor[p]->salas->ini == sala)
+            {
                 sala_atual[qtde] = vetor[p];
                 vetor[p]->salas = eliminar_esquerda(vetor[p]->salas);
 
                 qtde += 1;
-        }
+            }
 
-        //ordena pessoas que vão p fila da mesma especilidade por ordem de quem entrou primeiro
-        qsort(sala_atual, qtde, sizeof(p_paciente), entrou_antes);
+            //ordena pessoas que vão p fila da mesma especilidade por ordem de quem entrou primeiro
+            qsort(sala_atual, qtde, sizeof(p_paciente), entrou_antes);
 
-        //add pessoas na fila 
-        for (int a = 0; a < qtde; a++){
-            inserir_paciente(hospital[sala], sala_atual[a]);
+            //add pessoas na fila
+            for (int a = 0; a < qtde; a++)
+            {
+                inserir_paciente(hospital[sala], sala_atual[a]);
+            }
         }
     }
 
-}
-
-//atualiza deques do vetor hospital 
-p_deque roda_filas()
-{
-    atualiza_horario();
-    
-    //para cada especialidade (elemento do vetor hospital)
-
-    //se fila não estiver vazia
-        //remover qtde_medicos pacientes ou até a fila esvaziar
-            //se o paciente removido ainda tiver uma sala para visitar
-                //inserir em um deque temporário
-            //caso contrário, imprimir o horário de saída e paciente->nome    
-    //inserir pacientes do deque temporário nas filas
-}
-
-int main()
-{
-    p_deque hospital[NUM_ESPECIALIDADES];
-    cria_hospital(hospital);
-    p_deque pacientes;
-    pacientes = criar_deque(0); //esse deque não tem uma qtde de médicos p add
-    pacientes = le_entrada(pacientes);
-
-    int num_pacientes = pacientes->fim->posicao;    //a posicao do ultimo paciente é o total de pacientes
-
-    p_paciente vetor_todos_pacientes[num_pacientes];
-    colocar_pacientes_vetor(vetor_todos_pacientes, pacientes, num_pacientes);
-
-    add_pacientes_fila(hospital, vetor_todos_pacientes, num_pacientes);
-
-    p_paciente restantes[num_pacientes];
-    while (num_pacientes > 0)
+    //atualiza deques do vetor hospital
+    int roda_filas(p_deque hospital[], p_paciente * restantes, int num_pacientes)
     {
-        roda_filas(hospital, restantes, num_pacientes);
-        add_pacientes_fila(hospital, restantes, num_pacientes);
-    }    
+        int iter = 0;
+        atualiza_horario();
+        //para cada especialidade (elemento do vetor hospital)
+        for (int sala = 0; sala < NUM_ESPECIALIDADES; sala++)
+        {
+            //se fila não estiver vazia
+            if (!fila_vazia)
+            {
+                //remover qtde_medicos pacientes ou até a fila esvaziar
+                for (int x = 0; x < (hospital[sala]->qtde_medicos) || x < (hospital[sala]->qtde_pacientes); x++)
+                {
+                    p_paciente removido = remover_paciente(hospital[sala]);
 
-    return 0;
-}
+                    //se o paciente removido ainda tiver uma sala para visitar
+                    if (removido->salas->tamanho != 0)
+                    {
+                        //inserir em um vetor temporário
+                        restantes[iter] = removido;
+                    }
+
+                    //caso contrário, imprimir o horário de saída e paciente->nome
+                    else
+                    {
+                        num_pacientes -= 1;
+                        imprime_horario();
+                        //imprime nome
+                        for(int)
+                        printf('\n');
+                    }
+
+                    iter += 1;
+                }
+            }
+        }
+
+        return num_pacientes;
+    }
+
+    int main()
+    {
+        p_deque hospital[NUM_ESPECIALIDADES];
+        cria_hospital(hospital);
+        p_deque pacientes;
+        pacientes = criar_deque(0); //esse deque não tem uma qtde de médicos p add
+        pacientes = le_entrada(pacientes);
+
+        int num_pacientes = pacientes->fim->posicao; //a posicao do ultimo paciente é o total de pacientes
+
+        p_paciente vetor_todos_pacientes[num_pacientes];
+        colocar_pacientes_vetor(vetor_todos_pacientes, pacientes, num_pacientes);
+
+        add_pacientes_fila(hospital, vetor_todos_pacientes, num_pacientes);
+
+        p_paciente restantes[num_pacientes];
+        while (num_pacientes > 0)
+        {
+            num_pacientes = roda_filas(hospital, restantes, num_pacientes);
+            add_pacientes_fila(hospital, restantes, num_pacientes);
+        }
+
+        return 0;
+    }
