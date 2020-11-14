@@ -1,55 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "interface_fila.h"
 
-/**
- * Usaremos No para armazenar salas que o paciente visita
- * */
-typedef struct No
-{
-    int dado;
-    struct No *prox;
-    struct No *ant;
-} No;
-
-typedef struct No *p_no;
-
-typedef struct Lista
-{
-    int tamanho;
-    p_no ini, fim;
-
-} Lista;
-
-typedef struct Lista *p_lista;
-
-/**
- * Usaremos um deque de pacientes
- * */
-typedef enum
-{
-    normal,
-    prioridade
-} Preferencia;
-
-typedef struct Paciente
-{
-    char nome[50];
-    Preferencia status;
-    p_lista salas;
-    int posicao;
-    struct Paciente *prox, *ant;
-} Paciente;
-
-typedef Paciente *p_paciente;
-
-typedef struct Deque
-{
-    p_paciente ini, fim; // prox posição livre
-    int qtde_medicos, qtde_pacientes;
-} Deque;
-
-typedef Deque *p_deque;
 
 /**
  * Funções para lista de salas com cabeça e cauda
@@ -85,14 +38,13 @@ p_lista add_direita(p_lista lista, int c)
     return lista;
 }
 
-p_lista eliminar_esquerda(p_lista lista)
+void eliminar_esquerda(p_lista lista)
 {
     if (lista != NULL)
     {
         if (lista->tamanho == 1)
         {
             free(lista);
-            return NULL;
         }
         else
         {
@@ -100,10 +52,9 @@ p_lista eliminar_esquerda(p_lista lista)
             lista->ini = lista->ini->prox;
             free(aux);
             lista->tamanho -= 1;
-            return lista;
+    
         }
     }
-    return NULL;
 }
 
 void liberar_memoria_lista(p_lista lista)
@@ -143,11 +94,8 @@ void colocar_pacientes_vetor(p_paciente *vetor, p_deque pacientes, int num_pacie
     for (int i = 0; i < num_pacientes; i++)
     {
         vetor[i] = pacientes->ini;
-        p_paciente aux = pacientes->ini;
         pacientes->ini = pacientes->ini->prox;
-        free(aux);
     }
-    free(pacientes);
 }
 
 /**
@@ -174,13 +122,13 @@ void liberar_memoria_deque(p_deque fila)
     free(fila);
 }
 
-int fila_vazia(p_deque especialidade)
+int fila_nao_vazia(p_deque especialidade)
 {
-    if (especialidade->qtde_pacientes == 0 || especialidade->ini == NULL)
+    if (especialidade->qtde_pacientes > 0)
     {
-        return 1;
+        return 1;  
     }
-    return 0; //se fila não for vazia, remover pacientes existentes de acordo com qtde de médicos
+    return 0; 
 }
 
 //para pacientes prioridade
