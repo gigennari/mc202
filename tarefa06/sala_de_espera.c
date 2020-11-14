@@ -142,47 +142,47 @@ void add_pacientes_fila(p_deque hospital[], p_paciente *vetor, int num_pacientes
             }
         }
     }
+}
 
-    //atualiza deques do vetor hospital
-    int roda_filas(p_deque hospital[], p_paciente * restantes, int num_pacientes)
+//atualiza deques do vetor hospital
+int roda_filas(p_deque hospital[], p_paciente * restantes, int num_pacientes)
+{
+    int iter = 0;
+    atualiza_horario();
+    //para cada especialidade (elemento do vetor hospital)
+    for (int sala = 0; sala < NUM_ESPECIALIDADES; sala++)
     {
-        int iter = 0;
-        atualiza_horario();
-        //para cada especialidade (elemento do vetor hospital)
-        for (int sala = 0; sala < NUM_ESPECIALIDADES; sala++)
+        //se fila não estiver vazia
+        if (!fila_vazia)
         {
-            //se fila não estiver vazia
-            if (!fila_vazia)
+            //remover qtde_medicos pacientes ou até a fila esvaziar
+            for (int x = 0; x < (hospital[sala]->qtde_medicos) || x < (hospital[sala]->qtde_pacientes); x++)
             {
-                //remover qtde_medicos pacientes ou até a fila esvaziar
-                for (int x = 0; x < (hospital[sala]->qtde_medicos) || x < (hospital[sala]->qtde_pacientes); x++)
+                p_paciente removido = remover_paciente(hospital[sala]);
+
+                //se o paciente removido ainda tiver uma sala para visitar
+                if (removido->salas->tamanho != 0)
                 {
-                    p_paciente removido = remover_paciente(hospital[sala]);
-
-                    //se o paciente removido ainda tiver uma sala para visitar
-                    if (removido->salas->tamanho != 0)
-                    {
-                        //inserir em um vetor temporário
-                        restantes[iter] = removido;
-                    }
-
-                    //caso contrário, imprimir o horário de saída e paciente->nome
-                    else
-                    {
-                        num_pacientes -= 1;
-                        imprime_horario();
-                        //imprime nome
-                        for(int)
-                        printf('\n');
-                    }
-
-                    iter += 1;
+                    //inserir em um vetor temporário
+                    restantes[iter] = removido;
                 }
+
+                //caso contrário, imprimir o horário de saída e paciente->nome
+                else
+                {
+                    num_pacientes -= 1;
+                    imprime_horario();
+                    //imprime nome
+                    printf("%s", removido->nome);
+                    printf('\n');
+                }
+
+                iter += 1;
             }
         }
-
-        return num_pacientes;
     }
+    return num_pacientes;
+}
 
     int main()
     {
