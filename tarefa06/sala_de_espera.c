@@ -138,10 +138,11 @@ void add_pacientes_fila(p_deque hospital[], p_paciente *vetor, int num_pacientes
     int ja_add = 0;
 
     for (int sala = 0; sala < NUM_ESPECIALIDADES; sala++)
-    {
+    {   
+        p_paciente *sala_atual = malloc(num_pacientes * sizeof(p_paciente)); 
         if (ja_add < num_pacientes) //se todos já foram add, podemos parar de verificar as próximas salas
         {
-            p_paciente *sala_atual = malloc(sizeof(p_paciente) * num_pacientes); //num_pacientes é o maximo que precisa, caso todos vao p mesma sala
+            //num_pacientes é o maximo que precisa, caso todos vao p mesma sala
             int qtde = 0;                                                        //guarda qtde de pacientes que vão para o deque da sala
             //percorre pacientes de um vetor e verifica proxima sala
             for (int p = 0; p < num_pacientes; p++)
@@ -169,8 +170,9 @@ void add_pacientes_fila(p_deque hospital[], p_paciente *vetor, int num_pacientes
                 }
             }
 
-            free(sala_atual);
+            
         }
+        free(sala_atual);
     }
     free(vetor);
 }

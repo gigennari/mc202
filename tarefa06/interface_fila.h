@@ -51,6 +51,7 @@ typedef struct Deque
 
 typedef Deque *p_deque;
 
+
 //devolve lista nula 
 p_lista criar_lista();
 
