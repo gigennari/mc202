@@ -133,7 +133,7 @@ void elimina_sala(p_deque *hospital)
     }
 }
 
-void add_pacientes_fila(p_deque hospital[], p_paciente *vetor, int num_pacientes)
+void add_pacientes_fila(p_deque hospital[], p_paciente *restantes, int num_pacientes)
 {
     int ja_add = 0;
 
@@ -144,13 +144,16 @@ void add_pacientes_fila(p_deque hospital[], p_paciente *vetor, int num_pacientes
         {
             //num_pacientes é o maximo que precisa, caso todos vao p mesma sala
             int qtde = 0;                                                        //guarda qtde de pacientes que vão para o deque da sala
-            //percorre pacientes de um vetor e verifica proxima sala
+            //percorre pacientes de um restantes e verifica proxima sala
             for (int p = 0; p < num_pacientes; p++)
             {
-                //se a proxima sala for a que estamos visitando (1° for), add em um vetor sala_atual
-                if (vetor[p]->salas->ini->dado - 1 == sala)
+                //se a proxima sala for a que estamos visitando (1° for), add em um restantes sala_atual
+                if (restantes[p] != NULL && restantes[p]
+                ->salas
+                ->ini
+                ->dado - 1 == sala)
                 {
-                    sala_atual[qtde] = vetor[p];
+                    sala_atual[qtde] = restantes[p];
 
                     qtde += 1;
                 }
@@ -179,9 +182,8 @@ void add_pacientes_fila(p_deque hospital[], p_paciente *vetor, int num_pacientes
 //atualiza deques do vetor hospital
 int roda_filas(p_deque hospital[], p_paciente *restantes, int num_pacientes)
 {
-    free(restantes);
     
-    restantes = malloc(sizeof(p_paciente) * num_pacientes);
+    
     atualiza_horario();
     p_deque deque_restantes;
     deque_restantes = criar_deque(0);
@@ -212,7 +214,7 @@ int roda_filas(p_deque hospital[], p_paciente *restantes, int num_pacientes)
                     liberar_memoria_lista(removido->salas);
                     imprime_horario();
                     //imprime nome
-                    printf("%s", removido->nome);
+                    printf(" %s", removido->nome);
                     printf("\n");
                     free(removido);
                 }
@@ -252,6 +254,8 @@ int main()
         {
             add_pacientes_fila(hospital, restantes, num_pacientes);
             elimina_sala(hospital);
+            free(restantes);
+            restantes = malloc(sizeof(p_paciente) * num_pacientes);
             num_pacientes = roda_filas(hospital, restantes, num_pacientes);
         }
 

@@ -92,7 +92,7 @@ p_paciente criar_paciente(char *nome, Preferencia x, p_lista salas, int posicao)
 
 void colocar_pacientes_vetor(p_paciente *vetor, p_deque pacientes, int num_pacientes)
 {
-    for (int i = 0; i < num_pacientes; i++)
+    for (int i = 0; i < num_pacientes && pacientes->ini != NULL; i++)
     {
         vetor[i] = pacientes->ini;
         pacientes->ini = pacientes->ini->prox;
