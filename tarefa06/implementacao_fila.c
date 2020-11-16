@@ -42,18 +42,19 @@ void eliminar_esquerda(p_lista lista)
 {
     if (lista != NULL)
     {
+        p_no aux = lista->ini;
         if (lista->tamanho == 1)
         {
-            free(lista);
+            lista->ini = NULL;
         }
         else
         {
-            p_no aux = lista->ini;
             lista->ini = lista->ini->prox;
-            free(aux);
-            lista->tamanho -= 1;
+            
     
         }
+        lista->tamanho -= 1;
+        free(aux);
     }
 }
 
@@ -141,6 +142,7 @@ void insere_incio(p_deque especialidade, p_paciente paciente)
     }
     else
     {
+        paciente->ant = NULL;
         paciente->prox = especialidade->ini;
         especialidade->ini->ant = paciente;
         especialidade->ini = paciente;
@@ -159,6 +161,7 @@ void insere_fim(p_deque especialidade, p_paciente paciente)
     else
     {
         paciente->ant = especialidade->fim;
+        paciente->prox = NULL;
         especialidade->fim->prox = paciente;
         especialidade->fim = paciente;
     }
@@ -184,7 +187,7 @@ p_paciente remover_paciente(p_deque especialidade)
     return aux;
 }
 
-void inserir_paciente(p_deque especialidade, p_paciente paciente)
+p_deque inserir_paciente(p_deque especialidade, p_paciente paciente)
 {
     if (paciente->status == normal)
     {
@@ -194,4 +197,5 @@ void inserir_paciente(p_deque especialidade, p_paciente paciente)
     {
         insere_incio(especialidade, paciente);
     }
+    return especialidade;
 }

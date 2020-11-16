@@ -79,7 +79,7 @@ int fila_nao_vazia(p_deque especialidade);
 void liberar_memoria_deque(p_deque fila);
 
 //verifica prioridade e insere paciente em outro deque
-void inserir_paciente(p_deque especialidade, p_paciente paciente);
+p_deque inserir_paciente(p_deque especialidade, p_paciente paciente);
 
 //remove paciente do final 
 p_paciente remover_paciente(p_deque especialidade);
