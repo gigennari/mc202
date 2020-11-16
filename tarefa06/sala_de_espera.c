@@ -104,10 +104,10 @@ p_deque le_entrada(p_deque pacientes)
 //devolve 1
 int entrou_antes(const void *p1, const void *p2)
 {
-    p_paciente P1, P2;
-    P1 = (p_paciente)p1;
-    P2 = (p_paciente)p2;
-    if (P1->posicao > P2->posicao)
+    p_paciente *P1, *P2;
+    P1 = (p_paciente*)p1;
+    P2 = (p_paciente*)p2;
+    if ((*P1)->posicao > (*P2)->posicao)
     {
         return 1; //retorna p2 que tem menor posição
     }
@@ -174,13 +174,14 @@ void add_pacientes_fila(p_deque hospital[], p_paciente *vetor, int num_pacientes
         }
         free(sala_atual);
     }
-    free(vetor);
 }
 
 //atualiza deques do vetor hospital
 int roda_filas(p_deque hospital[], p_paciente *restantes, int num_pacientes)
 {
-
+    free(restantes);
+    
+    restantes = malloc(sizeof(p_paciente) * num_pacientes);
     atualiza_horario();
     p_deque deque_restantes;
     deque_restantes = criar_deque(0);
@@ -256,6 +257,8 @@ int main()
 
         iter += 1;
     }
+
+    free(restantes);
 
     return 0;
 }
