@@ -108,14 +108,8 @@ int entrou_antes(const void *p1, const void *p2)
     p_paciente *P1, *P2;
     P1 = (p_paciente *)p1;
     P2 = (p_paciente *)p2;
-    if ((*P1)->posicao > (*P2)->posicao)
-    {
-        return 1; //retorna p2 que tem menor posição
-    }
-    else
-    {
-        return -1; //retorna p1 que tem menor posição
-    }
+    return (*P1)->posicao - (*P2)->posicao;
+
 }
 
 void add_pacientes_fila(p_deque hospital[], p_paciente *restantes, int num_pacientes)
