@@ -29,7 +29,7 @@ typedef struct Lista *p_lista;
 typedef enum
 {
     normal,
-    prioridade
+    preferencial
 } Preferencia;
 
 typedef struct Paciente

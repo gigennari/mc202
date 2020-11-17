@@ -42,19 +42,20 @@ void eliminar_esquerda(p_lista lista)
 {
     if (lista != NULL)
     {
-        p_no aux = lista->ini;
-        if (lista->tamanho == 1)
+        
+        if (lista->ini == NULL)
         {
             lista->ini = NULL;
+            lista->fim = NULL;
         }
         else
         {
+            p_no aux = lista->ini;
             lista->ini = lista->ini->prox;
-            
-    
+            free(aux);
         }
         lista->tamanho -= 1;
-        free(aux);
+        
     }
 }
 
@@ -94,8 +95,12 @@ void colocar_pacientes_vetor(p_paciente *vetor, p_deque pacientes, int num_pacie
 {
     for (int i = 0; i < num_pacientes && pacientes->ini != NULL; i++)
     {
-        vetor[i] = pacientes->ini;
-        pacientes->ini = pacientes->ini->prox;
+        vetor[i] 
+        = pacientes
+        ->ini;
+        pacientes->ini = pacientes
+        ->ini
+        ->prox;
     }
 }
 
@@ -114,8 +119,8 @@ p_deque criar_deque(int qtde_medicos)
 
 void liberar_memoria_deque(p_deque fila)
 {
-    while (fila->ini != fila->fim->prox)
-    {
+    int x = fila->qtde_pacientes;
+    for (int i = 0; i < x; i++){
         p_paciente aux = fila->ini;
         fila->ini = fila->ini->prox;
         free(aux);
