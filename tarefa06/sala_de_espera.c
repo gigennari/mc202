@@ -70,6 +70,7 @@ p_deque le_entrada(p_deque pacientes)
 
         scanf("%[^\"]%*c", nome);
         scanf("%s", status);
+
         
         if (status[0] == 'n')
         {
@@ -132,6 +133,7 @@ void add_pacientes_fila(p_deque hospital[], p_paciente *restantes, int num_pacie
                     sala_atual[qtde] = restantes[p];
 
                     qtde += 1;
+                
                 }
             }
 
@@ -139,9 +141,11 @@ void add_pacientes_fila(p_deque hospital[], p_paciente *restantes, int num_pacie
 
             if (qtde > 0)
             {
+                
                 //ordena pessoas que vão p fila da mesma especilidade por ordem de quem entrou primeiro
+                
                 qsort(sala_atual, qtde, sizeof(p_paciente), entrou_antes);
-
+                
                 //add pessoas na fila
                 for (int a = 0; a < qtde; a++)
                 {
@@ -176,6 +180,7 @@ int roda_filas(p_deque hospital[], p_paciente **restantes, int num_pacientes)
                 p_paciente removido = remover_paciente(hospital[sala]);
                 eliminar_esquerda(removido->salas);
 
+               
                 //se o paciente removido ainda tiver uma sala para visitar
                 if (removido->salas->tamanho > 0)
                 {
@@ -225,7 +230,12 @@ int main()
     p_deque pacientes;
     pacientes = criar_deque(0);
     pacientes = le_entrada(pacientes);
-    int num_pacientes = pacientes->fim->posicao; //a posicao do ultimo paciente é o total de pacientes
+    int num_pacientes = 0;
+    p_paciente atual = pacientes->ini;
+    while(atual != NULL){
+        num_pacientes += 1;
+        atual = atual->prox;
+    }
 
     p_paciente *vetor_todos_pacientes = malloc(sizeof(p_paciente) * num_pacientes);
     colocar_pacientes_vetor(vetor_todos_pacientes, pacientes, num_pacientes);

@@ -1,0 +1,121 @@
+"Romona Leatrice" normal 4 3 9
+"Starr Goldina" normal 2 7
+"Vickie Paxon" normal 4 1 9
+"Audrey Coady" normal 2 1 6 1 5 1 5
+"Chandal Annetta" preferencial 5
+"Marj Kroo" normal 9
+"Delly Fortuna" preferencial 8
+"Scarlett Chanda" normal 5
+"Adelle Dwinnell" normal 4 1 6
+"Reeba Coniah" normal 6
+"Lelah Brianna Benco" normal 3 9
+"Christal Jamill" normal 1 8 1 2
+"Maryellen Dayle" normal 1 5 6
+"Sallyanne Edgell" normal 1 2 3
+"Kelila Paschasia" normal 8
+"Kayley Bronny" normal 5
+"Amandi Fakieh" preferencial 4
+"Fredra Eboh" normal 6
+"Iolande Neddra" normal 2 5 3 2 8 1 9 7
+"Carmina Mulloy" normal 9
+"Henrietta Josephson" normal 8
+"Maritsa Albarran" normal 4 2 3
+"Fanni Astera" normal 4 6
+"Katy Meingolda" normal 1 6
+"Gretchen Steven Farris" normal 3
+"Merrily Lamar" normal 7
+"Codee Garbers Urbain" normal 3
+"Deloria Mattson" normal 2 6
+"Rosanne Lyndel" normal 1 3 6 1 4 2 6
+"Roxi Licko" normal 3 6
+"Shaylynn Johnston" normal 3
+"Kathie Elburt" normal 9
+"Em Meras" normal 8 1
+"Eba Tessy Alida" normal 5 1 3 1 9
+"Jami France Anet" normal 9
+"Shir Sakmar" normal 3 1 5
+"Merrie Manvil Rosemarie" preferencial 8
+"Olivie Sammie" normal 3 1 8 5 1 9 3 5 2
+"Maxie Amabil" normal 2 3 6 1 4
+"Lisbeth Kingsly" normal 8 6 8 3 9
+"Simonette Mellman" normal 8
+"Hettie Kinna Oskar" preferencial 7
+"Lesya Swithbert" normal 4 1 9
+"Ketti Rafa" normal 1 3
+"Etty Morocco" normal 9
+"Eloise Deerdre" normal 4 3 2 7
+"Maggi Riddle" normal 5 1 5 3
+"Lorilee Kegan" preferencial 3
+"Vida Dibrin" normal 6
+"Annie Othilia Valery" normal 4 1 6 5 1
+"Gayle Pedroza" normal 5
+"Linn Tracy" normal 8 6 9
+"Claudette Haimes" normal 1 5 6 1 6 1
+"Linea Fredrick" normal 6
+"Josephine Gabrielli" normal 2 7 1 5
+"Elbertine Milt Siegfried" normal 1 9
+"Riane Riane" normal 4 6 1 8 4 7 8 1
+"Jobie Datnow" normal 1 4 3 6 9 6 2 7
+"Ardelia Davison" normal 5
+"Jennica Bergen Proffitt" normal 9
+"Bari Freddie" normal 8 6 4 9
+"Kalie Jaye" normal 7
+"Catie Hurff" normal 6
+"Myrtie Deanne" normal 9
+"Benita Roberson" normal 7
+"Madella Jessica" normal 5 1 3 6 1 5
+"Myrtice Dreddy" normal 6
+"Ardath Zampino" normal 2 4
+"Ana Jolie" normal 2 1 9
+"Carlotta Edmonds" normal 1 9
+"Adelaide Placidia" normal 9
+"Lucia Sadie" normal 4 5 3
+"Pearline Barr" normal 9
+"Justine Darton" normal 5 1 8 1 8 5 3 5
+"Pepi Jakoba" preferencial 6
+"Ame Smith" normal 3 1 3 4 1 9 3 2 7
+"Jamima Ernie" normal 3 4 3 9
+"Claudelle Wilma" normal 1 4 9 6
+"Koralle Pincas" normal 9
+"Amabelle Corneille" normal 6
+"Carolin Choo" normal 1 6 1 3 1 6 1 3
+"Lind Roseanna" normal 9
+"Renelle Whale" normal 2 3 7 3 1 9 4 2
+"Maris Keary Adnah" normal 8 3 2 7 9
+"Helen-Elizabeth Rea" normal 2 7 1 4 7 9
+"Roxy Wennerholn" normal 9
+"Sabina Karlise" normal 5 1 2 6 1 8 7 1
+"Elke Elysha" normal 1 2 5 3 7 5 1 2 4
+"Janelle Bobinette" preferencial 4
+"Delores Blanding" normal 1 8 1 5 6 1
+"Rycca Bain Pain" normal 8 5 4 2 1 5 1 9
+"Jacklyn Compton" normal 7
+"Gwyneth Basilio" normal 6
+"Cristy Leighland" normal 3 6 1
+"Nerti Bast" preferencial 6
+"Marianna Rhyner" normal 4 1 4 5 3 1
+"Jacky Paule" preferencial 1
+"Van Obe" normal 5 1 7 1 6 3
+"Berta Della" normal 8
+"Georgine Halette" normal 5 6 1 9 6 4 5 1
+"Fara Coralyn" normal 8 1 9 6 4
+"Herta Rad" normal 2 1 8 3 7 5 3
+"Ann Evers" normal 5 1
+"Pandora Tiffie" normal 1
+"Othilie Bhayani" normal 9
+"Muffin Sammons" preferencial 3 1 7
+"Glory Grigson" normal 8
+"Lorrin Barmen" normal 2 1 7 6 8 6 1 9
+"Sasha Wiersma" normal 6
+"Jolene Devan" normal 6
+"Cindelyn Valaree" normal 5 1
+"Stevena Evangelina Marlette" preferencial 4
+"Jaquelin Furey" normal 7
+"Merridie Maitland" preferencial 8
+"Rica Harriette" normal 5 6
+"Lani Maribeth" normal 8
+"Ddene Ganiats" normal 5 8 9 6
+"Jeanie Joby" normal 1 4 6 1 6 5 9
+"Zenia Arnelle Voltz" normal 2 1 2 1
+"Trixi Finzer" normal 6
+"Norrie Maxentia" preferencial 5
