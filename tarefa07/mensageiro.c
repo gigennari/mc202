@@ -35,6 +35,11 @@ p_token alocar_token()
     return token;
 }
 
+p_triade alocar_triade()
+{
+    return NULL;
+}
+
 p_token inserir(p_token raiz, p_token cartao)
 {
     if (raiz == NULL)
@@ -53,11 +58,6 @@ p_token inserir(p_token raiz, p_token cartao)
     return raiz;
 }
 
-p_triade alocar_triade()
-{
-    return NULL;
-}
-
 p_token ler_cartao(ABB)
 {
     p_token cartao;
@@ -66,6 +66,20 @@ p_token ler_cartao(ABB)
     scanf("%*c%[^\"]%*c", cartao->palavra);
     ABB = inserir(ABB, cartao);
     return ABB; 
+}
+
+
+
+
+void imprimir_ordem_crescente(p_token raiz)
+{
+    if (raiz != NULL)
+    {
+
+        imprimir_ordem_crescente(raiz->esq);
+        printf("%s", raiz->palavra);
+        imprimir_ordem_crescente(raiz->dir);
+    }
 }
 
 int main()
