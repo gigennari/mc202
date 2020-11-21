@@ -13,7 +13,7 @@ typedef Token *p_token;
 typedef struct Triade
 {
     p_token t1, t2, t3;
-    int soma;
+    int soma, atual;
 } Triade;
 
 typedef Triade *p_triade;
@@ -65,11 +65,26 @@ p_token ler_cartao(ABB)
     scanf("%d", cartao->num);
     scanf("%*c%[^\"]%*c", cartao->palavra);
     ABB = inserir(ABB, cartao);
-    return ABB; 
+    return ABB;
 }
 
+p_triade encontar_triade(p_token ABB, p_triade triade, int soma)
+{
 
+    return triade;
+}
 
+p_token concatenar_e_inserir(p_token ABB, p_triade triade)
+{
+
+    return ABB;
+}
+
+p_token remover(p_token ABB, p_triade triade)
+{
+
+    return ABB;
+}
 
 void imprimir_ordem_crescente(p_token raiz)
 {
@@ -105,11 +120,9 @@ int main()
             p_triade triade;
 
             scanf("%d ", &soma);
-            triade = remover_triade(ABB, soma);
-            if (triade != NULL)
-            {
-                ler_cartao(ABB);
-            }
+            triade = encontar_triade(ABB, triade, soma);
+            ABB = concatenar_e_inserir(ABB, triade);
+            ABB = remover(ABB, triade);
         }
 
         imprime_ordem_crescente();
