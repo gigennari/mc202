@@ -3,7 +3,7 @@
 
 typedef struct No
 {
-    int chave;
+    int dado;
     struct No *esq, *dir, *pai;
 } No;
 
@@ -101,23 +101,23 @@ void remove_sucessor(p_no raiz)
     {
         pai->dir = min->dir;
     }
-    raiz->chave = min->chave;
+    raiz->dado = min->dado;
 }
 
-p_no remover_rec(p_no raiz, int chave)
+p_no remover_rec(p_no raiz, int dado)
 {
 
     if (raiz == NULL)
     {
         return NULL;
     }
-    else if (chave < raiz->chave)
+    else if (dado < raiz->dado)
     {
-        raiz->esq = remover_rec(raiz->esq, chave);
+        raiz->esq = remover_rec(raiz->esq, dado);
     }
-    else if (chave > raiz->chave)
+    else if (dado > raiz->dado)
     {
-        raiz->dir = remover_rec(raiz->dir, chave);
+        raiz->dir = remover_rec(raiz->dir, dado);
     }
     else if (raiz->esq == NULL)
     {
@@ -143,7 +143,7 @@ void imprimir_ordem_crescente(p_no raiz)
     {
 
         imprimir_ordem_crescente(raiz->esq);
-        printf(raiz->chave);
+        printf(raiz->dado);
         imprimir_ordem_crescente(raiz->dir);
     }
 }
@@ -154,7 +154,7 @@ void imprimir_ordem_decrescente(p_no raiz)
     {
 
         imprimir_ordem_decrescente(raiz->dir);
-        printf(raiz->chave);
+        printf(raiz->dado);
         imprimir_ordem_decrescente(raiz->esq);
     }
 }
