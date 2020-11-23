@@ -71,6 +71,55 @@ p_token ler_token(ABB)
 }
 
 
+void remove_sucessor(p_token raiz)
+{
+    p_token min = raiz->dir; //será o minimo da subarvore direita
+    p_token pai = raiz;      //pai do nó mínimo
+    while (min->esq != NULL)
+    {
+        pai = min;
+        min = min->esq;
+    }
+    if (pai->esq == min)
+    {
+        pai->esq = min->dir;
+    }
+    else
+    {
+        pai->dir = min->dir;
+    }
+    raiz->num = min->num;
+}
+
+p_token remover_rec(p_token raiz, int num)
+{
+
+    if (raiz == NULL)
+    {
+        return NULL;
+    }
+    else if (num < raiz->num)
+    {
+        raiz->esq = remover_rec(raiz->esq, num);
+    }
+    else if (num > raiz->num)
+    {
+        raiz->dir = remover_rec(raiz->dir, num);
+    }
+    else if (raiz->esq == NULL)
+    {
+        return raiz->dir;
+    }
+    else if (raiz->dir == NULL)
+    {
+        return raiz->esq;
+    }
+    else
+    {
+        remove_sucessor(raiz);
+    }
+    return raiz;
+}
 
 
 p_triade encontar_triade(p_token ABB, p_triade triade, int soma)
@@ -100,7 +149,10 @@ p_token concatenar_e_inserir(p_token ABB, p_triade triade)
 
 p_token remover(p_token ABB, p_triade triade)
 {
-    
+    remover_rec(ABB, triade->t1->num);
+    remover_rec(ABB, triade->t2->num);
+    remover_rec(ABB, triade->t3->num);
+
     return ABB;
 }
 
