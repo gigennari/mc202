@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct Token
 {
     int num;
-    char palavra[6];
+    char *palavra;
     struct Token *dir, *esq, *pai;
 } Token;
 
@@ -28,10 +29,11 @@ p_triade criar_ABB()
     return NULL;
 }
 
-p_token alocar_token()
+p_token alocar_token(int num_caracteres)
 {
     p_token token;
     token = malloc(sizeof(Token));
+    token->palavra = malloc(num_caracteres * sizeof(num_caracteres));
     return token;
 }
 
@@ -58,15 +60,18 @@ p_token inserir(p_token raiz, p_token cartao)
     return raiz;
 }
 
-p_token ler_cartao(ABB)
+p_token ler_token(ABB)
 {
     p_token cartao;
-    cartao = alocar_token_e_abb();
+    cartao = alocar_token(6);
     scanf("%d", cartao->num);
     scanf("%*c%[^\"]%*c", cartao->palavra);
     ABB = inserir(ABB, cartao);
     return ABB;
 }
+
+
+
 
 p_triade encontar_triade(p_token ABB, p_triade triade, int soma)
 {
@@ -76,13 +81,26 @@ p_triade encontar_triade(p_token ABB, p_triade triade, int soma)
 
 p_token concatenar_e_inserir(p_token ABB, p_triade triade)
 {
+    int num_caracteres = 1;
+    num_caracteres += strlen(triade->t1->palavra);
+    num_caracteres += strlen(triade->t2->palavra);
+    num_caracteres += strlen(triade->t3->palavra);
 
+    
+    p_token novo = alocar_token(num_caracteres);
+    novo->num = triade->soma;
+    
+    strcpy(novo->palavra, triade->t1->palavra); //copia string do 1º token
+    strcat(novo->palavra, triade->t2->palavra);    //concatena 1º com 2º
+    strcat(novo->palavra, triade->t3->palavra);
+    
+    inserir(ABB, novo);
     return ABB;
 }
 
 p_token remover(p_token ABB, p_triade triade)
 {
-
+    
     return ABB;
 }
 
@@ -110,7 +128,7 @@ int main()
         //lê cartões
         for (int i = 0; i < num_cartoes; i++)
         {
-            ABB = ler_cartao(ABB);
+            ABB = ler_token(ABB);
         }
 
         //remove soma da tríade de cada autoridade se a combinação é possível
