@@ -74,7 +74,7 @@ p_no ancestral_a_direita(p_no x){
 
 p_no minimo(p_no raiz)
 {
-    if (raiz == NULL && raiz->esq == NULL)
+    if (raiz == NULL || raiz->esq == NULL)
     {
         return raiz;
     }

@@ -24,11 +24,6 @@ p_token criar_ABB()
     return NULL;
 }
 
-p_triade criar_ABB()
-{
-    return NULL;
-}
-
 p_token alocar_token(int num_caracteres)
 {
     p_token token;
@@ -69,7 +64,6 @@ p_token ler_token(ABB)
     ABB = inserir(ABB, cartao);
     return ABB;
 }
-
 
 void remove_sucessor(p_token raiz)
 {
@@ -120,6 +114,31 @@ p_token remover_rec(p_token raiz, int num)
     }
     return raiz;
 }
+
+p_token minimo(p_token raiz)
+{
+    if (raiz == NULL || raiz->esq == NULL)
+    {
+        return raiz;
+    }
+    else
+    {
+        return minimo(raiz->esq);
+    }
+}
+
+p_token maximo(p_token raiz)
+{
+    if (raiz == NULL || raiz->dir == NULL)
+    {
+        return raiz;
+    }
+    else
+    {
+        return minimo(raiz->dir);
+    }
+}
+
 
 
 p_triade encontar_triade(p_token ABB, p_triade triade, int soma)
