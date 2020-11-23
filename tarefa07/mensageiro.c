@@ -274,7 +274,7 @@ p_triade encontrar_triade(p_token ABB, p_triade triade, int soma)
     return triade;
 }
 
-p_token concatenar_e_inserir(p_token ABB, p_triade triade)
+p_token concatenar_e_inserir(p_token ABB, p_triade triade, int soma)
 {
     int num_caracteres = 1;
     num_caracteres += strlen(triade->t1->palavra);
@@ -347,7 +347,7 @@ int main()
 
             scanf("%d ", &soma);
             triade = encontrar_triade(ABB, triade, soma);
-            ABB = concatenar_e_inserir(ABB, triade);
+            ABB = concatenar_e_inserir(ABB, triade, soma);
             ABB = remover(ABB, triade);
 
         }
