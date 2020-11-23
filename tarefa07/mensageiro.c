@@ -14,7 +14,7 @@ typedef Token *p_token;
 typedef struct Triade
 {
     p_token t1, t2, t3;
-    int soma, atual;
+    int soma;
 } Triade;
 
 typedef Triade *p_triade;
@@ -115,6 +115,8 @@ p_token remover_rec(p_token raiz, int num)
     return raiz;
 }
 
+/**
+ *
 p_token minimo(p_token raiz)
 {
     if (raiz == NULL || raiz->esq == NULL)
@@ -126,6 +128,30 @@ p_token minimo(p_token raiz)
         return minimo(raiz->esq);
     }
 }
+
+p_token ancestral_a_direita(p_token x){
+    if (x == NULL){
+        return NULL;
+    }
+    if (x->pai == NULL || x->pai->esq == x){
+        return x->pai;
+    }
+    else{
+        return ancestral_a_direita(x->pai);
+    }
+}
+
+p_token sucessor(p_token x){
+    if (x->dir != NULL){
+        return minimo(x->dir);
+    }
+    else
+    {
+        return ancestral_a_direita(x);
+    }
+}
+
+*/
 
 p_token maximo(p_token raiz)
 {
@@ -139,10 +165,108 @@ p_token maximo(p_token raiz)
     }
 }
 
-
-
-p_triade encontar_triade(p_token ABB, p_triade triade, int soma)
+p_token ancestral_a_esquerda(p_token raiz, p_token x)
 {
+    if (raiz->num < x->num)
+    {
+        if (raiz->dir == x)
+        {
+            return raiz;
+        }
+        ancestral_a_esquerda(raiz->dir, x);
+    }
+    else if (raiz->num > x->num)
+    {
+        if (raiz->esq == x)
+        {
+            return raiz;
+        }
+        ancestral_a_esquerda(raiz->esq, x);
+    }
+}
+
+p_token antecessor(p_token raiz, p_token x)
+{
+    if (x->esq != NULL)
+    {
+        return maximo(x->esq);
+    }
+    else
+    {
+        return ancestral_a_esquerda(raiz, x);
+    }
+}
+
+p_token buscar(p_token raiz, int chave)
+{
+    if (raiz == NULL || chave == raiz->num)
+    {
+        return raiz;
+    }
+    if (chave < raiz->num)
+    {
+        return buscar(raiz->esq, chave);
+    }
+    if (chave > raiz->num)
+    {
+        return buscar(raiz->dir, chave);
+    }
+}
+
+int contar_tokens(p_token raiz)
+{
+    if (raiz != NULL)
+    {
+        return contar_tokens(raiz->esq) + contar_tokens(raiz->dir) + 1;
+    }
+    return 0;
+}
+
+p_triade encontrar_triade(p_token ABB, p_triade triade, int soma)
+{
+    int total_tokens, diferenca;
+    total_tokens = contar_tokens(ABB);
+    p_token t1, t2, t3;
+    t1 = malloc(sizeof(p_token));
+    t2 = malloc(sizeof(p_token));
+    t3 = malloc(sizeof(p_token));
+
+    for (int i = 0; i < total_tokens; i++)
+    {
+        if (i == 0)
+        {
+            t1 = maximo(ABB);       //fixa o máximo na 1ª vez
+            while (t1->num >= soma) //caso o máximo seja maior que a soma ou igual, vai voltando até achar o primeiro menor
+            {
+                t1 = antecessor(ABB, t1);
+            }
+        }
+        else{
+            t1 = antecessor(ABB, t1);
+        }
+
+        t2 = t1; 
+
+        for (int j = 0; j < total_tokens - i; j++)
+        {
+            t2 = antecessor(ABB, t2);
+            diferenca = soma - t1->num - t2->num;
+            if (diferenca > 0)
+            {
+                t3 = buscar(ABB, diferenca);
+                if (t3 != NULL)
+                {
+                    triade->t1 = t1;
+                    triade->t2 = t2;
+                    triade->t3 = t3;
+                }
+            }
+        }
+    }
+
+    free(t1);
+    free(t2);
+    free(t3);
 
     return triade;
 }
@@ -154,14 +278,13 @@ p_token concatenar_e_inserir(p_token ABB, p_triade triade)
     num_caracteres += strlen(triade->t2->palavra);
     num_caracteres += strlen(triade->t3->palavra);
 
-    
     p_token novo = alocar_token(num_caracteres);
     novo->num = triade->soma;
-    
+
     strcpy(novo->palavra, triade->t1->palavra); //copia string do 1º token
-    strcat(novo->palavra, triade->t2->palavra);    //concatena 1º com 2º
+    strcat(novo->palavra, triade->t2->palavra); //concatena 1º com 2º
     strcat(novo->palavra, triade->t3->palavra);
-    
+
     inserir(ABB, novo);
     return ABB;
 }
