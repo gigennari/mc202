@@ -11,6 +11,7 @@ typedef struct
     int chave;
 } Item;
 
+
 typedef struct
 {
     Item *v;
@@ -18,6 +19,14 @@ typedef struct
 } FP;
 
 typedef FP *p_fp;
+
+p_fp aloca_fprio(int capacidade){
+    p_fp fprio = malloc(sizeof(FP));
+    fprio->capacidade = capacidade;
+    fprio->n = 0;
+    fprio->v = malloc(sizeof(Item));
+    return fprio;
+}
 
 void troca(int *a, int *b)
 {
@@ -117,4 +126,19 @@ void muda_prioridade(p_fp fprio, int k, int valor)
 
 int encontra_indice(){
     
+}
+
+int main(){
+
+    int vetor[7] = {20, 10, 5, 30, 50, 45, 35};
+    p_fp fprio = aloca_fprio(7);
+    for(int i = 0; i < 7; i++){
+        Item item;
+        item->chave = vetor[i];
+        fprio->n++;
+        inserir_heap(fprio, fprio->n, item);
+    }
+
+    return 0;
+
 }

@@ -68,14 +68,26 @@ void insertionsort(int *v, int n)
 
 # Selection Sort 
 
-*
+* trocar v[0] com o mínimo de v[0] a v[n-1]
+* trocar o v[1] com o mínimo de v[1] a v[n-1]
+* e assim por diante 
 
-```C
-
-
-```
 
 * **O(n²)**
+
+## Selection com heap 
+* Podemos usar um max heap para encontrar o máximo em o(log n)
+* Assim, nosso tempo de execução passaria de O(n²) para O(n log n)
+* Para isso, criamos um vetor adicional para o heap, mas podemos transformar um vetor em um heap rapidamente
+
+## Vetor para Heap 
+* olhar para o vetor como uma árvore binária completa --> todos os níveis estão cheios, e, no último nível, os nós estão deslocados para a esquerda 
+* os últimos dois elementos do vetor não têm filhos 
+
+* filho esquerdo **v[2*i+1]** 
+* filho direito **v[2*i+2]** 
+*  pai **v[(i-1)/2]**
+    
 
 # Heap Sort
 * O(n logn)

@@ -45,15 +45,16 @@ void desce_no_heap(p_fp fprio, int k)
     }
 }
 
-void heapsort(int *v, int n){
+void heapsort(p_fp fprio){
     int k;
+    int n = fprio->n; 
     for (k = n/2; k >= 0; k--){
-        desce_no_heap(v, n, k);
+        desce_no_heap(fprio, k);
     }
     while(n > 1){
-        troca(&v[0], &v[n-1]);
-        n--;
-        desce_no_heap(v, n, 0);
+        troca(&fprio->v[0], &fprio->v[n-1]);
+        fprio->n--;
+        desce_no_heap(fprio, 0);
     }
 }
 

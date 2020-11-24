@@ -8,6 +8,7 @@ void troca(int *a, int *b)
     *b = t;
 }
 
+//O(n²)
 void selectionsort(int *v, int n){
     int i, j, min;
     int comparacoes = 0, trocas = 0;
@@ -25,6 +26,50 @@ void selectionsort(int *v, int n){
     printf("Comparações = %d\n", comparacoes);
     printf("Trocas = %d\n", trocas);
 }
+
+
+int extrai_maximo(int *v, int n){
+    int max = n-1;
+    for(int j = n - 2; j >= 0; j--){
+        if(v[j] > v[max]){
+            max = j;
+        }
+    }
+    return max;
+}
+
+//O(n²)
+void selectionsort_max(int *v, int n){
+    int i, j, max;
+
+    for (i = n-1; i < n -1; i--){
+        max = extrai_maximo(v, i + 1);
+        troca(&v[j], &v[max]);   
+    }
+}
+
+//O(n lg n)
+void fpsort(){
+    int i;
+    p_fp fprio = criar_fprio(n);
+    for(i = 0; i < n; i++){
+        insere(fprio, v[i]);
+    }
+    for(i = n - 1; i >= 0; i--){
+        v[i] = extrai_maximo(fprio);
+    }
+    destroi(fprio);
+}
+
+void selectionsort_heap(int *v, int n){
+    int i, j, max;
+
+    for (i = n-1; i < n -1; i--){
+        max = fpsort(v, i + 1);
+        troca(&v[j], &v[max]);   
+    }
+}
+
 
 
 int main()

@@ -103,17 +103,18 @@ p_token remover_rec(p_token raiz, int num)
     //se numero for igual
     else if (raiz->esq == NULL)
     {
-        p_token aux = raiz;
-        return raiz->dir;
-        free(aux->palavra);
-        free(aux);
+        p_token aux = raiz->dir;
+        free(raiz->palavra);
+        free(raiz);
+        return aux;
+        
     }
     else if (raiz->dir == NULL)
     {
-        p_token aux = raiz;
-        return raiz->esq;
-        free(aux->palavra);
-        free(aux);
+        p_token aux = raiz->esq;
+        free(raiz->palavra);
+        free(raiz);
+        return aux;
     }
     else
     {
@@ -242,8 +243,6 @@ p_triade encontrar_triade(p_token ABB, p_triade triade, int soma)
 {
     int diferenca;
     p_token t1, t2, t3;
-    t1 = malloc(sizeof(p_token));
-    t2 = malloc(sizeof(p_token));
     t3 = NULL;
 
     t1 = maximo(ABB);       //fixa o máximo na 1ª vez
@@ -304,7 +303,7 @@ p_token concatenar_e_inserir(p_token ABB, p_triade triade)
     strcat(novo->palavra, triade->t2->palavra); //concatena 1º com 2º
     strcat(novo->palavra, triade->t1->palavra);
 
-    inserir(ABB, novo);
+    ABB = inserir(ABB, novo);
     return ABB;
 }
 
