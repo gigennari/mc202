@@ -6,8 +6,6 @@
 
 * Vamos ordenar vetores de int, mas é fácil alterar para comparar double ou string ou ainda comparar uma struct por algum de seus campos 
 
-# Heap Sort
-
 
 # Bubble Sort
 * do fim para o começo, vamos trocando pares de elementos invertidos 
@@ -35,7 +33,7 @@ void bubblesort(int *v, int n)
 * No melhor ou pior caso, o i percorre de 1 a n-2 e o j percorre de n-1 a i+1 para cada laço de i. O que muda é a quantidade de vezes que chamamos a função troca. 
 
 * Pior caso: vetor invertido 
-* O(n²)
+* **O(n²)**
 
 * Para cada combinação de i e j, fazemos uma comparação 
 * Muito lento. Leva 1s para ordenar 30000 elementos
@@ -65,8 +63,19 @@ void insertionsort(int *v, int n)
 }
 ```
 
+* **O(n²)**
 * Cerca de 0,2s para ordenar 30000 elementos. É muito lento.  
 
 # Selection Sort 
 
+*
 
+```C
+
+
+```
+
+* **O(n²)**
+
+# Heap Sort
+* O(n logn)
