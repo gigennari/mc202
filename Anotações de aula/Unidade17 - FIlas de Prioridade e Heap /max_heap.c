@@ -26,11 +26,15 @@ void troca(int *a, int *b)
     *b = t;
 }
 
+/**
+ * no máximo, subimos até a raiz
+ * O(lg n)
+ * */
 void inserir_heap(p_fp fprio, int n, Item item)
 {
-    fprio->v[fprio->n] = item;
-    fprio->n++;
-    sobe_no_heap(fprio, fprio->n - 1);
+    fprio->v[fprio->n] = item;  //coloca na última posição
+    fprio->n++; //aumenta tamanho na struct
+    sobe_no_heap(fprio, fprio->n - 1);  
 }
 
 /**

@@ -87,6 +87,7 @@ int cheia(p_fp fprio);
 
 * se percorremos a árvore em ordem de largura (não de profundidade), teremos a ordem do vetor 
 * note que não é uma árvore binária de busca 
+* estamos interessados apenas no máximo
 
 ### Inserção 
 * cuidado na hora de inserir, pois uma chave nunca pode ser maior que o pai 
