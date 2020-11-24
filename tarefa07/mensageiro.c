@@ -5,8 +5,8 @@
 typedef struct Token
 {
     int num;
-    char palavra[72];
-    struct Token *dir, *esq, *pai;
+    char *palavra;
+    struct Token *dir, *esq;
 } Token;
 
 typedef Token *p_token;
@@ -24,10 +24,13 @@ p_token criar_ABB()
     return NULL;
 }
 
-p_token alocar_token()
+p_token alocar_token(int num_caracteres)
 {
     p_token token;
     token = malloc(sizeof(Token));
+    token->palavra = malloc(num_caracteres * sizeof(char));
+    token->num = 0;
+    token->dir = token->esq = NULL;
     return token;
 }
 
@@ -36,7 +39,6 @@ p_triade alocar_triade()
     p_triade triade;
     triade = malloc(sizeof(Triade));
     return triade;
-    
 }
 
 p_token inserir(p_token raiz, p_token cartao)
@@ -75,6 +77,9 @@ void remove_sucessor(p_token raiz)
         pai->dir = min->dir;
     }
     raiz->num = min->num;
+    free(raiz->palavra);
+    raiz->palavra = min->palavra;
+    free(min);
 }
 
 p_token remover_rec(p_token raiz, int num)
@@ -84,7 +89,7 @@ p_token remover_rec(p_token raiz, int num)
     {
         return NULL;
     }
-    //se numero for diferente 
+    //se numero for diferente
     else if (num < raiz->num)
     {
         raiz->esq = remover_rec(raiz->esq, num);
@@ -95,14 +100,20 @@ p_token remover_rec(p_token raiz, int num)
         raiz->dir = remover_rec(raiz->dir, num);
         return raiz;
     }
-    //se numero for igual 
+    //se numero for igual
     else if (raiz->esq == NULL)
     {
+        p_token aux = raiz;
         return raiz->dir;
+        free(aux->palavra);
+        free(aux);
     }
     else if (raiz->dir == NULL)
     {
+        p_token aux = raiz;
         return raiz->esq;
+        free(aux->palavra);
+        free(aux);
     }
     else
     {
@@ -161,26 +172,29 @@ p_token maximo(p_token raiz)
     }
 }
 
-p_token ancestral_a_esquerda(p_token raiz, p_token x)
+p_token buscar_max(p_token raiz, p_token x)
 {
-    if (raiz->num < x->num)
+    if (raiz == NULL)
     {
-        if (raiz->dir == x)
+        return NULL;
+    }
+    else
+    {
+        p_token dir, esq;
+        dir = buscar_max(raiz->dir, x);
+        esq = buscar_max(raiz->esq, x);
+        if (dir != NULL && dir->num < x->num)
+        {
+            return dir;
+        }
+        if (raiz->num < x->num)
         {
             return raiz;
         }
-        return ancestral_a_esquerda(raiz->dir, x);
-    }
-    else if (raiz->num > x->num)
-    {
-        if (raiz->esq == x)
+        else
         {
-            return raiz;
+            return esq;
         }
-        return ancestral_a_esquerda(raiz->esq, x);
-    }
-    else{
-        return NULL;    //tá certo?
     }
 }
 
@@ -192,7 +206,7 @@ p_token antecessor(p_token raiz, p_token x)
     }
     else
     {
-        return ancestral_a_esquerda(raiz, x);
+        return buscar_max(raiz, x);
     }
 }
 
@@ -213,6 +227,7 @@ p_token buscar(p_token raiz, int chave)
     return NULL;
 }
 
+/**
 int contar_tokens(p_token raiz)
 {
     if (raiz != NULL)
@@ -221,36 +236,35 @@ int contar_tokens(p_token raiz)
     }
     return 0;
 }
+*/
 
 p_triade encontrar_triade(p_token ABB, p_triade triade, int soma)
 {
-    int total_tokens, diferenca;
-    total_tokens = contar_tokens(ABB);
+    int diferenca;
     p_token t1, t2, t3;
     t1 = malloc(sizeof(p_token));
     t2 = malloc(sizeof(p_token));
-    t3 = malloc(sizeof(p_token));
+    t3 = NULL;
 
-    for (int i = 0; i < total_tokens; i++)
+    t1 = maximo(ABB);       //fixa o máximo na 1ª vez
+    while (t1->num >= soma) //caso o máximo seja maior que a soma ou igual, vai voltando até achar o primeiro menor
     {
-        if (i == 0)
-        {
-            t1 = maximo(ABB);       //fixa o máximo na 1ª vez
-            while (t1->num >= soma) //caso o máximo seja maior que a soma ou igual, vai voltando até achar o primeiro menor
-            {
-                t1 = antecessor(ABB, t1);
-            }
-        }
-        else{
-            t1 = antecessor(ABB, t1);
-        }
+        t1 = antecessor(ABB, t1);
+    }
 
-        t2 = t1; 
+    while (t1 != NULL)
+    {
+        t2 = t1;
 
-        for (int j = 0; j < total_tokens - (i+1); j++)
+        while (t2 != NULL)
         {
             t2 = antecessor(ABB, t2);
+            if (t2 == NULL)
+            {
+                break;
+            }
             diferenca = soma - t1->num - t2->num;
+
             if (diferenca > 0)
             {
                 t3 = buscar(ABB, diferenca);
@@ -259,18 +273,20 @@ p_triade encontrar_triade(p_token ABB, p_triade triade, int soma)
                     triade->t1 = t1;
                     triade->t2 = t2;
                     triade->t3 = t3;
-                    
                 }
             }
-            if(t3 != NULL){
-            break;
-        }
-        }
-        if(t3 != NULL){
-            break;
-        }
-    }
 
+            if (t3 != NULL)
+            {
+                break;
+            }
+        }
+        if (t3 != NULL)
+        {
+            break;
+        }
+        t1 = antecessor(ABB, t1);
+    }
     return triade;
 }
 
@@ -294,9 +310,9 @@ p_token concatenar_e_inserir(p_token ABB, p_triade triade)
 
 p_token remover(p_token ABB, p_triade triade)
 {
-    remover_rec(ABB, triade->t1->num);
-    remover_rec(ABB, triade->t2->num);
-    remover_rec(ABB, triade->t3->num);
+    ABB = remover_rec(ABB, triade->t1->num);
+    ABB = remover_rec(ABB, triade->t2->num);
+    ABB = remover_rec(ABB, triade->t3->num);
 
     return ABB;
 }
@@ -312,15 +328,36 @@ void imprimir_ordem_crescente(p_token raiz)
     }
 }
 
+void liberar_abb(p_token raiz)
+{
+    if (raiz != NULL)
+    {
+
+        liberar_abb(raiz->dir);
+        liberar_abb(raiz->esq);
+        free(raiz->palavra);
+        free(raiz);
+    }
+}
+
+void liberar_triade(p_triade triade)
+{
+    
+    free(triade);
+}
+
 int main()
 {
-    int retorno = 1;
+
     do
     {
         p_token ABB; //criar abb vazia para inserir lidos
         ABB = criar_ABB();
         int num_cartoes, num_autoridades;
-        scanf("%d %d", &num_cartoes, &num_autoridades);
+        if (scanf("%d %d", &num_cartoes, &num_autoridades) <= 0)
+        {
+            break;
+        }
 
         char *palavra;
         //lê cartões
@@ -328,7 +365,7 @@ int main()
         {
             p_token cartao;
             palavra = malloc(6 * sizeof(char));
-            cartao = alocar_token();
+            cartao = alocar_token(6);
             scanf("%d ", &cartao->num);
             scanf("%*c%[^\"]%*c", palavra);
             strcpy(cartao->palavra, palavra);
@@ -351,12 +388,15 @@ int main()
             ABB = concatenar_e_inserir(ABB, triade);
             ABB = remover(ABB, triade);
 
+            liberar_triade(triade);
         }
 
         imprimir_ordem_crescente(ABB);
         printf("\n");
 
-    } while (retorno != -1);
+        liberar_abb(ABB);
+
+    } while (1);
 
     return 0;
 }
