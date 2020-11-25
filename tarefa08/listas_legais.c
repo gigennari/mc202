@@ -89,17 +89,17 @@ p_no inserir_rec(p_no raiz, int chave, int contagem)
         novo = malloc(sizeof(No));
         novo->esq = novo->dir = NULL;
         novo->chave = chave;
-        novo->chave = contagem;
+        novo->contagem = contagem;
         novo->cor = VERMELHO;
         return novo;
     }
     if (chave < raiz->chave)
     {
-        raiz->esq = inserir_rec(raiz->esq, chave);
+        raiz->esq = inserir_rec(raiz->esq, chave, contagem);
     }
     else
     {
-        raiz->dir = inserir_rec(raiz->dir, chave);
+        raiz->dir = inserir_rec(raiz->dir, chave, contagem);
     }
     return raiz;
 }
@@ -125,45 +125,119 @@ p_no inserir(p_no raiz, int chave, int contagem)
     return raiz;
 }
 
-p_no buscar(p_no raiz, int chave){
+p_no buscar(p_no raiz, int chave)
+{
     if (raiz == NULL || chave == raiz->chave)
     {
         return raiz;
     }
+
     if (chave < raiz->chave)
     {
         return buscar(raiz->esq, chave);
     }
-    if (chave > raiz->chave)
+    else // (chave > raiz->chave)
     {
         return buscar(raiz->dir, chave);
     }
-} 
+    
+}
 
-void numero_chaves(p_no raiz, int chave){
+void numero_chaves(p_no raiz, int chave)
+{
 
     p_no buscado;
-    //buscar nó com a chave 
+    //buscar nó com a chave
     buscado = buscar(raiz, chave);
-    //devolver contagem 
+    //devolver contagem
     printf("%d\n", buscado->contagem);
 }
 
-
-void inordem(p_no raiz, int *quantidade){
-    if (raiz != NULL){
-        return inordem(raiz->esq, quantidade);
-        if(raiz->chave != raiz->contagem){
-            quantidade += raiz->contagem;
-        }
-        return inordem(raiz->dir, quantidade);
+p_no minimo(p_no raiz)
+{
+    if (raiz == NULL || raiz->esq == NULL)
+    {
+        return raiz;
+    }
+    else
+    {
+        return minimo(raiz->esq);
     }
 }
 
-int menor_qtde_remover(p_no raiz)
+p_no maximo(p_no raiz)
 {
-    int *quantidade = 0;
-    inordem(raiz, quantidade);
+    if (raiz == NULL || raiz->dir == NULL)
+    {
+        return raiz;
+    }
+    else
+    {
+        return maximo(raiz->dir);
+    }
+}
+
+p_no buscar_max(p_no raiz, p_no x)
+{
+    if (raiz == NULL)
+    {
+        return NULL;
+    }
+    else
+    {
+        p_no dir, esq;
+        dir = buscar_max(raiz->dir, x);
+        esq = buscar_max(raiz->esq, x);
+        if (dir != NULL && dir->chave < x->chave)
+        {
+            return dir;
+        }
+        if (raiz->chave < x->chave)
+        {
+            return raiz;
+        }
+        else
+        {
+            return esq;
+        }
+    }
+}
+
+p_no antecessor(p_no raiz, p_no x)
+{
+    if (x->esq != NULL)
+    {
+        return maximo(x->esq);
+    }
+    else
+    {
+        return buscar_max(raiz, x);
+    }
+}
+
+
+//vai do máximo para o mínimo, percorrendo a árvore e contabilizando token a serem removidos
+int percorre_arvore(p_no raiz)
+{
+    int quantidade = 0;
+    p_no menor, atual;
+    menor = minimo(raiz);
+    atual = maximo(raiz);
+    do{
+        if(atual-> chave != atual->contagem){
+            quantidade += atual->contagem;
+        }
+        atual = antecessor(raiz, atual);
+    }while(atual != minimo);
+    
+    return quantidade;
+}
+
+void menor_qtde_remover(p_no raiz)
+{
+    int quantidade = 0;
+
+    quantidade = percorre_arvore(raiz);
 
     printf("%d\n", quantidade);
 }
@@ -185,19 +259,20 @@ int main()
     {
         int chave;
         scanf("%d ", &chave);
-        //antes de inserir, precisamos verificar se o nó já existe na árvore 
+        //antes de inserir, precisamos verificar se o nó já existe na árvore
         p_no no;
         no = buscar(raiz, chave);
 
         //se não estiver na árvore, insere
-        if(no == NULL){
+        if (no == NULL)
+        {
             raiz = inserir(raiz, chave, 1);
         }
         //se já estiver, basta incrementar a contagem
-        else{
-            no->contagem++;
+        else
+        {
+            no->contagem += 1;
         }
-        
     }
 
     for (int i = 0; i < num_op; i++)
@@ -205,38 +280,36 @@ int main()
         int operacao;
         scanf("%d ", &operacao);
 
-        if(operacao == 1)
+        if (operacao == 1)
         {
             int chave;
             scanf("%d ", &chave);
-            //antes de inserir, precisamos verificar se o nó já existe na árvore 
+            //antes de inserir, precisamos verificar se o nó já existe na árvore
             p_no no;
             no = buscar(raiz, chave);
 
             //se não estiver na árvore, insere
-            if(no == NULL){
+            if (no == NULL)
+            {
                 raiz = inserir(raiz, chave, 1);
             }
             //se já estiver, basta incrementar a contagem
-            else{
+            else
+            {
                 no->contagem++;
             }
         }
-        
-        else if(operacao == 2)
+
+        else if (operacao == 2)
         {
             int chave;
-            int contagem = 0;
             scanf("%d ", &chave);
-            contagem = contar_chaves(raiz, chave, contagem);
+            numero_chaves(raiz, chave);
         }
-        /*
         else
         {
-            int menor_qtde;
-            menor_qtde = menor_qtde_remover(raiz);
+            menor_qtde_remover(raiz);
         }
-        */
     }
 
     /*
