@@ -23,7 +23,7 @@ enum Cor
 
 typedef struct No
 {
-    int chave;
+    int chave, contagem;
     enum Cor cor;
     struct No *esq, *dir;
 } No;
@@ -54,6 +54,13 @@ int ehPreto(p_no x)
     }
 }
 
+void sobe_vermelho(p_no raiz)
+{
+    raiz->cor = VERMELHO;
+    raiz->esq->cor = PRETO;
+    raiz->dir->cor = PRETO;
+}
+
 p_no rotaciona_para_esquerda(p_no raiz)
 {
     p_no x = raiz->dir;
@@ -74,8 +81,7 @@ p_no rotaciona_para_direita(p_no raiz)
     return x;
 }
 
-
-p_no inserir_rec(p_no raiz, int chave)
+p_no inserir_rec(p_no raiz, int chave, int contagem)
 {
     p_no novo;
     if (raiz == NULL)
@@ -83,6 +89,7 @@ p_no inserir_rec(p_no raiz, int chave)
         novo = malloc(sizeof(No));
         novo->esq = novo->dir = NULL;
         novo->chave = chave;
+        novo->chave = contagem;
         novo->cor = VERMELHO;
         return novo;
     }
@@ -97,69 +104,97 @@ p_no inserir_rec(p_no raiz, int chave)
     return raiz;
 }
 
-p_no inserir(p_no raiz, int chave){
+p_no inserir(p_no raiz, int chave)
+{
     raiz = inserir_rec(raiz, chave);
     raiz->cor = PRETO;
-    //ainda precisamos corrigir as propriedades da raiz 
-    if (ehVermelho(raiz->dir) && ehPreto(raiz->esq)){
+    //ainda precisamos corrigir as propriedades da raiz
+    if (ehVermelho(raiz->dir) && ehPreto(raiz->esq))
+    {
         raiz = rotaciona_para_esquerda(raiz);
     }
-    if(ehVermelho(raiz->esq) && ehVermelho(raiz->esq->esq)){
+    if (ehVermelho(raiz->esq) && ehVermelho(raiz->esq->esq))
+    {
         raiz = rotaciona_para_direita(raiz);
     }
-    if (ehVermelho(raiz->esq) && ehVermelho(raiz->dir)){
+    if (ehVermelho(raiz->esq) && ehVermelho(raiz->dir))
+    {
         sobe_vermelho(raiz);
     }
 
     return raiz;
 }
 
-int contar_chaves(p_no raiz, int chave){
+void numero_chaves(p_no raiz, int chave){
 
+    p_no buscado;
+    //buscar nó com a chave 
+
+    //devolver contagem 
+    printf("%d\n", buscado->contagem);
 }
 
-int menor_qtde_remover(p_no raiz){
+int menor_qtde_remover(p_no raiz)
+{
+    int quantidade = 0;
+    //percorrer toda a árvore
+        //se chave != contagem
+            //quantidade += contagem;
 
+    printf("%d\n", quantidade);
 }
 
-void liberar_arvore(p_no raiz){
-
+/*
+void liberar_arvore(p_no raiz)
+{
 }
+*/
 
-int main(){
+int main()
+{
     int qtde_inicial, num_op;
     p_no raiz = NULL;
 
     scanf("%d %d", &qtde_inicial, &num_op);
 
-    for(int i = 0; i < qtde_inicial; i++){
+    for (int i = 0; i < qtde_inicial; i++)
+    {
         int chave;
         scanf("%d ", &chave);
         raiz = inserir(raiz, chave);
     }
 
-    for(int i = 0; i < num_op; i++){
+    for (int i = 0; i < num_op; i++)
+    {
         int operacao;
         scanf("%d ", &operacao);
-        
-        if(operacao == 1){
+
+        if(operacao == 1)
+        {
             int chave;
             scanf("%d ", &chave);
             raiz = inserir(raiz, chave);
         }
-        else if(operacao == 2){
-            int chave, contagem;
+        
+        else if(operacao == 2)
+        {
+            int chave;
+            int contagem = 0;
             scanf("%d ", &chave);
-            contagem = contar_chaves(raiz, chave);
+            contagem = contar_chaves(raiz, chave, contagem);
             printf("%d\n", contagem);
         }
-        else{
+        /*
+        else
+        {
             int menor_qtde;
             menor_qtde = menor_qtde_remover(raiz);
         }
+        */
     }
 
+    /*
     liberar_arvore(raiz);
-
+    */
     return 0;
 }
