@@ -149,12 +149,21 @@ void numero_chaves(p_no raiz, int chave){
     printf("%d\n", buscado->contagem);
 }
 
+
+void inordem(p_no raiz, int *quantidade){
+    if (raiz != NULL){
+        return inordem(raiz->esq, quantidade);
+        if(raiz->chave != raiz->contagem){
+            quantidade += raiz->contagem;
+        }
+        return inordem(raiz->dir, quantidade);
+    }
+}
+
 int menor_qtde_remover(p_no raiz)
 {
-    int quantidade = 0;
-    //percorrer toda a árvore
-        //se chave != contagem
-            //quantidade += contagem;
+    int *quantidade = 0;
+    inordem(raiz, quantidade);
 
     printf("%d\n", quantidade);
 }
