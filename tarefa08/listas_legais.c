@@ -104,9 +104,9 @@ p_no inserir_rec(p_no raiz, int chave, int contagem)
     return raiz;
 }
 
-p_no inserir(p_no raiz, int chave)
+p_no inserir(p_no raiz, int chave, int contagem)
 {
-    raiz = inserir_rec(raiz, chave);
+    raiz = inserir_rec(raiz, chave, contagem);
     raiz->cor = PRETO;
     //ainda precisamos corrigir as propriedades da raiz
     if (ehVermelho(raiz->dir) && ehPreto(raiz->esq))
@@ -125,11 +125,26 @@ p_no inserir(p_no raiz, int chave)
     return raiz;
 }
 
+p_no buscar(p_no raiz, int chave){
+    if (raiz == NULL || chave == raiz->chave)
+    {
+        return raiz;
+    }
+    if (chave < raiz->chave)
+    {
+        return buscar(raiz->esq, chave);
+    }
+    if (chave > raiz->chave)
+    {
+        return buscar(raiz->dir, chave);
+    }
+} 
+
 void numero_chaves(p_no raiz, int chave){
 
     p_no buscado;
     //buscar nó com a chave 
-
+    buscado = buscar(raiz, chave);
     //devolver contagem 
     printf("%d\n", buscado->contagem);
 }
@@ -161,7 +176,19 @@ int main()
     {
         int chave;
         scanf("%d ", &chave);
-        raiz = inserir(raiz, chave);
+        //antes de inserir, precisamos verificar se o nó já existe na árvore 
+        p_no no;
+        no = buscar(raiz, chave);
+
+        //se não estiver na árvore, insere
+        if(no == NULL){
+            raiz = inserir(raiz, chave, 1);
+        }
+        //se já estiver, basta incrementar a contagem
+        else{
+            no->contagem++;
+        }
+        
     }
 
     for (int i = 0; i < num_op; i++)
@@ -173,7 +200,18 @@ int main()
         {
             int chave;
             scanf("%d ", &chave);
-            raiz = inserir(raiz, chave);
+            //antes de inserir, precisamos verificar se o nó já existe na árvore 
+            p_no no;
+            no = buscar(raiz, chave);
+
+            //se não estiver na árvore, insere
+            if(no == NULL){
+                raiz = inserir(raiz, chave, 1);
+            }
+            //se já estiver, basta incrementar a contagem
+            else{
+                no->contagem++;
+            }
         }
         
         else if(operacao == 2)
@@ -182,7 +220,6 @@ int main()
             int contagem = 0;
             scanf("%d ", &chave);
             contagem = contar_chaves(raiz, chave, contagem);
-            printf("%d\n", contagem);
         }
         /*
         else
