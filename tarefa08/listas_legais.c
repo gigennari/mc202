@@ -30,6 +30,13 @@ typedef struct No
 
 typedef No *p_no;
 
+
+typedef struct Balanceamento{
+    int balancear;
+}Balanceamento;
+
+typedef Balanceamento *p_balanceamento;
+
 int ehVermelho(p_no x)
 {
     if (x == NULL)
@@ -81,7 +88,7 @@ p_no rotaciona_para_direita(p_no raiz)
     return x;
 }
 
-p_no inserir_rec(p_no raiz, int chave, int contagem)
+p_no inserir_rec(p_balanceamento b, p_no raiz, int chave, int contagem)
 {
     p_no novo;
     if (raiz == NULL)
@@ -92,36 +99,52 @@ p_no inserir_rec(p_no raiz, int chave, int contagem)
         novo->contagem = contagem;
         novo->cor = VERMELHO;
         return novo;
+        
     }
-    if (chave < raiz->chave)
+    else if(raiz->chave == chave){
+        raiz->contagem += 1;
+        b->balancear = 0;
+        return raiz;
+    }
+    else if (chave < raiz->chave)
     {
-        raiz->esq = inserir_rec(raiz->esq, chave, contagem);
+        raiz->esq = inserir_rec(b, raiz->esq, chave, contagem);
     }
     else
     {
-        raiz->dir = inserir_rec(raiz->dir, chave, contagem);
+        raiz->dir = inserir_rec(b, raiz->dir, chave, contagem);
     }
     return raiz;
 }
 
 p_no inserir(p_no raiz, int chave, int contagem)
 {
-    raiz = inserir_rec(raiz, chave, contagem);
-    raiz->cor = PRETO;
-    //ainda precisamos corrigir as propriedades da raiz
-    if (ehVermelho(raiz->dir) && ehPreto(raiz->esq))
-    {
-        raiz = rotaciona_para_esquerda(raiz);
+    p_balanceamento b = malloc(sizeof(Balanceamento));
+    b->balancear = 1;
+    
+    raiz = inserir_rec(b, raiz, chave, contagem);
+    
+    
+    //caso só aumente a contagem, não é necessário rebalancear
+    if(b->balancear == 1){
+        raiz->cor = PRETO;   
+    
+        if (ehVermelho(raiz->dir) && ehPreto(raiz->esq))
+        {
+            raiz = rotaciona_para_esquerda(raiz);
+        }
+        if (ehVermelho(raiz->esq) && ehVermelho(raiz->esq->esq))
+        {
+            raiz = rotaciona_para_direita(raiz);
+        }
+        if (ehVermelho(raiz->esq) && ehVermelho(raiz->dir))
+        {
+            sobe_vermelho(raiz);
+        }
+   
     }
-    if (ehVermelho(raiz->esq) && ehVermelho(raiz->esq->esq))
-    {
-        raiz = rotaciona_para_direita(raiz);
-    }
-    if (ehVermelho(raiz->esq) && ehVermelho(raiz->dir))
-    {
-        sobe_vermelho(raiz);
-    }
-
+    
+    free(b);
     return raiz;
 }
 
@@ -139,8 +162,7 @@ p_no buscar(p_no raiz, int chave)
     else // (chave > raiz->chave)
     {
         return buscar(raiz->dir, chave);
-    }
-    
+    } 
 }
 
 void numero_chaves(p_no raiz, int chave)
@@ -150,18 +172,11 @@ void numero_chaves(p_no raiz, int chave)
     //buscar nó com a chave
     buscado = buscar(raiz, chave);
     //devolver contagem
-    printf("%d\n", buscado->contagem);
-}
-
-p_no minimo(p_no raiz)
-{
-    if (raiz == NULL || raiz->esq == NULL)
-    {
-        return raiz;
+    if(buscado != NULL){
+        printf("%d\n", buscado->contagem);
     }
-    else
-    {
-        return minimo(raiz->esq);
+    else{
+       printf("0"); 
     }
 }
 
@@ -215,20 +230,25 @@ p_no antecessor(p_no raiz, p_no x)
     }
 }
 
-
 //vai do máximo para o mínimo, percorrendo a árvore e contabilizando token a serem removidos
 int percorre_arvore(p_no raiz)
 {
     int quantidade = 0;
-    p_no menor, atual;
-    menor = minimo(raiz);
+    p_no atual;
     atual = maximo(raiz);
+
     do{
-        if(atual-> chave != atual->contagem){
-            quantidade += atual->contagem;
+        if(atual->chave != atual->contagem){
+            if(atual->contagem > atual->chave){
+                quantidade += (atual->contagem - atual->chave);
+            }
+            else{
+                quantidade += atual->contagem;
+            }
+            
         }
         atual = antecessor(raiz, atual);
-    }while(atual != minimo);
+    }while(atual != NULL);
     
     return quantidade;
 }
@@ -242,11 +262,16 @@ void menor_qtde_remover(p_no raiz)
     printf("%d\n", quantidade);
 }
 
-/*
 void liberar_arvore(p_no raiz)
 {
+    
+    if (raiz != NULL)
+    {
+        liberar_arvore(raiz->dir);
+        liberar_arvore(raiz->esq);
+        free(raiz);
+    }
 }
-*/
 
 int main()
 {
@@ -259,22 +284,12 @@ int main()
     {
         int chave;
         scanf("%d ", &chave);
+
         //antes de inserir, precisamos verificar se o nó já existe na árvore
-        p_no no;
-        no = buscar(raiz, chave);
-
-        //se não estiver na árvore, insere
-        if (no == NULL)
-        {
-            raiz = inserir(raiz, chave, 1);
-        }
-        //se já estiver, basta incrementar a contagem
-        else
-        {
-            no->contagem += 1;
-        }
+        
+        raiz = inserir(raiz, chave, 1);
     }
-
+    
     for (int i = 0; i < num_op; i++)
     {
         int operacao;
@@ -284,27 +299,15 @@ int main()
         {
             int chave;
             scanf("%d ", &chave);
-            //antes de inserir, precisamos verificar se o nó já existe na árvore
-            p_no no;
-            no = buscar(raiz, chave);
-
-            //se não estiver na árvore, insere
-            if (no == NULL)
-            {
-                raiz = inserir(raiz, chave, 1);
-            }
-            //se já estiver, basta incrementar a contagem
-            else
-            {
-                no->contagem++;
-            }
+        
+            raiz = inserir(raiz, chave, 1); 
         }
 
         else if (operacao == 2)
         {
             int chave;
             scanf("%d ", &chave);
-            numero_chaves(raiz, chave);
+            numero_chaves(raiz, chave);  
         }
         else
         {
@@ -312,8 +315,8 @@ int main()
         }
     }
 
-    /*
+    
     liberar_arvore(raiz);
-    */
+    
     return 0;
 }
