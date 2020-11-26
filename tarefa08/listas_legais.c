@@ -14,6 +14,8 @@ a  lista ser uma lista legal
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
+#include <unistd.h>
 
 enum Cor
 {
@@ -23,7 +25,7 @@ enum Cor
 
 typedef struct No
 {
-    int chave, contagem;
+    long int chave, contagem;
     enum Cor cor;
     struct No *esq, *dir;
 } No;
@@ -81,7 +83,7 @@ p_no rotaciona_para_direita(p_no raiz)
     return x;
 }
 
-p_no inserir_rec(int *pi, p_no raiz, int chave, int contagem)
+p_no inserir_rec(int *pi, p_no raiz, long int chave, long int contagem)
 {
     p_no novo;
     if (raiz == NULL)
@@ -111,7 +113,7 @@ p_no inserir_rec(int *pi, p_no raiz, int chave, int contagem)
     return raiz;
 }
 
-p_no inserir(p_no raiz, int chave, int contagem)
+p_no inserir(p_no raiz, long int chave, long int contagem)
 {
     
     int i = 0;
@@ -142,7 +144,7 @@ p_no inserir(p_no raiz, int chave, int contagem)
     return raiz;
 }
 
-p_no buscar(p_no raiz, int chave)
+p_no buscar(p_no raiz, long int chave)
 {
     if (raiz == NULL || chave == raiz->chave)
     {
@@ -159,7 +161,7 @@ p_no buscar(p_no raiz, int chave)
     } 
 }
 
-void numero_chaves(p_no raiz, int chave)
+void numero_chaves(p_no raiz, long int chave)
 {
 
     p_no buscado;
@@ -167,10 +169,10 @@ void numero_chaves(p_no raiz, int chave)
     buscado = buscar(raiz, chave);
     //devolver contagem
     if(buscado != NULL){
-        printf("%d\n", buscado->contagem);
+        printf("%ld\n", buscado->contagem);
     }
     else{
-       printf("0"); 
+       printf("0\n"); 
     }
 }
 
@@ -275,8 +277,8 @@ int main()
 
     for (int i = 0; i < qtde_inicial; i++)
     {
-        int chave;
-        scanf("%d ", &chave);
+        long int chave;
+        scanf("%ld ", &chave);
 
         //antes de inserir, precisamos verificar se o nó já existe na árvore
         
@@ -290,16 +292,16 @@ int main()
 
         if (operacao == 1)
         {
-            int chave;
-            scanf("%d ", &chave);
+            long int chave;
+            scanf("%ld ", &chave);
         
             raiz = inserir(raiz, chave, 1); 
         }
 
         else if (operacao == 2)
         {
-            int chave;
-            scanf("%d ", &chave);
+            long int chave;
+            scanf("%ld ", &chave);
             numero_chaves(raiz, chave);  
         }
         else
