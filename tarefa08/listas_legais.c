@@ -276,7 +276,6 @@ int main()
         scanf("%ld", &chave);
         raiz = inserir(raiz, chave);
     }
-    printf("leu arvore");
     for (int i = 0; i < num_op; i++)
     {
         int operacao;
