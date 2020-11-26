@@ -1,4 +1,4 @@
-CFLAGS = -std=c99 -Wall -Werror -Werror=vla -g
+CFLAGS = -std=c99 -Wall -Werror -Werror=vla -g 
 LDFLAGS = -lm
 
 .PHONY: all clean

@@ -30,13 +30,6 @@ typedef struct No
 
 typedef No *p_no;
 
-
-typedef struct Balanceamento{
-    int balancear;
-}Balanceamento;
-
-typedef Balanceamento *p_balanceamento;
-
 int ehVermelho(p_no x)
 {
     if (x == NULL)
@@ -88,7 +81,7 @@ p_no rotaciona_para_direita(p_no raiz)
     return x;
 }
 
-p_no inserir_rec(p_balanceamento b, p_no raiz, int chave, int contagem)
+p_no inserir_rec(int *pi, p_no raiz, int chave, int contagem)
 {
     p_no novo;
     if (raiz == NULL)
@@ -98,37 +91,39 @@ p_no inserir_rec(p_balanceamento b, p_no raiz, int chave, int contagem)
         novo->chave = chave;
         novo->contagem = contagem;
         novo->cor = VERMELHO;
+        *pi = 1;
         return novo;
         
     }
     else if(raiz->chave == chave){
         raiz->contagem += 1;
-        b->balancear = 0;
-        return raiz;
+        
+        
     }
     else if (chave < raiz->chave)
     {
-        raiz->esq = inserir_rec(b, raiz->esq, chave, contagem);
+        raiz->esq = inserir_rec(pi, raiz->esq, chave, contagem);
     }
     else
     {
-        raiz->dir = inserir_rec(b, raiz->dir, chave, contagem);
+        raiz->dir = inserir_rec(pi, raiz->dir, chave, contagem);
     }
     return raiz;
 }
 
 p_no inserir(p_no raiz, int chave, int contagem)
 {
-    p_balanceamento b = malloc(sizeof(Balanceamento));
-    b->balancear = 1;
     
-    raiz = inserir_rec(b, raiz, chave, contagem);
+    int i = 0;
+    int *pi;
+    pi = &i;
     
+    raiz = inserir_rec(pi, raiz, chave, contagem);
     
     //caso só aumente a contagem, não é necessário rebalancear
-    if(b->balancear == 1){
+    if(*pi == 1){
         raiz->cor = PRETO;   
-    
+   
         if (ehVermelho(raiz->dir) && ehPreto(raiz->esq))
         {
             raiz = rotaciona_para_esquerda(raiz);
@@ -143,8 +138,7 @@ p_no inserir(p_no raiz, int chave, int contagem)
         }
    
     }
-    
-    free(b);
+
     return raiz;
 }
 
@@ -263,8 +257,7 @@ void menor_qtde_remover(p_no raiz)
 }
 
 void liberar_arvore(p_no raiz)
-{
-    
+{  
     if (raiz != NULL)
     {
         liberar_arvore(raiz->dir);
