@@ -48,7 +48,7 @@ int ehPreto(p_no x)
 {
     if (x == NULL)
     {
-        return 0;
+        return 1;
     }
     else
     {
@@ -83,64 +83,53 @@ p_no rotaciona_para_direita(p_no raiz)
     return x;
 }
 
-p_no inserir_rec(int *pi, p_no raiz, long int chave, long int contagem)
+p_no inserir_rec(p_no raiz, long int chave)
 {
-    p_no novo;
+
     if (raiz == NULL)
     {
+        p_no novo;
         novo = malloc(sizeof(No));
         novo->esq = novo->dir = NULL;
         novo->chave = chave;
-        novo->contagem = contagem;
+        novo->contagem = 1;
         novo->cor = VERMELHO;
-        *pi = 1;
+
         return novo;
-        
     }
-    else if(raiz->chave == chave){
+
+    if (chave < raiz->chave)
+    {
+        raiz->esq = inserir_rec(raiz->esq, chave);
+    }
+    else if (chave > raiz->chave)
+    {
+        raiz->dir = inserir_rec(raiz->dir, chave);
+    }
+    else if (raiz->chave == chave)
+    {
         raiz->contagem += 1;
-        
-        
     }
-    else if (chave < raiz->chave)
+
+    if (ehVermelho(raiz->dir) && ehPreto(raiz->esq))
     {
-        raiz->esq = inserir_rec(pi, raiz->esq, chave, contagem);
+        raiz = rotaciona_para_esquerda(raiz);
     }
-    else
+    if (ehVermelho(raiz->esq) && ehVermelho(raiz->esq->esq))
     {
-        raiz->dir = inserir_rec(pi, raiz->dir, chave, contagem);
+        raiz = rotaciona_para_direita(raiz);
+    }
+    if (ehVermelho(raiz->esq) && ehVermelho(raiz->dir))
+    {
+        sobe_vermelho(raiz);
     }
     return raiz;
 }
 
-p_no inserir(p_no raiz, long int chave, long int contagem)
+p_no inserir(p_no raiz, long int chave)
 {
-    
-    int i = 0;
-    int *pi;
-    pi = &i;
-    
-    raiz = inserir_rec(pi, raiz, chave, contagem);
-    
-    //caso só aumente a contagem, não é necessário rebalancear
-    if(*pi == 1){
-        raiz->cor = PRETO;   
-   
-        if (ehVermelho(raiz->dir) && ehPreto(raiz->esq))
-        {
-            raiz = rotaciona_para_esquerda(raiz);
-        }
-        if (ehVermelho(raiz->esq) && ehVermelho(raiz->esq->esq))
-        {
-            raiz = rotaciona_para_direita(raiz);
-        }
-        if (ehVermelho(raiz->esq) && ehVermelho(raiz->dir))
-        {
-            sobe_vermelho(raiz);
-        }
-   
-    }
-
+    raiz = inserir_rec(raiz, chave);
+    raiz->cor = PRETO;
     return raiz;
 }
 
@@ -158,7 +147,7 @@ p_no buscar(p_no raiz, long int chave)
     else // (chave > raiz->chave)
     {
         return buscar(raiz->dir, chave);
-    } 
+    }
 }
 
 void numero_chaves(p_no raiz, long int chave)
@@ -168,11 +157,13 @@ void numero_chaves(p_no raiz, long int chave)
     //buscar nó com a chave
     buscado = buscar(raiz, chave);
     //devolver contagem
-    if(buscado != NULL){
+    if (buscado != NULL)
+    {
         printf("%ld\n", buscado->contagem);
     }
-    else{
-       printf("0\n"); 
+    else
+    {
+        printf("0\n");
     }
 }
 
@@ -190,6 +181,7 @@ p_no maximo(p_no raiz)
 
 p_no buscar_max(p_no raiz, p_no x)
 {
+    
     if (raiz == NULL)
     {
         return NULL;
@@ -233,19 +225,22 @@ int percorre_arvore(p_no raiz)
     p_no atual;
     atual = maximo(raiz);
 
-    do{
-        if(atual->chave != atual->contagem){
-            if(atual->contagem > atual->chave){
+    while (atual != NULL)
+    {
+        if (atual->chave != atual->contagem)
+        {
+            if (atual->contagem > atual->chave)
+            {
                 quantidade += (atual->contagem - atual->chave);
             }
-            else{
+            else
+            {
                 quantidade += atual->contagem;
             }
-            
         }
         atual = antecessor(raiz, atual);
-    }while(atual != NULL);
-    
+    }
+
     return quantidade;
 }
 
@@ -259,7 +254,7 @@ void menor_qtde_remover(p_no raiz)
 }
 
 void liberar_arvore(p_no raiz)
-{  
+{
     if (raiz != NULL)
     {
         liberar_arvore(raiz->dir);
@@ -278,31 +273,28 @@ int main()
     for (int i = 0; i < qtde_inicial; i++)
     {
         long int chave;
-        scanf("%ld ", &chave);
-
-        //antes de inserir, precisamos verificar se o nó já existe na árvore
-        
-        raiz = inserir(raiz, chave, 1);
+        scanf("%ld", &chave);
+        raiz = inserir(raiz, chave);
     }
-    
+    printf("leu arvore");
     for (int i = 0; i < num_op; i++)
     {
         int operacao;
-        scanf("%d ", &operacao);
+        scanf("%d", &operacao);
 
         if (operacao == 1)
         {
             long int chave;
-            scanf("%ld ", &chave);
-        
-            raiz = inserir(raiz, chave, 1); 
+            scanf("%ld", &chave);
+
+            raiz = inserir(raiz, chave);
         }
 
         else if (operacao == 2)
         {
             long int chave;
-            scanf("%ld ", &chave);
-            numero_chaves(raiz, chave);  
+            scanf("%ld", &chave);
+            numero_chaves(raiz, chave);
         }
         else
         {
@@ -310,8 +302,7 @@ int main()
         }
     }
 
-    
     liberar_arvore(raiz);
-    
+
     return 0;
 }

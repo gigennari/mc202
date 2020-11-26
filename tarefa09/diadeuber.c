@@ -26,37 +26,20 @@ tipo C
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "max_heap.h"
 
 #define ALUGUEL 57.00
-
-typedef struct Pos{
-    int x, y;
-} Pos;
-
-typedef Pos *p_pos;
-
-typedef struct Cliente{
-    char nome[16];
-    long double estrelas;
-    p_pos partida, destino;
-
-}Cliente;
-
-typedef struct FP
-{
-    Cliente *v;
-    int n, capacidade;
-} FP;
-
-typedef FP *p_fp;
 
 double calcular_gasolina(int distancia_em_km){
     return 4.104 * (distancia_em_km / 10);
 }
 
 
+
+
 int main(){
 
+    f_prio heap = aloca_fprio(50);
     
 
 
