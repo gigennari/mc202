@@ -39,7 +39,7 @@ double calcular_gasolina(int distancia_em_km){
 
 int main(){
 
-    f_prio heap = aloca_fprio(50);
+    p_fp heap = aloca_fprio(50);
     
 
 
