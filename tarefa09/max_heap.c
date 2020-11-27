@@ -8,7 +8,7 @@ p_fp aloca_fprio(int capacidade){
     p_fp fprio = malloc(sizeof(FP));
     fprio->capacidade = capacidade;
     fprio->n = 0;
-    fprio->v = malloc(capacidade * sizeof(Cliente));
+    fprio->v = malloc(capacidade * sizeof(p_cliente));
     return fprio;
 }
 
@@ -54,11 +54,12 @@ void troca(p_cliente c1, p_cliente c2)
     free(aux);
 }
 
-void inserir_heap(p_fp fprio, int n, p_cliente cliente)
+p_fp inserir_heap(p_fp fprio, p_cliente cliente)
 {
     fprio->v[fprio->n] = cliente;  //coloca na última posição
     fprio->n++; //aumenta tamanho na struct
     sobe_no_heap(fprio, fprio->n - 1);  
+    return fprio;
 }
 
 void sobe_no_heap(p_fp fprio, int k)
@@ -99,3 +100,8 @@ void desce_no_heap(p_fp fprio, int k)
     }
 }
 
+p_fp remover_heap(p_fp fprio, char *cliente){
+
+
+    return fprio;
+}

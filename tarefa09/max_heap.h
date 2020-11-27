@@ -30,3 +30,7 @@ p_fp aloca_fprio(int capacidade);
 p_cliente aloca_e_cria_cliente(char *nome, long double estrelas, p_pos partida, p_pos destino);
 void libera_cliente(p_cliente cliente);
 p_pos aloca_e_cria_posicao(int x, int y);
+
+p_fp inserir_heap(p_fp fprio, p_cliente cliente);
+p_fp remover_heap(p_fp fprio, char *cliente);
+p_cliente extrai_max(p_fp fprio); 
