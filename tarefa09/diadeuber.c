@@ -38,9 +38,20 @@ double calcular_gasolina(int distancia_em_km){
     return 4.104 * (distancia_em_km / 10);
 }
 
+int distancia_mahattan(p_pos p1, p_pos p2){
+    return abs(p1->x - p2->x) + abs(p1->y - p2->y);
+}
 
+int calcula_distancia_total(p_pos pos_motorista, p_cliente cliente){
+    int distancia = 0;
+    distancia += distancia_mahattan(pos_motorista, cliente->partida);
+    distancia += calcula_distancia_viagem(cliente);
+    return distancia;
+}
 
-
+int calcula_distancia_viagem(p_cliente cliente){
+    return distancia_mahattan(cliente->partida, cliente->destino);
+}
 
 int main(){
 
