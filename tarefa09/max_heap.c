@@ -54,3 +54,48 @@ void troca(p_cliente c1, p_cliente c2)
     free(aux);
 }
 
+void inserir_heap(p_fp fprio, int n, p_cliente cliente)
+{
+    fprio->v[fprio->n] = cliente;  //coloca na última posição
+    fprio->n++; //aumenta tamanho na struct
+    sobe_no_heap(fprio, fprio->n - 1);  
+}
+
+void sobe_no_heap(p_fp fprio, int k)
+{
+    if (k > 0 && fprio->v[pai(k)]->estrelas < fprio->v[k]->estrelas) //a qtde de estrelas do atual é maior, trocar
+    {
+        troca(fprio->v[k], fprio->v[pai(k)]);
+        sobe_no_heap(fprio, pai(k));
+    }
+}
+
+p_cliente extrai_max(p_fp fprio)
+{
+    p_cliente cliente = fprio->v[0];
+    troca(fprio->v[0], fprio->v[fprio->n]); //troca ponteiros dos clientes
+    fprio->n--;
+    desce_no_heap(fprio, 0); //corige raiz, que falha propriedade de max heap
+    return cliente;
+}
+
+
+void desce_no_heap(p_fp fprio, int k)
+{
+    int maior_filho;
+    if (F_ESQ(k) < fprio->n)
+    {
+        maior_filho = F_ESQ(k);
+        if (F_DIR(k) < fprio->n &&
+            fprio->v[F_ESQ(k)]->estrelas < fprio->v[F_DIR(k)]->estrelas) // se o filho esq for menor q o dir
+        {
+            maior_filho = F_DIR(k);
+        }
+    }
+    if (fprio->v[k]->estrelas < fprio->v[maior_filho]->estrelas)
+    {
+        troca(fprio->v[k], fprio->v[maior_filho]);
+        desce_no_heap(fprio, maior_filho);
+    }
+}
+

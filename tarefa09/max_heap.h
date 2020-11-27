@@ -19,7 +19,7 @@ typedef Cliente *p_cliente;
 
 typedef struct FP
 {
-    Cliente *v;
+    p_cliente *v;
     int n, capacidade;
 } FP;
 
