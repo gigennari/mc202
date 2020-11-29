@@ -55,10 +55,10 @@ p_pos atualiza_pos_motorista(p_pos pos_motorista, p_cliente cliente){
     return pos_motorista;
 }
 
-double calcula_despesas(double rendimento_bruto, int distancia_total){
+double calcula_despesas(int distancia_viagens, int distancia_total){
     double despesas = 0;
-    despesas = rendimento_bruto * TAXA_UBER;
-    despesas += LITRO_GASOLINA * (distancia_total / 10);
+    double distancia = distancia_total;
+    despesas += LITRO_GASOLINA * (distancia / 10);
     despesas += ALUGUEL;
     return despesas;
 
@@ -78,6 +78,8 @@ int main(){
     int distancia_viagens = 0;
     int num_cancelamentos = 0;
 
+    p_cliente cliente_atual = NULL;
+
     char operacao;
     do{
         scanf("%c ", &operacao);
@@ -93,47 +95,62 @@ int main(){
             p_pos destino = aloca_e_cria_posicao(w, z);
     
             printf("Cliente %s foi adicionado(a)\n", nome);
-            heap = inserir_heap(heap, nome, estrelas, partida, destino);
-            
+            if(cliente_atual == NULL){
+                cliente_atual = aloca_e_cria_cliente(nome, estrelas, partida, destino);
+            }
+            else{
+                heap = inserir_heap(heap, nome, estrelas, partida, destino);
+            }
+
             free(nome);
 
         }
         //finalizar uma corrida, contabilzar distâncias, atualizar posição, encontrar proximo cliente
         else if(operacao == 'F'){
-            p_cliente cliente;
-            cliente = extrai_max(heap);
-            distancia_total += calcula_distancia_total(pos_motorista, cliente);
-            distancia_viagens += calcula_distancia_viagem(cliente);
-            pos_motorista = atualiza_pos_motorista(pos_motorista, cliente);
+            
+            distancia_total += calcula_distancia_total(pos_motorista, cliente_atual);
+            distancia_viagens += calcula_distancia_viagem(cliente_atual);
+            pos_motorista = atualiza_pos_motorista(pos_motorista, cliente_atual);
 
-            printf("A corrida de %s foi finalizada\n", cliente->nome);
-
+            printf("A corrida de %s foi finalizada\n", cliente_atual->nome);
+            free(cliente_atual->partida);
+            free(cliente_atual->nome);
+            
+            //encontrar pŕoximo cliente
+            if(heap->n > 0){
+                cliente_atual = extrai_max(heap);
+            }
+            else{
+                cliente_atual = NULL;
+            }
 
 
         }
         else if(operacao == 'C'){
             char *nome = malloc(16 * sizeof(char));
-            scanf("%s*c", nome);
+            scanf("%s ", nome);
             num_cancelamentos += 1;
-            printf("%s cancelou a corrida", nome);
+            printf("%s cancelou a corrida\n", nome);
             heap = remover_heap(heap, nome);
             free(nome);
 
         }
         else {
             double rendimento_bruto = calcula_rendimento_bruto(distancia_viagens, num_cancelamentos);
-            double despesas = calcula_despesas(rendimento_bruto, distancia_total);
-
-            
-            printf("Jornada finallizada. Aqui esta o seu rendimento de hoje\n");
+            double despesas = calcula_despesas(distancia_viagens, distancia_total);
+            printf("\n");
+            printf("Jornada finalizada. Aqui esta o seu rendimento de hoje\n");
             printf("Km total: %d\n", distancia_total);
-            printf("Rendimento bruto: %lf\n", rendimento_bruto);
-            printf("Despesas: %lf\n", despesas);
-            printf("Rendimento liquido: %lf\n", rendimento_bruto-despesas);
+            printf("Rendimento bruto: %.2lf\n", rendimento_bruto);
+            printf("Despesas: %.2lf\n", despesas);
+            printf("Rendimento liquido: %.2lf\n", rendimento_bruto * (1-TAXA_UBER) - despesas);
         }
 
         //lê quebra de linha 
     } while(operacao != 'T');
+
+    free(cliente_atual);
+    libera_fprio(heap);
 
 
     return 0;

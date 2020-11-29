@@ -29,6 +29,7 @@ typedef FP *p_fp;
 p_fp aloca_fprio(int capacidade);
 p_cliente aloca_e_cria_cliente(char *nome, long double estrelas, p_pos partida, p_pos destino);
 void libera_cliente(p_cliente cliente);
+void libera_fprio(p_fp fprio);
 p_pos aloca_e_cria_posicao(int x, int y);
 
 p_fp inserir_heap(p_fp fprio, char *nome, long double estrelas, p_pos partida, p_pos destino);
