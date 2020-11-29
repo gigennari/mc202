@@ -9,7 +9,7 @@ typedef struct Pos{
 typedef Pos *p_pos;
 
 typedef struct Cliente{
-    char nome[16];
+    char *nome;
     long double estrelas;
     p_pos partida, destino;
 
@@ -31,6 +31,6 @@ p_cliente aloca_e_cria_cliente(char *nome, long double estrelas, p_pos partida, 
 void libera_cliente(p_cliente cliente);
 p_pos aloca_e_cria_posicao(int x, int y);
 
-p_fp inserir_heap(p_fp fprio, p_cliente cliente);
+p_fp inserir_heap(p_fp fprio, char *nome, long double estrelas, p_pos partida, p_pos destino);
 p_fp remover_heap(p_fp fprio, char *nome);
 p_cliente extrai_max(p_fp fprio); 

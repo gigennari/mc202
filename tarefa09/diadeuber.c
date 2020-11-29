@@ -32,14 +32,15 @@ tipo C
 #define TAXA_UBER 0.25
 #define PAGAMENTO_UBER 1.40
 #define TAXA_CANCELAMENTO 7.00
+#define LITRO_GASOLINA 4.104
 
-
-double calcular_gasolina(int distancia_em_km){
-    return 4.104 * (distancia_em_km / 10);
-}
 
 int distancia_mahattan(p_pos p1, p_pos p2){
     return abs(p1->x - p2->x) + abs(p1->y - p2->y);
+}
+
+int calcula_distancia_viagem(p_cliente cliente){
+    return distancia_mahattan(cliente->partida, cliente->destino);
 }
 
 int calcula_distancia_total(p_pos pos_motorista, p_cliente cliente){
@@ -49,15 +50,25 @@ int calcula_distancia_total(p_pos pos_motorista, p_cliente cliente){
     return distancia;
 }
 
-int calcula_distancia_viagem(p_cliente cliente){
-    return distancia_mahattan(cliente->partida, cliente->destino);
-}
-
 p_pos atualiza_pos_motorista(p_pos pos_motorista, p_cliente cliente){
     pos_motorista = cliente->destino;
     return pos_motorista;
 }
 
+double calcula_despesas(double rendimento_bruto, int distancia_total){
+    double despesas = 0;
+    despesas = rendimento_bruto * TAXA_UBER;
+    despesas += LITRO_GASOLINA * (distancia_total / 10);
+    despesas += ALUGUEL;
+    return despesas;
+
+}
+double calcula_rendimento_bruto(int distancia_viagens, int num_cancelamentos){
+    double rendimento = 0;
+    rendimento += distancia_viagens * PAGAMENTO_UBER;
+    rendimento += num_cancelamentos * TAXA_CANCELAMENTO;
+    return rendimento;
+}
 
 int main(){
 
@@ -67,46 +78,49 @@ int main(){
     int distancia_viagens = 0;
     int num_cancelamentos = 0;
 
-
     char operacao;
-    while(scanf("%c", operacao) != -1){
-        
+    do{
+        scanf("%c ", &operacao);
         //inserir cliente no heap
-        if(operacao == "A"){
-            p_cliente cliente;
-            char nome[16];
+        if(operacao == 'A'){
+            char *nome = malloc(16 * sizeof(char)); 
             long double estrelas;
             int x, y, w, z;
             scanf("%s", nome);
             scanf("%Lf ", &estrelas);
-            scanf("%d %d %d %d", &x, &y, &w, &z);
+            scanf("%d %d %d %d ", &x, &y, &w, &z);
             p_pos partida = aloca_e_cria_posicao(x, y);
             p_pos destino = aloca_e_cria_posicao(w, z);
-            cliente = aloca_e_cria_cliente(nome, estrelas, partida, destino);
-
-            heap = inserir_heap(heap, cliente);
+    
             printf("Cliente %s foi adicionado(a)\n", nome);
+            heap = inserir_heap(heap, nome, estrelas, partida, destino);
+            
+            free(nome);
 
         }
         //finalizar uma corrida, contabilzar distâncias, atualizar posição, encontrar proximo cliente
-        else if(operacao == "F"){
-            p_cliente cliente = extrai_max(heap);
+        else if(operacao == 'F'){
+            p_cliente cliente;
+            cliente = extrai_max(heap);
             distancia_total += calcula_distancia_total(pos_motorista, cliente);
             distancia_viagens += calcula_distancia_viagem(cliente);
             pos_motorista = atualiza_pos_motorista(pos_motorista, cliente);
 
             printf("A corrida de %s foi finalizada\n", cliente->nome);
-            libera_cliente(cliente);
-        }
-        else if(operacao == "C"){
-            char nome[16];
-            scanf("%s", nome);
-            heap = remover_heap(heap, nome);
-            num_cancelamentos += 1;
-            printf("%s cancelou a corrida", &nome);
+
+
 
         }
-        else if(operacao == "T"){
+        else if(operacao == 'C'){
+            char *nome = malloc(16 * sizeof(char));
+            scanf("%s*c", nome);
+            num_cancelamentos += 1;
+            printf("%s cancelou a corrida", nome);
+            heap = remover_heap(heap, nome);
+            free(nome);
+
+        }
+        else {
             double rendimento_bruto = calcula_rendimento_bruto(distancia_viagens, num_cancelamentos);
             double despesas = calcula_despesas(rendimento_bruto, distancia_total);
 
@@ -118,7 +132,8 @@ int main(){
             printf("Rendimento liquido: %lf\n", rendimento_bruto-despesas);
         }
 
-    }
+        //lê quebra de linha 
+    } while(operacao != 'T');
 
 
     return 0;
