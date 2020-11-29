@@ -53,6 +53,12 @@ int calcula_distancia_viagem(p_cliente cliente){
     return distancia_mahattan(cliente->partida, cliente->destino);
 }
 
+p_pos atualiza_pos_motorista(p_pos pos_motorista, p_cliente cliente){
+    pos_motorista = cliente->destino;
+    return pos_motorista;
+}
+
+
 int main(){
 
     p_fp heap = aloca_fprio(200);   //aloca vetor suficientemente grande para as solicitações simultâneas
@@ -97,6 +103,7 @@ int main(){
             scanf("%s", nome);
             heap = remover_heap(heap, nome);
             num_cancelamentos += 1;
+            printf("%s cancelou a corrida", &nome);
 
         }
         else if(operacao == "T"){

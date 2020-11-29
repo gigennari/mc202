@@ -100,8 +100,16 @@ void desce_no_heap(p_fp fprio, int k)
     }
 }
 
-p_fp remover_heap(p_fp fprio, char *cliente){
+p_fp remover_heap(p_fp fprio, char *nome){
 
-
+    for(int i = 0; i < fprio->n-1; i++){
+        if(strcmp(fprio->v[i]->nome, nome) == 0){
+            troca(fprio->v[i], fprio->v[fprio->n]);
+            fprio->n--;
+            desce_no_heap(fprio, i);
+        }
+        
+    }
     return fprio;
 }
+

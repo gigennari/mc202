@@ -32,5 +32,5 @@ void libera_cliente(p_cliente cliente);
 p_pos aloca_e_cria_posicao(int x, int y);
 
 p_fp inserir_heap(p_fp fprio, p_cliente cliente);
-p_fp remover_heap(p_fp fprio, char *cliente);
+p_fp remover_heap(p_fp fprio, char *nome);
 p_cliente extrai_max(p_fp fprio); 
