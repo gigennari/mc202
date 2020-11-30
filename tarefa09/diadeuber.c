@@ -51,7 +51,8 @@ int calcula_distancia_total(p_pos pos_motorista, p_cliente cliente){
 }
 
 p_pos atualiza_pos_motorista(p_pos pos_motorista, p_cliente cliente){
-    pos_motorista = cliente->destino;
+    pos_motorista->x = cliente->destino->x;
+    pos_motorista->y = cliente->destino->y;
     return pos_motorista;
 }
 
@@ -72,14 +73,15 @@ double calcula_rendimento_bruto(int distancia_viagens, int num_cancelamentos){
 
 int main(){
 
-    p_fp heap = aloca_fprio(200);   //aloca vetor suficientemente grande para as solicitações simultâneas
+    p_fp heap;
+    heap = aloca_fprio(200);   //aloca vetor suficientemente grande para as solicitações simultâneas
     p_pos pos_motorista = aloca_e_cria_posicao(0, 0);
     int distancia_total = 0; //considerar deslocamento entre destino do cliente anterior e partida do seguinte
     int distancia_viagens = 0;
     int num_cancelamentos = 0;
 
     p_cliente cliente_atual = NULL;
-
+    
     char operacao;
     do{
         scanf("%c ", &operacao);
@@ -113,9 +115,13 @@ int main(){
             pos_motorista = atualiza_pos_motorista(pos_motorista, cliente_atual);
 
             printf("A corrida de %s foi finalizada\n", cliente_atual->nome);
-            free(cliente_atual->partida);
-            free(cliente_atual->nome);
-            
+            p_cliente aux = cliente_atual;
+            if (aux != NULL){
+            free(aux->partida);
+            free(aux->nome);
+            free(aux->destino);
+            free(aux);
+            }
             //encontrar pŕoximo cliente
             if(heap->n > 0){
                 cliente_atual = extrai_max(heap);
@@ -123,8 +129,6 @@ int main(){
             else{
                 cliente_atual = NULL;
             }
-
-
         }
         else if(operacao == 'C'){
             char *nome = malloc(16 * sizeof(char));
@@ -146,10 +150,10 @@ int main(){
             printf("Rendimento liquido: %.2lf\n", rendimento_bruto * (1-TAXA_UBER) - despesas);
         }
 
-        //lê quebra de linha 
     } while(operacao != 'T');
 
     free(cliente_atual);
+    free(pos_motorista);
     libera_fprio(heap);
 
 

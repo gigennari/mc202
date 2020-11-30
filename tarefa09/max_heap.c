@@ -13,6 +13,11 @@ p_fp aloca_fprio(int capacidade)
     return fprio;
 }
 
+void libera_fprio(p_fp fprio){
+    free(fprio->v);
+    free(fprio);
+} 
+
 p_cliente aloca_e_cria_cliente(char *nome, long double estrelas, p_pos partida, p_pos destino)
 {
     p_cliente cliente;
@@ -32,13 +37,6 @@ void libera_cliente(p_cliente cliente)
     free(cliente);
 }
 
-void libera_fprio(p_fp fprio){
-    for(int i = 0; i < fprio->capacidade; i++){
-        
-            free(fprio->v[i]);     
-    }
-    free(fprio);
-}
 
 p_pos aloca_e_cria_posicao(int x, int y)
 {
@@ -120,17 +118,24 @@ p_cliente extrai_max(p_fp fprio)
 
 p_fp remover_heap(p_fp fprio, char *nome)
 {
+    p_cliente aux;
 
     for (int i = 0; i < fprio->n; i++)
     {
         if (strcmp(fprio->v[i]->nome, nome) == 0)
         {
+            aux = fprio->v[i];
             troca(&fprio->v[i], &fprio->v[fprio->n-1]);
             fprio->n--;
             desce_no_heap(fprio, i);
             break;
-        }
+        }     
         
     }
+    free(aux->partida);
+    free(aux->destino);
+    free(aux->nome);
+    free(aux);
+    
     return fprio;
 }
