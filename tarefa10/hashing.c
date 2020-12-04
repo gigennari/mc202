@@ -3,7 +3,7 @@
 #include <string.h>
 #include "hashing.h"
 
-
+//Insere nó no início de uma lista ligada 
 p_no inserir_lista(p_no lista_antiga, char *palavra)
 {
     p_no novo;
@@ -13,9 +13,30 @@ p_no inserir_lista(p_no lista_antiga, char *palavra)
     return novo;
 }
 
-
+//Insere nó na hash table 
 void inserir(p_hash t, char *chave, int dado){
     int n = hash(chave);
     t->v[n] = inserir_lista(t->v[n], chave);
 }
+
+//Busca nó em lista ligada 
+p_no buscar_lista(p_no lista, char palavra)
+{
+    for (p_no atual = lista; atual != NULL; atual = atual->prox)
+    {
+        if (strcmp(atual->palavra, palavra) == 0)
+            return atual;
+    }
+    return NULL;
+}
+
+//Busca nó em hash table 
+p_no buscar(p_hash t, char *chave, int dado){
+    int n = hash(chave);
+    p_no buscado = buscar_lista(t->v[n], chave);
+    return buscado;
+}
+
+
+
 
