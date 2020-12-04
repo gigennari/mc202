@@ -1,25 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "hashing.h"
-#define MAX  
 
 
+p_no inserir_lista(p_no lista_antiga, char *palavra)
+{
+    p_no novo;
+    novo = malloc(sizeof(No)); //No ou *novo -> tamanho do registro
+    strcpy(novo->palavra, palavra);
+    novo->prox = lista_antiga; //a lista antiga é o próximo nó
+    return novo;
+}
 
-/**
- * Usar funções de lista ligada para inserir, remover e buscar 
- * */
 
 void inserir(p_hash t, char *chave, int dado){
     int n = hash(chave);
-    t->vetor[n] = inserir_lista(t->vetor[n], chave, dado);
+    t->v[n] = inserir_lista(t->v[n], chave);
 }
 
-void remover(p_hash t, char *chave, int dado){
-    int n = hash(chave);
-    t->vetor[n] = remover_lista(t->vetor[n], chave, dado);
-}
-
-void buscar(p_hash t, char *chave, int dado){
-    int n = hash(chave);
-    t->vetor[n] = buscar_lista(t->vetor[n], chave, dado);
-}
