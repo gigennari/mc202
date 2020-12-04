@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "hashing.h"
-#define M 1735
+#define M 2000
+#define A (sqrt(5) - 1) / 2
 
 
 p_hash criar_hash(){
@@ -17,19 +18,18 @@ p_hash criar_hash(){
 int hash_string(char *palavra){
     int hash = 0;
     for (int i; palavra[i] != '\0'; i++){
-        hash += (palavra[i] % M);
-        if(palavra[i+1] != '\0'){
-            hash *= 256;
-        }  
+        hash = (256 * hash + palavra[i]) % M;
     } 
     return hash;
 }
+
 
 //Insere nó no início de uma lista ligada 
 p_no inserir_lista(p_no lista_antiga, char *palavra)
 {
     p_no novo;
     novo = malloc(sizeof(No)); //No ou *novo -> tamanho do registro
+    novo->palavra = malloc(26 * sizeof(char));
     strcpy(novo->palavra, palavra);
     novo->prox = lista_antiga; //a lista antiga é o próximo nó
     return novo;
@@ -66,6 +66,7 @@ void destruir_lista(p_no lista)
     if (lista != NULL)
     {
         destruir_lista(lista->prox);
+        free(lista->palavra);
         free(lista);
     }
 }

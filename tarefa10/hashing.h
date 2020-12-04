@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define M 1735
+#define M 2000
 
 //Interface de um hashing de lista ligada
 
 typedef struct No {
-    char palavra[30]; //como não haverá remoção, não precisamos de uma flag
+    char *palavra; //como não haverá remoção, não precisamos de uma flag
     struct No *prox;
 
 } No;
