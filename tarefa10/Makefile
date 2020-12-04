@@ -3,10 +3,14 @@ LDFLAGS = -lm
 
 .PHONY: all clean
 
-all: corretor
+all: corretor hashing
 
-corretor: corretor.c
-	gcc $(CFLAGS) corretor.c -o corretor $(LDFLAGS)
+corretor: *.c
+	gcc $(CFLAGS) *.c -o corretor $(LDFLAGS)
+
+hashing: *.c
+	gcc $(CFLAGS) *.c -o hashing $(LDFLAGS)
 
 clean:
 	rm -f corretor
+	rm -f *.o

@@ -1,16 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "hashing.h"
 
 void comparar_com_dicio(p_hash t, char *palavra)
 {
     p_no correto;
     correto = buscar(t, palavra);
-
-    
-   
-
-    
     
     if (correto != NULL)
     {
@@ -43,7 +39,7 @@ int main()
     // lê palavras e insere na hash table do dicionário
     for (int i = 0; i < num_dicio; i++)
     {
-        char palavra = malloc(26 * sizeof(char));
+        char *palavra = malloc(26 * sizeof(char));
         scanf("%s ", palavra);
         t = inserir(t, palavra);
         free(palavra);
@@ -52,7 +48,7 @@ int main()
     //lê palavra do texto e compara uma a uma com as do dicionário
     for (int i = 0; i < num_texto; i++)
     {
-        char palavra = malloc(26 * sizeof(char));
+        char *palavra = malloc(26 * sizeof(char));
         scanf("%s ", palavra);
         comparar_com_dicio(t, palavra);
         free(palavra);

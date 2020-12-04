@@ -11,6 +11,20 @@ p_hash criar_hash(){
     t->v = malloc(M * sizeof(p_no));
     return t;
 }
+
+
+//Calcula hash de uma string pelo método da divisão
+int hash_string(char *palavra){
+    int hash = 0;
+    for (int i; palavra[i] != '\0'; i++){
+        hash += (palavra[i] % M);
+        if(palavra[i+1] != '\0'){
+            hash *= 256;
+        }  
+    } 
+    return hash;
+}
+
 //Insere nó no início de uma lista ligada 
 p_no inserir_lista(p_no lista_antiga, char *palavra)
 {
@@ -23,13 +37,13 @@ p_no inserir_lista(p_no lista_antiga, char *palavra)
 
 //Insere nó na hash table 
 p_hash inserir(p_hash t, char *chave){
-    int n = hash(chave);
+    int n = hash_string(chave);
     t->v[n] = inserir_lista(t->v[n], chave);
     return t;
 }
 
 //Busca nó em lista ligada 
-p_no buscar_lista(p_no lista, char palavra)
+p_no buscar_lista(p_no lista, char *palavra)
 {
     for (p_no atual = lista; atual != NULL; atual = atual->prox)
     {
@@ -41,21 +55,9 @@ p_no buscar_lista(p_no lista, char palavra)
 
 //Busca nó em hash table 
 p_no buscar(p_hash t, char *chave){
-    int n = hash(chave);
+    int n = hash_string(chave);
     p_no buscado = buscar_lista(t->v[n], chave);
     return buscado;
-}
-
-//Calcula hash de uma string pelo método da divisão
-int hash_string(char *palavra){
-    int hash = 0;
-    for (int i; palavra[i] != '\0'; i++){
-        hash += (palavra[i] % M);
-        if(palavra[i+1] != '\0'){
-            hash *= 256;
-        }  
-    } 
-    return hash;
 }
 
 
