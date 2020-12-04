@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "hashing.h"
+#define M 1735
 
 //Insere nó no início de uma lista ligada 
 p_no inserir_lista(p_no lista_antiga, char *palavra)
@@ -37,6 +38,16 @@ p_no buscar(p_hash t, char *chave, int dado){
     return buscado;
 }
 
-
+//Calcula hash de uma string pelo método da divisão
+int hash_string(char *palavra){
+    int hash = 0;
+    for (int i; palavra[i] != '\0'; i++){
+        hash += (palavra[i] % M);
+        if(palavra[i+1] != '\0'){
+            hash *= 256;
+        }  
+    } 
+    return hash;
+}
 
 
