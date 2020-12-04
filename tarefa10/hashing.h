@@ -13,9 +13,13 @@ typedef struct No {
 typedef struct No *p_no;
 
 typedef struct Hash {
-    p_no v[M]; 
+    p_no *v; 
 
 }Hash;
 
 typedef struct Hash *p_hash;
 
+p_hash criar_hash();
+p_hash inserir(p_hash t, char *chave);
+p_no buscar(p_hash t, char *chave);
+void destruir_hash(p_hash t);
