@@ -4,21 +4,6 @@
 #include "hashing.h"
 #define M 2000
 
-void comparar_com_dicio(p_hash t, char *palavra)
-{
-    p_no correto;
-    correto = buscar(t, palavra);
-
-    if (correto != NULL)
-    {
-        printf("verde\n");
-    }
-    else
-    {
-        busca_similares(t, palavra);
-    }
-}
-
 //caso a palavra não seja idêntica, a chave não vai bater
 void busca_similares(p_hash t, char *palavra)
 {
@@ -91,6 +76,21 @@ void busca_similares(p_hash t, char *palavra)
     if (buscado == NULL)
     {
         printf("vermelho\n");
+    }
+}
+
+void comparar_com_dicio(p_hash t, char *palavra)
+{
+    p_no correto;
+    correto = buscar(t, palavra);
+
+    if (correto != NULL)
+    {
+        printf("verde\n");
+    }
+    else
+    {
+        busca_similares(t, palavra);
     }
 }
 
