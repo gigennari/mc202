@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define M 8627 
 
 //Interface de um hashing de lista ligada

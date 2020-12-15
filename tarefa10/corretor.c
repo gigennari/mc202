@@ -33,7 +33,6 @@ void busca_similares(p_hash t, char *palavra)
         if (buscado != NULL)
         {
             printf("amarelo\n");
-            free(buscado);
             break;
         }
     }
@@ -69,7 +68,6 @@ void busca_similares(p_hash t, char *palavra)
             if (buscado != NULL)
             {
                 printf("amarelo\n");
-                free(buscado);
                 break;
             }
         }
@@ -111,7 +109,6 @@ void busca_similares(p_hash t, char *palavra)
             if (buscado != NULL)
             {
                 printf("amarelo\n");
-                free(buscado);
                 break;
             }
         }

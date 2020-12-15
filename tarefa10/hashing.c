@@ -17,7 +17,7 @@ p_hash criar_hash(){
 //Calcula hash de uma string pelo método da divisão
 int hash_string(char *palavra){
     int hash = 0;
-    for (int i; palavra[i] != '\0'; i++){
+    for (int i = 0; i < strlen(palavra); i++){
         hash = (256 * hash + palavra[i]) % M;
     } 
     return hash;
@@ -57,26 +57,29 @@ p_no buscar_lista(p_no lista, char *palavra)
 p_no buscar(p_hash t, char *chave){
     int n = hash_string(chave);
     p_no buscado = buscar_lista(t->v[n], chave);
-    return buscado;
+    p_no aux = buscado;
+    return aux;
 }
 
 
-void destruir_lista(p_no lista)
+void destruir_lista(p_no no)
 {
-    if (lista != NULL)
-    {
-        destruir_lista(lista->prox);
-        free(lista->palavra);
-        free(lista);
+    while(no != NULL){
+    p_no aux = no;
+    no = no->prox;
+    free(aux);   
     }
 }
 
 void destruir_hash(p_hash t){
+    /*
     for(int i = 0; i < M; i++){
         if(t->v[i] != NULL){
             destruir_lista(t->v[i]);
         }
+        
     }
+    */
     free(t->v);
     free(t);
 }
