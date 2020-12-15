@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "hashing.h"
-#define M 2731
+#define M 8627 
 
 //caso a palavra não seja idêntica, a chave não vai bater; vamos buscar para 1 erro
 void busca_similares(p_hash t, char *palavra)
@@ -23,7 +23,7 @@ void busca_similares(p_hash t, char *palavra)
             //j >= i, pula letra i, pega j+1
             else
             {
-                palavra[j] = palavra[j + 1];
+                nova_palavra[j] = palavra[j + 1];
             }
         }
 
