@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "hashing.h"
-#define M 2000
+#define M 2731
 #define A (sqrt(5) - 1) / 2
 
 

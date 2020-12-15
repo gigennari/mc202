@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define M 2000
+#define M 2731
 
 //Interface de um hashing de lista ligada
 

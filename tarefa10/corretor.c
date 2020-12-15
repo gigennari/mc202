@@ -2,23 +2,31 @@
 #include <stdlib.h>
 #include <string.h>
 #include "hashing.h"
-#define M 2000
+#define M 2731
 
-//caso a palavra não seja idêntica, a chave não vai bater
+//caso a palavra não seja idêntica, a chave não vai bater; vamos buscar para 1 erro
 void busca_similares(p_hash t, char *palavra)
 {
     p_no buscado = NULL;
+    int letra_a = 97;
+
     //caso tenha um letra a mais, podemos remover uma a uma e testar
-    for (int i = 0; i < strlen(palavra); i++)
+    for (int i = 0; i < strlen(palavra) && buscado == NULL; i++)
     {
         char *nova_palavra = malloc(26 * sizeof(char));
-        for (int j = 0; j < strlen(palavra); j++)
+        for (int j = 0; j < strlen(palavra) - 1; j++)
         {
-            if (j != i)
+            if (j < i)
             {
-                strcat(nova_palavra, palavra[j]);
+                nova_palavra[j] = palavra[j];
+            }
+            //j >= i, pula letra i, pega j+1
+            else
+            {
+                palavra[j] = palavra[j + 1];
             }
         }
+
         buscado = buscar(t, nova_palavra);
         free(nova_palavra);
 
@@ -30,8 +38,44 @@ void busca_similares(p_hash t, char *palavra)
         }
     }
 
+    //caso uma letra esteja trocada, podemos alterar cada uma
+    for (int i = 0; i < strlen(palavra) && buscado == NULL; i++)
+    {
+        //testar as 26 letras para cada letra na palavra
+        for (int acrescimo = 0; acrescimo < 26 && buscado == NULL; acrescimo++)
+        {
+            char *nova_palavra = malloc(26 * sizeof(char));
+
+            //copia a palavra, alterando a letra i
+            for (int j = 0; j < strlen(palavra); j++)
+            {
+
+                if (j == i)
+                {
+                    int numero_asc = letra_a + acrescimo;
+                    char letra = numero_asc;
+                    nova_palavra[j] = letra;
+                }
+                else
+                {
+                    nova_palavra[j] = palavra[j];
+                }
+            }
+
+            //para cada alteração, fazemos uma busca
+            buscado = buscar(t, nova_palavra);
+            free(nova_palavra);
+
+            if (buscado != NULL)
+            {
+                printf("amarelo\n");
+                free(buscado);
+                break;
+            }
+        }
+    }
+
     //caso tenha uma letra a menos, podemos inserir em cada posição
-    int letra_a = 97;
     for (int i = 0; i <= strlen(palavra) && buscado == NULL; i++)
     {
         for (int acrescimo = 0; acrescimo < 26 && buscado == NULL; acrescimo++)
@@ -44,20 +88,21 @@ void busca_similares(p_hash t, char *palavra)
                 //antes de chegar na letra extra
                 if (j < i)
                 {
-                    strcat(nova_palavra, palavra[j]);
+                    nova_palavra[j] = palavra[j];
                 }
+
                 //add letra extra
                 if (i == j)
                 {
                     int numero_asc = letra_a + acrescimo;
                     char letra = numero_asc;
-                    strcat(nova_palavra, letra);
+                    nova_palavra[j] = letra;
                 }
 
                 //depois de passar a letra extra
                 if (j > i)
                 {
-                    strcat(nova_palavra, palavra[j - 1]);
+                    nova_palavra[j] = palavra[j - 1];
                 }
             }
 
@@ -72,7 +117,7 @@ void busca_similares(p_hash t, char *palavra)
         }
     }
 
-    //se não foi encontrado adicionando ou removendo uma letra, há dois erros
+    //se não foi encontrado alterando, removendo ou adicionando uma letra, há dois erros ou mais
     if (buscado == NULL)
     {
         printf("vermelho\n");
