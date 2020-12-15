@@ -21,3 +21,17 @@ p_grafo criar_grafo(int n)
     }
 }
 
+int existe_caminho(p_grafo g, int s, int t){
+    int encontrou, i, *visitado = malloc(g->n * sizeof(int));
+    for (i = 0; i < g-> n; i++){
+        visitado[i] = 0;
+    }
+    encontrou = busca_rec(g, visitado, s, t);
+    free(visitado);
+    return encontrou;
+}
+
+int busca_rec(p_grafo g, int *visitado, int s, int t){
+
+}
+

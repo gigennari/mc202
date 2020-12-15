@@ -1,6 +1,6 @@
 # Caminhos em grafos 
 
-### Grafo de Petersen
+## Grafo de Petersen
 
 Um caminho se s para t em um grafo é:
 
@@ -14,3 +14,20 @@ Um caminho se s para t em um grafo é:
 
 ## Componentes Conexas 
 * um grafo pode ter várias partes
+
+## Ciclos em Grafos 
+* uma sequência de vértices vizinhos sem repetição exceto pelo primeior e último vértices que são idênticos
+
+Exemplos:
+* 5, 6, 7, 8, 6 é ciclo 
+* 1, 2, 3 não é ciclo 
+* 1, 2, 7, 6, 1, 0 ,1 não é ciclo, pois há arestas repetidas
+
+## Árvores, Florestas e Subgrafos
+
+* Uma **árvore** é um grafo **conexo acíclico** (no máximo uma componente conexa)
+* Uma **floresta** é um grafo **acíclico** (olhando para uma componente conexa, temos uma árvore, ou seja, uma floresta é um conjunto de árvores)
+
+* Um **subgrafo** é um grafo obtido através da remoção de vértices e arestas
+    *Podemos considerar tambḿe árvores/florestas que são subgrafos de um grafo dado  
+

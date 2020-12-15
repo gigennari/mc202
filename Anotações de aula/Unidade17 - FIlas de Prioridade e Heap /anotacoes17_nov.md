@@ -2,7 +2,7 @@
 
 ## Operações básicas
 * inserir um novo elemento 
-* remover o elemento com maior chave (prioridade)
+* remover o elemento com maior ou menor chave (prioridade)
 * supomos que todos os elementos têm prioridades distintas
 
 * uma **pilha** é como uma **fila de prioridades**:

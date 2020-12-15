@@ -101,4 +101,28 @@ int busca_recur(p_grafo g, int *visitado, int s, int t){
         }      
     }   
     return 0;  
-}   
+} 
+
+int * encontra_componentes(p_grafo g){
+    int s, c = 0, componenetes = malloc(g->n * sizeof(int));
+    for (s = 0; i < g-> n; s++){
+        componenetes[s] = -1;
+    }
+    for (s = 0; s < g->n; s++){
+        if(componenetes[s] == -1){
+            visita_rec(g, componenetes, c, s);  //marca com c todos os vértices atingíveis a partir de s
+            c++;
+        }
+    }
+    return componenetes;
+}
+
+void visita_rec(p_grafo g, int *componentes, int comp, int v){
+    p_no t;
+    componentes[v] = comp;
+    for(t = g->adj[v]; t != NULL; t = t->prox){
+        of (componentes[t->v] == 1){
+            visita_rec(g, componentes, comp, t->v);
+        }
+    }
+}
