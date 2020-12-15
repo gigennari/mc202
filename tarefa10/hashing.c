@@ -8,7 +8,7 @@
 
 p_hash criar_hash(){
     p_hash t;
-    t = malloc(sizeof(Hash));
+    t = malloc(sizeof(p_hash));
     t->v = malloc(M * sizeof(p_no));
     return t;
 }
@@ -28,7 +28,7 @@ int hash_string(char *palavra){
 p_no inserir_lista(p_no lista_antiga, char *palavra)
 {
     p_no novo;
-    novo = malloc(sizeof(No)); //No ou *novo -> tamanho do registro
+    novo = malloc(sizeof(p_no)); //No ou *novo -> tamanho do registro
     novo->palavra = malloc(26 * sizeof(char));
     strcpy(novo->palavra, palavra);
     novo->prox = lista_antiga; //a lista antiga é o próximo nó
@@ -56,9 +56,11 @@ p_no buscar_lista(p_no lista, char *palavra)
 //Busca nó em hash table 
 p_no buscar(p_hash t, char *chave){
     int n = hash_string(chave);
-    p_no buscado = buscar_lista(t->v[n], chave);
-    p_no aux = buscado;
-    return aux;
+    p_no buscado = NULL;
+    if(t->v[n] != NULL){
+         buscado = buscar_lista(t->v[n], chave);
+    }
+    return buscado;
 }
 
 
@@ -67,19 +69,19 @@ void destruir_lista(p_no no)
     while(no != NULL){
     p_no aux = no;
     no = no->prox;
+    free(aux->palavra);
     free(aux);   
     }
 }
 
 void destruir_hash(p_hash t){
-    /*
+    
     for(int i = 0; i < M; i++){
         if(t->v[i] != NULL){
             destruir_lista(t->v[i]);
         }
         
     }
-    */
     free(t->v);
     free(t);
 }

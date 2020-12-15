@@ -106,6 +106,8 @@ void busca_similares(p_hash t, char *palavra)
 
             //para cada acrescimo, fazemos uma busca
             buscado = buscar(t, nova_palavra);
+            free(nova_palavra);
+            
             if (buscado != NULL)
             {
                 printf("amarelo\n");
