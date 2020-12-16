@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "hashing.h"
-#define M 8627 
+#define M 8627
 
 //caso a palavra não seja idêntica, a chave não vai bater; vamos buscar para 1 erro
 void busca_similares(p_hash t, char *palavra)
@@ -13,7 +13,7 @@ void busca_similares(p_hash t, char *palavra)
     //caso tenha um letra a mais, podemos remover uma a uma e testar
     for (int i = 0; i < strlen(palavra) && buscado == NULL; i++)
     {
-        char *nova_palavra = malloc(26 * sizeof(char));
+        char *nova_palavra = malloc((strlen(palavra) + 1) * sizeof(char));
         for (int j = 0; j < strlen(palavra) - 1; j++)
         {
             if (j < i)
@@ -43,7 +43,7 @@ void busca_similares(p_hash t, char *palavra)
         //testar as 26 letras para cada letra na palavra
         for (int acrescimo = 0; acrescimo < 26 && buscado == NULL; acrescimo++)
         {
-            char *nova_palavra = malloc(26 * sizeof(char));
+            char *nova_palavra = malloc((strlen(palavra) + 1) * sizeof(char));
 
             //copia a palavra, alterando a letra i
             for (int j = 0; j < strlen(palavra); j++)
@@ -78,7 +78,7 @@ void busca_similares(p_hash t, char *palavra)
     {
         for (int acrescimo = 0; acrescimo < 26 && buscado == NULL; acrescimo++)
         {
-            char *nova_palavra = malloc(26 * sizeof(char));
+            char *nova_palavra = malloc((strlen(palavra) + 1) * sizeof(char));
 
             //copiar palavra acrescentando letra
             for (int j = 0; j <= strlen(palavra); j++)
@@ -106,8 +106,8 @@ void busca_similares(p_hash t, char *palavra)
 
             //para cada acrescimo, fazemos uma busca
             buscado = buscar(t, nova_palavra);
-            free(nova_palavra);
-            
+            free(nova_palavra); 
+
             if (buscado != NULL)
             {
                 printf("amarelo\n");
