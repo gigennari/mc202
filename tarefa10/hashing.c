@@ -3,13 +3,15 @@
 #include <string.h>
 #include "hashing.h"
 #define M 8627 
-#define A (sqrt(5) - 1) / 2
 
 
 p_hash criar_hash(){
     p_hash t;
-    t = malloc(sizeof(p_hash));
-    t->v = malloc(M * sizeof(NULL));
+    t = malloc(sizeof(Hash));
+    t->v = calloc(M, sizeof(p_no));
+    for(int i = 0; i < M; i++){
+        t->v[i] = NULL;
+    }
     return t;
 }
 
@@ -17,7 +19,8 @@ p_hash criar_hash(){
 //Calcula hash de uma string pelo método da divisão
 int hash_string(char *palavra){
     int hash = 0;
-    for (int i = 0; i < strlen(palavra); i++){
+    int tam_palavra = strlen(palavra);
+    for (int i = 0; i < tam_palavra; i++){
         hash = (256 * hash + palavra[i]) % M;
     } 
     return hash;
@@ -28,7 +31,7 @@ int hash_string(char *palavra){
 p_no inserir_lista(p_no lista_antiga, char *palavra)
 {
     p_no novo;
-    novo = malloc(sizeof(p_no)); //No ou *novo -> tamanho do registro
+    novo = calloc(1, sizeof(No)); //No ou *novo -> tamanho do registro
     novo->palavra = malloc((strlen(palavra)+1) * sizeof(char));
     strcpy(novo->palavra, palavra);
     novo->prox = lista_antiga; //a lista antiga é o próximo nó

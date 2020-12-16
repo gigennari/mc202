@@ -9,12 +9,13 @@ void busca_similares(p_hash t, char *palavra)
 {
     p_no buscado = NULL;
     int letra_a = 97;
+    int tam_palavra = strlen(palavra);
 
     //caso tenha um letra a mais, podemos remover uma a uma e testar
-    for (int i = 0; i < strlen(palavra) && buscado == NULL; i++)
+    for (int i = 0; i < tam_palavra && buscado == NULL; i++)
     {
-        char *nova_palavra = malloc((strlen(palavra) + 1) * sizeof(char));
-        for (int j = 0; j < strlen(palavra) - 1; j++)
+        char *nova_palavra = malloc((tam_palavra + 1) * sizeof(char));
+        for (int j = 0; j < tam_palavra - 1; j++)
         {
             if (j < i)
             {
@@ -26,7 +27,7 @@ void busca_similares(p_hash t, char *palavra)
                 nova_palavra[j] = palavra[j + 1];
             }
         }
-
+        nova_palavra[tam_palavra - 1] = '\0';
         buscado = buscar(t, nova_palavra);
         free(nova_palavra);
 
@@ -38,15 +39,15 @@ void busca_similares(p_hash t, char *palavra)
     }
 
     //caso uma letra esteja trocada, podemos alterar cada uma
-    for (int i = 0; i < strlen(palavra) && buscado == NULL; i++)
+    for (int i = 0; i < tam_palavra && buscado == NULL; i++)
     {
         //testar as 26 letras para cada letra na palavra
         for (int acrescimo = 0; acrescimo < 26 && buscado == NULL; acrescimo++)
         {
-            char *nova_palavra = malloc((strlen(palavra) + 1) * sizeof(char));
+            char *nova_palavra = malloc((tam_palavra + 1) * sizeof(char));
 
             //copia a palavra, alterando a letra i
-            for (int j = 0; j < strlen(palavra); j++)
+            for (int j = 0; j < tam_palavra; j++)
             {
 
                 if (j == i)
@@ -60,7 +61,7 @@ void busca_similares(p_hash t, char *palavra)
                     nova_palavra[j] = palavra[j];
                 }
             }
-
+            nova_palavra[tam_palavra] = '\0';
             //para cada alteração, fazemos uma busca
             buscado = buscar(t, nova_palavra);
             free(nova_palavra);
@@ -74,14 +75,14 @@ void busca_similares(p_hash t, char *palavra)
     }
 
     //caso tenha uma letra a menos, podemos inserir em cada posição
-    for (int i = 0; i <= strlen(palavra) && buscado == NULL; i++)
+    for (int i = 0; i <= tam_palavra && buscado == NULL; i++)
     {
         for (int acrescimo = 0; acrescimo < 26 && buscado == NULL; acrescimo++)
         {
-            char *nova_palavra = malloc((strlen(palavra) + 1) * sizeof(char));
+            char *nova_palavra = malloc((tam_palavra + 2) * sizeof(char));
 
             //copiar palavra acrescentando letra
-            for (int j = 0; j <= strlen(palavra); j++)
+            for (int j = 0; j <= tam_palavra; j++)
             {
                 //antes de chegar na letra extra
                 if (j < i)
@@ -103,7 +104,7 @@ void busca_similares(p_hash t, char *palavra)
                     nova_palavra[j] = palavra[j - 1];
                 }
             }
-
+            nova_palavra[tam_palavra + 1] = '\0';
             //para cada acrescimo, fazemos uma busca
             buscado = buscar(t, nova_palavra);
             free(nova_palavra); 
