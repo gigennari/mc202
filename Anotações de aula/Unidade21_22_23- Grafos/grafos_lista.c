@@ -1,3 +1,7 @@
+/*
+Para cada vértice, há uma lista ligada que armazena
+quais são os vizinhos do vértice 
+*/
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -28,24 +32,58 @@ p_grafo criar_grafo(int n)
     return g;
 }
 
+void libera_lista(p_no lista){
+    if(lista != NULL){
+        libera_lista(lista->prox);
+        free(lista);
+    }
+}
 void destroi_grafo(p_grafo g)
 {
+    int i;
+    for(i = 0; i < g->n; i++){
+        libera_lista(g->adj[i]);
+    }
+    free(g->adj);
+    free(g);
 }
 
-void insere_na_lista(p_no lista, int v)
+p_no insere_na_lista(p_no lista, int v)
 {
-}
-
-void remove_na_lista(p_no lista, int v)
-{
+    p_no novo = malloc(sizeof(No));
+    novo->v = v;
+    novo->prox = lista;
+    return novo;
 }
 
 void insere_aresta(p_grafo g, int u, int v)
 {
+    g->adj[v] = insere_na_lista(g->adj[v], u);
+    g->adj[u] = insere_na_lista(g->adj[u], v);
 }
+
+p_no remove_na_lista(p_no lista, int v)
+{
+    p_no proximo;
+    if(lista == NULL){
+        return NULL;
+    }
+    else if (lista->v == v){
+        proximo = lista->prox;
+        free(lista);
+        return proximo;
+    }
+    else{
+        lista->prox = remove_da_lista(lista->prox, v);
+        return lista;
+    }
+}
+
 
 void remove_aresta(p_grafo g, int u, int v)
 {
+    g->adj[v] = remove_na_lista(g->adj[v], u);
+    g->adj[u] = remove_na_lista(g->adj[u], v);
 }
 
 int tem_aresta(p_grafo g, int u, int v)
@@ -63,6 +101,13 @@ int tem_aresta(p_grafo g, int u, int v)
 
 void imprime_arestas(p_grafo g)
 {
+    int u;
+    p_no t;
+    for (u = 0; u < g->n; u++){
+        for(t = g->adj[u]; t != NULL; t = t->prox){
+            printf("{%d, %d}\n", u, t->v);
+        }
+    }
 }
 
 
