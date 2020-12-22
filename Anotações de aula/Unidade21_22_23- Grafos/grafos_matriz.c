@@ -155,6 +155,29 @@ int existe_caminho(p_grafo g, int s, int t)
     return encontrou;
 }
 
-int busca_rec(p_grafo g, int *visitado, int s, int t)
+/** Devolve 1 se houver um caminhos de s até t
+ * que não passa por vértices já visitados
+ * e 0 caso contrário 
+ * */
+int busca_rec(p_grafo g, int *visitado, int v, int t)
 {
+    int w;
+    //se v = t, encontramos o caminho
+    if (v == t){
+        return 1;
+    }
+    //caso contrário, existe um primeiro vértice depois de s
+    visitado[v] = 1;    //marca que visitou v
+    //percorre vizinhos
+    for (w = 0; w < g->n; w++){
+        //se for vizinho e ainda não foi visitado
+        if (g->adj[v][w] && !visitado[w]){
+            //se existe caminho
+            if (busca_rec(g, visitado, w, t)){
+                return 1;
+            }
+        }
+    }
+    return 0; 
 }
+

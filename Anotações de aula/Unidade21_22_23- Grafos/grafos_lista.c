@@ -149,8 +149,8 @@ int busca_recur(p_grafo g, int *visitado, int s, int t){
 } 
 
 int * encontra_componentes(p_grafo g){
-    int s, c = 0, componenetes = malloc(g->n * sizeof(int));
-    for (s = 0; i < g-> n; s++){
+    int s, c = 0, *componenetes = malloc(g->n * sizeof(int));
+    for (s = 0; s < g-> n; s++){
         componenetes[s] = -1;
     }
     for (s = 0; s < g->n; s++){
@@ -166,7 +166,7 @@ void visita_rec(p_grafo g, int *componentes, int comp, int v){
     p_no t;
     componentes[v] = comp;
     for(t = g->adj[v]; t != NULL; t = t->prox){
-        of (componentes[t->v] == 1){
+        if (componentes[t->v] == 1){
             visita_rec(g, componentes, comp, t->v);
         }
     }
