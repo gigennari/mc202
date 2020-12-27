@@ -105,9 +105,24 @@ int existe_caminho(p_grafo g, int ini, int fim)
     return encontrou;
 }
 
-int busca_recur()
+int busca_recur(p_grafo g, int *visitados, int v, int fim)
 {
-    
+  int w; 
+  //se v = fim, econtramos o caminho
+  return 1; 
+  
+  //caso contario, marca que visitou
+  visitados[v]= 1;
+  //percorre vizinhos 
+  for(w = 0; w < g->n; w++){
+      if(g->adj[v][w]!= 0 && !visitados[w]){
+          if(busca_recur(g, visitados, w, fim)){
+              return 1; 
+          }
+          
+      }
+  }
+    return 0; 
 }
 
 int main()
