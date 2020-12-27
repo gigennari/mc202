@@ -17,6 +17,7 @@ typedef struct Ponto{
 
 typedef Ponto *p_ponto;
 
+//grafo usando matriz
 typedef struct Grafo{
     p_ponto *adj;
     int n;
@@ -32,9 +33,25 @@ p_grafo criar_grafo(int n)
     return g;  
 }
 
-
 int distancia_euclidiana(p_ponto p1, p_ponto p2){
     return sqrt(abs(pow(p1->x - p2->x, 2) + pow(p1->y - p2->y, 2)));
+}
+
+/** Devolve a menor maior distância
+ * para a qual a busca em profundidade não falha
+ * */
+
+int busca_binaria(){
+
+}
+
+/** Faz uma busca em profundidade, usando 
+ * pilha, que devolve 1 se há um caminho 
+ * menor do que a distância dada
+ * ou 0 se não há
+ * */
+int busca_em_profundidade(){
+
 }
 
 int main(){
