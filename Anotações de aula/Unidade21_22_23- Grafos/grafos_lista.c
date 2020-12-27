@@ -26,9 +26,7 @@ p_grafo criar_grafo(int n)
     p_grafo g = malloc(sizeof(Grafo));
     g->n = n;
     g->adj = calloc(n, sizeof(p_no));
-    return g;
-
-    
+    return g;  
 }
 
 void libera_lista(p_no lista){
