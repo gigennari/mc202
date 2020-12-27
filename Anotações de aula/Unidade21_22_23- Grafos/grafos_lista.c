@@ -23,29 +23,29 @@ typedef Grafo *p_grafo;
 
 p_grafo criar_grafo(int n)
 {
-    int i;
     p_grafo g = malloc(sizeof(Grafo));
     g->n = n;
-    g->adj = malloc(n * sizeof(p_no));
-    for (i = 0; i < n; i++)
-        g->adj[i] = NULL;
+    g->adj = calloc(n, sizeof(p_no));
     return g;
+
+    
 }
 
 void libera_lista(p_no lista){
-    if(lista != NULL){
+    if(lista!= NULL){
         libera_lista(lista->prox);
         free(lista);
     }
 }
+
 void destroi_grafo(p_grafo g)
 {
-    int i;
-    for(i = 0; i < g->n; i++){
+    for (int i = 0; i < g->n; i++){
         libera_lista(g->adj[i]);
     }
     free(g->adj);
     free(g);
+    
 }
 
 p_no insere_na_lista(p_no lista, int v)
