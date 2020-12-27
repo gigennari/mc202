@@ -93,12 +93,21 @@ int busca_binaria()
  * menor do que a distância dada
  * ou 0 se não há
  * */
-int existe_caminho()
+int existe_caminho(p_grafo g, int ini, int fim)
 {
+    int encontrou, i, *visitado = malloc(g->n * sizeof(int));
+    for (i = 0; i < g->n; i++)
+    {
+        visitado[i] = 0;
+    }
+    encontrou = busca_rec(g, visitado, ini, fim);
+    free(visitado);
+    return encontrou;
 }
 
 int busca_recur()
 {
+    
 }
 
 int main()
