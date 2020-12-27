@@ -181,3 +181,29 @@ int busca_rec(p_grafo g, int *visitado, int v, int t)
     return 0; 
 }
 
+int * busca_em_profundidade(p_grafo g, int s){
+    int w, v;
+    int *pai = malloc(g->n * sizeof(int));
+    int *visitado = malloc(g->n * sizeof(int));
+    p_pilha p = criar_pilha();
+    for (v = 0; v < g->n; v++){
+        pai[v] = -1;
+        visitado[v] = 0;
+    }
+    empilhar(p, s);
+    pai[s] = s;
+    while (!pilha_vazia(p))
+    {
+        v = desempilhar(p);
+        visitado[v] = 1;
+        for (w = 0; w < g-> n; w++){
+            if(g->adj[v][w] && !visitado[w]){
+                pai[w] = v;
+                empilhar(p, w);
+            }
+        }
+    }
+    destroi_pilha(p);
+    free(visitado);
+    return pai;
+}
