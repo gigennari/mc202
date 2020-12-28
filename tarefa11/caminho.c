@@ -43,28 +43,41 @@ int distancia_euclidiana(p_ponto p1, p_ponto p2)
     return sqrt(abs(pow(p1->x - p2->x, 2) + pow(p1->y - p2->y, 2)));
 }
 
-p_grafo calcula_distancia_e_insere_arestas(p_grafo g, p_ponto *pontos)
+int calcula_distancia_e_insere_arestas(p_grafo g, p_ponto *pontos)
 {
 
+    int maior_distancia = 0;
     for (int i = 0; i < g->n; i++)
     {
         for (int j = 0; j < g->n; j++)
         {
             if (i != j)
             {
-                g->adj[i][j] = distancia_euclidiana(pontos[i], pontos[j]);
+                int x = distancia_euclidiana(pontos[i], pontos[j]);
+                g->adj[i][j] = x;
+                if (x > maior_distancia){
+                    maior_distancia = x;
+                }
+            }
+            else {
+                g->adj[i][j] = 0;
             }
         }
     }
+    return maior_distancia;
 }
 
-void busca_por_lugia(p_grafo g, int inicio, int *lugias, int num_lugias)
+void busca_por_lugia(p_grafo g, int inicio, int *lugias, int num_lugias, int maior_distancia)
 {
+    
+    //acha menor maior distância para cada lugia e coloca em vetor
     int menor_maior_distancia[num_lugias];
     for (int i = 0; i < num_lugias; i++)
     {
-        menor_maior_distancia[i] = busca_binaria();
+        menor_maior_distancia[i] = busca_binaria(g, inicio, lugias[i], 0, maior_distancia);
     }
+    
+    //percorre vetor, caso haja mais de um lugia, para devolver menor distancia 
     int menor;
     menor = menor_maior_distancia[0];
     if (num_lugias > 1)
@@ -91,26 +104,25 @@ int busca_binaria(p_grafo g, int ini, int fim, int min, int max)
     tam_atual = (min + max) / 2;
     retorno = existe_caminho(g, ini, fim, tam_atual);
     
-    //se não existe caminho devolve -1 (como nos casos de teste sempre haverá, não vai entrar nesse if)
-    if(retorno == -1){
-        return -1;
+    //se a diferença entre max e min é 1, é pq não existe menor ou igual ao mínimo, mas ao máx sim 
+    if(max - min == 1){
+        return max;
     }
-    if(retorno == tam_atual){
-        return tam_atual;
+
+    //existe caminho menor
+    if(retorno == 1){
+        return busca_binaria( g,  ini, fim, min, tam_atual);
     }
-    else if(retorno > tam_atual){
-        return busca_binaria( g,  ini, fim, tam_atual, max);
-    }
+    //existe caminho maior 
     else{
-        return busca_binaria( g, ini, fim, min, tam_atual);
-    }
-        
-    
+        return busca_binaria( g, ini, fim, tam_atual, max);
+    }   
 }
 
 /** Faz uma busca em profundidade,
- * que devolve a distância se há um caminho 
- * ou -1 se não há
+ * que devolve 1 se há um caminho em que 
+ * maior distancia é menor do que x
+ * ou 0 se a distância é maior
  * */
 int existe_caminho(p_grafo g, int ini, int fim, int tam)
 {
@@ -119,23 +131,27 @@ int existe_caminho(p_grafo g, int ini, int fim, int tam)
     {
         visitado[i] = 0;
     }
-    encontrou = busca_rec(g, visitado, ini, fim);
+    encontrou = busca_rec(g, visitado, ini, fim, tam);
     free(visitado);
     return encontrou;
 }
 
-int busca_recur(p_grafo g, int *visitados, int v, int fim)
+int busca_recur(p_grafo g, int *visitados, int v, int fim, int tam)
 {
   int w; 
   //se v = fim, econtramos o caminho
-  return 1; 
-  
+    if (v == fim)
+  {
+      return 1;
+  }
+    
   //caso contario, marca que visitou
   visitados[v]= 1;
   //percorre vizinhos 
   for(w = 0; w < g->n; w++){
-      if(g->adj[v][w]!= 0 && !visitados[w]){
-          if(busca_recur(g, visitados, w, fim)){
+      //se a distancia for menor que o tamanho
+      if(g->adj[v][w] <= tam && !visitados[w]){
+          if(busca_recur(g, visitados, w, fim, tam)){
               return 1; 
           }
           
@@ -185,6 +201,7 @@ int main()
         }
 
         retorno = scanf("%d", &componente_x);
+        i++;
 
     } while (retorno != -1);
 
@@ -192,10 +209,10 @@ int main()
     p_grafo g = criar_grafo(i);
 
     //calcula distâncias e insere em grafo
-    calcula_distancia_e_insere_arestas(pontos, g);
+    int maior_distancia = calcula_distancia_e_insere_arestas(pontos, g);
 
     //faz busca para cada lugia
-    busca_por_lugia(g, inicio, lugias, num_lugias);
+    busca_por_lugia(g, inicio, lugias, num_lugias, maior_distancia);
 
     return 0;
 }
