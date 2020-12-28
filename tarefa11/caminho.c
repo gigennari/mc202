@@ -84,16 +84,35 @@ void busca_por_lugia(p_grafo g, int inicio, int *lugias, int num_lugias)
  * para a qual a busca em profundidade não falha
  * */
 
-int busca_binaria()
+int busca_binaria(p_grafo g, int ini, int fim, int min, int max)
 {
+
+    int tam_atual, retorno;
+    tam_atual = (min + max) / 2;
+    retorno = existe_caminho(g, ini, fim, tam_atual);
+    
+    //se não existe caminho devolve -1 (como nos casos de teste sempre haverá, não vai entrar nesse if)
+    if(retorno == -1){
+        return -1;
+    }
+    if(retorno == tam_atual){
+        return tam_atual;
+    }
+    else if(retorno > tam_atual){
+        return busca_binaria( g,  ini, fim, tam_atual, max);
+    }
+    else{
+        return busca_binaria( g, ini, fim, min, tam_atual);
+    }
+        
+    
 }
 
 /** Faz uma busca em profundidade,
- * que devolve 1 se há um caminho 
- * menor do que a distância dada
- * ou 0 se não há
+ * que devolve a distância se há um caminho 
+ * ou -1 se não há
  * */
-int existe_caminho(p_grafo g, int ini, int fim)
+int existe_caminho(p_grafo g, int ini, int fim, int tam)
 {
     int encontrou, i, *visitado = malloc(g->n * sizeof(int));
     for (i = 0; i < g->n; i++)
