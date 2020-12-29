@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 typedef struct Ponto
 {
@@ -67,30 +68,60 @@ int calcula_distancia_e_insere_arestas(p_grafo g, p_ponto *pontos)
     return maior_distancia;
 }
 
-void busca_por_lugia(p_grafo g, int inicio, int *lugias, int num_lugias, int maior_distancia)
-{
-    
-    //acha menor maior distância para cada lugia e coloca em vetor
-    int menor_maior_distancia[num_lugias];
-    for (int i = 0; i < num_lugias; i++)
-    {
-        menor_maior_distancia[i] = busca_binaria(g, inicio, lugias[i], 0, maior_distancia);
-    }
-    
-    //percorre vetor, caso haja mais de um lugia, para devolver menor distancia 
-    int menor;
-    menor = menor_maior_distancia[0];
-    if (num_lugias > 1)
-    {
-        for (int i = 1; i < num_lugias; i++)
-        {
-            if(menor_maior_distancia[i] < menor){
-                menor = menor_maior_distancia[i];
+/**
+ * Elimina distâncias da linha e coluna do lugia que já foi atingifo
+ * */
+p_grafo elimina_pontos_lugia(p_grafo g, int lugia){
+    for (int i = 0; i < g->n; i++){
+        for (int j = 0; j < g->n; j++){
+            if(i == lugia || j == lugia){
+                g->adj[i][j] = 0;
             }
         }
     }
+    return g;
+}
 
-    printf("%d\n", menor);
+
+int busca_recur(p_grafo g, int *visitados, int v, int fim, int tam)
+{
+  int w; 
+  //se v = fim, econtramos o caminho
+    if (v == fim)
+  {
+      return 1;
+  }
+    
+  //caso contario, marca que visitou
+  visitados[v]= 1;
+  //percorre vizinhos 
+  for(w = 0; w < g->n; w++){
+      //se a distancia for menor que o tamanho
+      if(g->adj[v][w] <= tam && g->adj[v][w] != 0 && !visitados[w]){
+          if(busca_recur(g, visitados, w, fim, tam)){
+              return 1; 
+          }
+          
+      }
+  }
+    return 0; 
+}
+
+/** Faz uma busca em profundidade,
+ * que devolve 1 se há um caminho em que 
+ * maior distancia é menor do que x
+ * ou 0 se a distância é maior
+ * */
+int existe_caminho(p_grafo g, int ini, int fim, int tam)
+{
+    int encontrou, i, *visitado = malloc(g->n * sizeof(int));
+    for (i = 0; i < g->n; i++)
+    {
+        visitado[i] = 0;
+    }
+    encontrou = busca_recur(g, visitado, ini, fim, tam);
+    free(visitado);
+    return encontrou;
 }
 
 /** Devolve a menor maior distância
@@ -119,46 +150,33 @@ int busca_binaria(p_grafo g, int ini, int fim, int min, int max)
     }   
 }
 
-/** Faz uma busca em profundidade,
- * que devolve 1 se há um caminho em que 
- * maior distancia é menor do que x
- * ou 0 se a distância é maior
- * */
-int existe_caminho(p_grafo g, int ini, int fim, int tam)
+void busca_por_lugia(p_grafo g, int inicio, int *lugias, int num_lugias, int maior_distancia)
 {
-    int encontrou, i, *visitado = malloc(g->n * sizeof(int));
-    for (i = 0; i < g->n; i++)
+    
+    //acha menor maior distância para cada lugia e coloca em vetor
+    int *menor_maior_distancia = malloc(num_lugias * sizeof(int));
+    for (int i = 0; i < num_lugias; i++)
     {
-        visitado[i] = 0;
+        menor_maior_distancia[i] = busca_binaria(g, inicio, lugias[i], 0, maior_distancia);
+        g = elimina_pontos_lugia(g, i);
     }
-    encontrou = busca_rec(g, visitado, ini, fim, tam);
-    free(visitado);
-    return encontrou;
+    
+    //percorre vetor, caso haja mais de um lugia, para devolver menor distancia 
+    int menor;
+    menor = menor_maior_distancia[0];
+    if (num_lugias > 1)
+    {
+        for (int i = 1; i < num_lugias; i++)
+        {
+            if(menor_maior_distancia[i] < menor){
+                menor = menor_maior_distancia[i];
+            }
+        }
+    }
+
+    printf("%d\n", menor);
 }
 
-int busca_recur(p_grafo g, int *visitados, int v, int fim, int tam)
-{
-  int w; 
-  //se v = fim, econtramos o caminho
-    if (v == fim)
-  {
-      return 1;
-  }
-    
-  //caso contario, marca que visitou
-  visitados[v]= 1;
-  //percorre vizinhos 
-  for(w = 0; w < g->n; w++){
-      //se a distancia for menor que o tamanho
-      if(g->adj[v][w] <= tam && !visitados[w]){
-          if(busca_recur(g, visitados, w, fim, tam)){
-              return 1; 
-          }
-          
-      }
-  }
-    return 0; 
-}
 
 int main()
 {
@@ -174,18 +192,19 @@ int main()
 
     //lê entrada
     p_ponto ponto_inicial = malloc(sizeof(Ponto));
-    scanf("%d, %d", ponto_inicial->x, ponto_inicial->y);
+    scanf("%d, %d", &ponto_inicial->x, &ponto_inicial->y);
+    
     scanf("%d", &componente_x);
     do
     {
-        char *categoria;
+        char categoria[10];
         pontos[i]->x = componente_x;
 
         scanf(" %d", &(pontos[i]->y));
         scanf("%s ", categoria);
 
         //identifica Lugias
-        if (categoria == "Lugia")
+        if (strcmp(categoria, "Lugia") == 0)
         {
             lugias[num_lugias] = i;
             num_lugias++;
@@ -209,7 +228,7 @@ int main()
     p_grafo g = criar_grafo(i);
 
     //calcula distâncias e insere em grafo
-    int maior_distancia = calcula_distancia_e_insere_arestas(pontos, g);
+    maior_distancia = calcula_distancia_e_insere_arestas(g, pontos);
 
     //faz busca para cada lugia
     busca_por_lugia(g, inicio, lugias, num_lugias, maior_distancia);
