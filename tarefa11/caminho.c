@@ -5,7 +5,7 @@
 
 typedef struct Ponto
 {
-    int x, y;
+    float x, y;
 } Ponto;
 
 typedef Ponto *p_ponto;
@@ -181,8 +181,9 @@ void busca_por_lugia(p_grafo g, int inicio, int *lugias, int num_lugias, int mai
 int main()
 {
 
-    int maior_distancia, componente_x, retorno;
+    int maior_distancia, retorno;
     int i = 0, num_lugias = 0, inicio = -1;
+    float componente_x;
 
     //armazena linha/coluna de lugias; vamos testar para cada um deles
     int *lugias = malloc(10 * sizeof(int));
@@ -192,15 +193,15 @@ int main()
 
     //lê entrada
     p_ponto ponto_inicial = malloc(sizeof(Ponto));
-    scanf("%d, %d", &ponto_inicial->x, &ponto_inicial->y);
+    scanf("%f %f", &(ponto_inicial->x), &(ponto_inicial->y));
     
-    scanf("%d", &componente_x);
+    scanf("%f", &componente_x);
     do
     {
         char categoria[10];
         pontos[i]->x = componente_x;
 
-        scanf(" %d", &(pontos[i]->y));
+        scanf(" %f", &(pontos[i]->y));
         scanf("%s ", categoria);
 
         //identifica Lugias
@@ -219,7 +220,7 @@ int main()
             }
         }
 
-        retorno = scanf("%d", &componente_x);
+        retorno = scanf("%f", &componente_x);
         i++;
 
     } while (retorno != -1);
