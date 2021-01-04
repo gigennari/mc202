@@ -49,7 +49,7 @@ void libera_grafo(p_grafo g){
 
 int distancia_euclidiana(Ponto p1, Ponto p2)
 {
-    return sqrt(abs(pow(p1.x - p2.x, 2.0) + pow(p1.y - p2.y, 2.0)));
+    return ceil(sqrt(abs(pow(p1.x - p2.x, 2.0) + pow(p1.y - p2.y, 2.0))));
 }
 
 int calcula_distancia_e_insere_arestas(p_grafo g, Ponto *pontos)
