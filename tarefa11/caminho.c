@@ -38,6 +38,15 @@ p_grafo criar_grafo(int n)
     return g;
 }
 
+void libera_grafo(p_grafo g){
+    for (int i = 0; i < g->n; i++)
+    {
+        free(g->adj[i]);
+    }
+    free(g->adj);
+    free(g);
+}
+
 int distancia_euclidiana(Ponto p1, Ponto p2)
 {
     return sqrt(abs(pow(p1.x - p2.x, 2.0) + pow(p1.y - p2.y, 2.0)));
@@ -200,7 +209,12 @@ int main()
     maior_distancia = calcula_distancia_e_insere_arestas(g, pontos);
 
     //faz busca binária para achar a menor maior distância entre o início e um lugia
-    busca_binaria(g, inicio, menor_distancia, maior_distancia, categorias);
+    int distancia = busca_binaria(g, inicio, menor_distancia, maior_distancia, categorias);
+    printf("%d\n", distancia);
+
+    libera_grafo(g);
+    free(pontos);
+    free(categorias);
 
     return 0;
 }
