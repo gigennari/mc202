@@ -6,7 +6,7 @@ LDFLAGS = -lm
 all: caminho
 
 caminho: caminho.c
-	gcc $(CFLAGS) *.c -o caminho $(LDFLAGS)
+	gcc $(CFLAGS) caminho.c -o caminho $(LDFLAGS)
 
 clean:
 	rm -f caminho
