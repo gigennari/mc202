@@ -170,7 +170,7 @@ int main()
 {
 
     int maior_distancia, retorno;
-    int i = 1, inicio = -1, menor_distancia = 0;
+    int i = 0, inicio = -1, menor_distancia = 0;
     double componente_x;
 
     //armazena todos os pontos lidos antes de inserir na matriz do grafo
@@ -208,10 +208,9 @@ int main()
         }
 
         retorno = scanf("%lf", &componente_x);
-        if (retorno != EOF)
-        {
-            i++;
-        }
+        
+        i++;
+        
 
     } while (retorno != EOF);
 
