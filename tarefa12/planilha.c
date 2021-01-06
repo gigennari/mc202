@@ -4,7 +4,7 @@
 typedef struct Token
 {
     int valor;
-    char *expressao;
+    char expressao[25];
 
 } Token;
 
@@ -21,7 +21,7 @@ typedef struct Planilha *p_planilha;
 p_planilha aloca_planilha(int m, int n)
 {
     p_planilha p = malloc(sizeof(Planilha));
-    
+
     p->m = m;
     p->n = n;
 
@@ -38,13 +38,16 @@ p_planilha aloca_planilha(int m, int n)
     {
         p->visitados[i] = calloc(n, sizeof(int));
     }
-    
+
     return p;
 }
 
-p_planilha zera_visitados(p_planilha p){
-    for (int i = 0; i < p->m; i++){
-        for (int j = 0; j < p->n; j++){
+p_planilha zera_visitados(p_planilha p)
+{
+    for (int i = 0; i < p->m; i++)
+    {
+        for (int j = 0; j < p->n; j++)
+        {
             p->visitados[i][j] = 0;
         }
     }
@@ -52,12 +55,47 @@ p_planilha zera_visitados(p_planilha p){
 
 void le_linha(p_planilha p, char *linha, int num_linha)
 {
+    char auxiliar[25];
+    char caractere;
+    int i = 0, coluna = 0, pos = 0;
+
+    for (caractere = linha[i]; i < strlen(linha); i++)
+    {
+        //se for diferente de espaço
+        if (caractere != " ")
+        {
+
+            //pode estar no fim, com uma vírgula, então devemos inserir na planilha
+            if (caractere == ",")
+                auxiliar[pos] = "\0";
+            //se começar com "=" é expressão
+            if (auxiliar[0] == "=")
+            {
+                strcpy(p->planilha[num_linha][coluna]->expressao, auxiliar);
+            }
+            //caso contrário, é número
+            else
+            {
+                int valor = atoi(auxiliar);
+                p->planilha[num_linha][coluna]->valor = valor;
+            }
+            coluna++;
+            pos = 0;
+        }
+        //caso contrário, copiar caractere
+        else
+        {
+            auxiliar[pos] = caractere;
+            pos++;
+        }
+    }
 }
 
-p_planilha le_arquivo()
+
+p_planilha le_arquivo(p_planilha p, char *nome_arquivo)
 {
 
-    FILE *arquivo = fopen("planilha.csv", "r");
+    FILE *arquivo = fopen(nome_arquivo, "r");
 
     char linha[256];
     int linha_atual = 0;
@@ -70,24 +108,24 @@ p_planilha le_arquivo()
 
     fclose(arquivo);
 
-    return
+    return p;
 }
 
 int main()
 {
 
     //lê nome do arquivo e dimensões da planilha
-    char nome[25];
+    char nome_arquivo[25];
     int m, n;
-    scanf("%s %d %d", nome, m, n);
+    scanf("%s %d %d", nome_arquivo, m, n);
 
     //aloca planilha
     p_planilha p = aloca_planilha(m, n);
 
     //lê arquivo csv
+    p = le_arquivo(p, nome_arquivo);
 
     //lê e realiza operações
-
 
     return 0;
 }
