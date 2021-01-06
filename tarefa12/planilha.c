@@ -18,9 +18,31 @@ typedef struct Planilha
 
 typedef struct Planilha *p_planilha;
 
-p_planilha aloca_matriz(int m, int n)
+p_planilha aloca_planilha(int m, int n)
 {
+    p_planilha p = malloc(sizeof(Planilha));
+    
+    p->m = m;
+    p->n = n;
+
+    p->planilha = malloc(m * sizeof(Token *));
+
+    for (int i = 0; i < m; i++)
+    {
+        p->planilha[i] = malloc(n * sizeof(Token));
+    }
+
+    p->visitados = malloc(m * sizeof(int *));
+
+    for (int i = 0; i < m; i++)
+    {
+        p->visitados[i] = calloc(n, sizeof(int));
+    }
+    
+    return p;
 }
+
+
 
 void le_linha(p_planilha p, char *linha, int num_linha)
 {
@@ -49,13 +71,17 @@ int main()
 {
 
     //lê nome do arquivo e dimensões da planilha
+    char nome[25];
+    int m, n;
+    scanf("%s %d %d", nome, m, n);
 
-    //aloca matriz
+    //aloca planilha
+    p_planilha p = aloca_planilha(m, n);
 
     //lê arquivo csv
 
     //lê e realiza operações
-    
+
 
     return 0;
 }
