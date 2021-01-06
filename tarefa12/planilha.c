@@ -42,7 +42,13 @@ p_planilha aloca_planilha(int m, int n)
     return p;
 }
 
-
+p_planilha zera_visitados(p_planilha p){
+    for (int i = 0; i < p->m; i++){
+        for (int j = 0; j < p->n; j++){
+            p->visitados[i][j] = 0;
+        }
+    }
+}
 
 void le_linha(p_planilha p, char *linha, int num_linha)
 {
