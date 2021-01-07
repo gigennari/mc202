@@ -221,14 +221,14 @@ void leitura_e_calculo(p_planilha p, int linha, int coluna)
     //se for um número, a expressao é vazia
     if (strlen(p->planilha[linha][coluna - letra_A].expressao) == 0)
     {
-        printf("%c%d: %d", coluna, linha, p->planilha[linha][coluna].valor);
+        printf("%c%d: %d\n", coluna, linha, p->planilha[linha][coluna].valor);
     }
 
     //se for uma expressão
     else
     {
         int resultado = resolve_expressao(p, linha, coluna);
-        printf("%c%d: %d", coluna, linha, resultado);
+        printf("%c%d: %d\n", coluna, linha, resultado);
     }
 }
 
@@ -239,8 +239,20 @@ p_planilha atualizacao(p_planilha p, int linha, int coluna, int novo_valor)
     p->planilha[linha][col].valor = novo_valor;
 
     char letra = coluna + '0';
-    printf("%c%d: %d -> %d", letra, linha, valor_antigo, novo_valor);
+    printf("%c%d: %d -> %d\n", letra, linha, valor_antigo, novo_valor);
     return p;
+}
+
+void libera_planilha(p_planilha p, int linhas, int colunas){
+    
+    for (int i = 0; i < linhas; i++)
+    {
+        free(p->planilha[i]);
+        free(p->visitados[i]);
+    }
+    free(p->planilha);
+    free(p->visitados);
+    free(p);
 }
 
 int main()
@@ -261,21 +273,19 @@ int main()
     int retorno = 1;
     char operacao;
 
-    scanf("%c", &operacao);
+    scanf("%c ", &operacao);
     do
     {
 
         //lê célula
         char celula[4];
         int linha, coluna;
-        scanf("%s", celula);
+        scanf("%s ", celula);
 
         //coluna a partir da letra (subtrair A na hora de procurar na matriz)
         coluna = celula[0];
-
         //calcula linha copiando o restante da str e usando atoi
         celula[0] = ' ';
-
         linha = atoi(celula);
 
         //operacao de leitura e calculo do valor atual
@@ -287,7 +297,7 @@ int main()
         else
         {
             int novo_valor;
-            scanf("%d", &novo_valor);
+            scanf("%d ", &novo_valor);
 
             p = atualizacao(p, linha, coluna, novo_valor);
         }
@@ -297,5 +307,6 @@ int main()
 
     } while (retorno != EOF);
 
+    libera_planilha(p, linhas, colunas);
     return 0;
 }
