@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 #define letra_A 65
 
 typedef struct Token
@@ -114,29 +116,94 @@ p_planilha le_arquivo(p_planilha p, char *nome_arquivo)
     return p;
 }
 
-int resolve_expressao(p_planilha p, int linha, int coluna, char *expressao)
+int resolve_expressao(p_planilha p, char *expressao)
 {
     //caso básico apenas um termo
     int tam = strlen(expressao);
     if(tam == 2 || tam == 3){
-        //se for numero 
-            //devolve valor
 
+        //calcula coluna a partir da letra
+        int coluna = expressao[0] - letra_A;
+        //calcula linha copiando o restante da str e usando atoi
+        int tam = strlen(expressao);
+        char aux[4];
+        for (int i = 1; i < tam; i++)
+        {
+            aux[i - 1] = expressao[i];
+        }
+        int linha = atoi(aux);
+
+        //se for numero 
+        if (strlen(p->planilha[linha][coluna].expressao) == 0){
+            //devolve valor
+            return p->planilha[linha][coluna].valor;
+        }
         //se for expressão, 
+        else{
             //se não for ciclo
                 //devolve valor 
-            //devolve #ERRO#    
-
-
+            //devolve #ERRO#
+        }   
     }
 
     //recursão 
     else{
         //eliminar parênteses 
+        for(int i = 0; i < tam - 1; i++){
+            if(i == tam - 2){
+                expressao[i] = "\0";
 
+            }
+            else{
+                expressao[i] = expressao[i+1];
+            }
+        }
+
+        tam = strlen(expressao);
+       
         //percorrer normal e de trás p frente até achar o primeiro mais ou menos 
+        int i = 0; 
+        int j = tam;
+        int y = 0;
+        char parcela1[56];
+        char parcela2[56];
+        
+        while(i < tam && j > 0){
 
-        //fazer chamadas recursivas
+            //fazer chamadas recursivas
+
+            if (expressao[i] ==  "+" || expressao[i] == "-"){
+            
+                strncpy(parcela1, expressao, i-1);
+                //copia restante da expressao 
+                for(int x = i+1; x < tam; x++){
+                    parcela2[y] = expressao[x];
+                    y++;
+                }
+
+                return resolve_expressao(p, parcela1) + resolve_expressao(p, parcela2);
+
+                
+            }
+            if (expressao[j] ==  "+" || expressao[j] == "-"){
+                
+                strncpy(parcela1, expressao, j - 1);
+                
+                //copia restante da expressao 
+                for(int x = j+1; x < tam; x++){
+                    parcela2[y] = expressao[x];
+                    y++;
+                }
+
+                return resolve_expressao(p, parcela1) + resolve_expressao(p, parcela2);
+                
+            }
+            
+            i++;
+            j--;
+
+        }
+        
     }
     
         
@@ -154,7 +221,7 @@ void leitura_e_calculo(p_planilha p, int linha, int coluna)
     //se for uma expressão
     else
     {
-        int resultado = resolve_expressao(p, linha, coluna, p->planilha[linha][coluna - letra_A].expressao);
+        int resultado = resolve_expressao(p, p->planilha[linha][coluna - letra_A].expressao);
     }
 }
 
