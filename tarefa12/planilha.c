@@ -54,25 +54,38 @@ p_planilha zera_visitados(p_planilha p)
             p->visitados[i][j] = 0;
         }
     }
+    return p; 
 }
 
 void le_linha(p_planilha p, char *linha, int num_linha)
 {
     char auxiliar[56];
-    char caractere;
-    int i = 0, coluna = 0, pos = 0;
+    int coluna = 0, pos = 0;
 
-    for (caractere = linha[i]; i < strlen(linha); i++)
+    for (int i = 0; i < strlen(linha); i++)
     {
         //se for vírgula
-        if (caractere == ",")
+        if (linha[i] == ',')
         {
-            auxiliar[pos] = "\0";
+            auxiliar[pos] = '\0';
 
             //se começar com "=" é expressão
-            if (auxiliar[0] == "=")
+            if (auxiliar[0] == '=')
             {
-                auxiliar[0] = "\0"; //elimina o =
+                int tam = strlen(auxiliar);
+                //elimina o =
+                for (int i = 0; i < tam; i++)
+                {
+                    if (i == tam - 1)
+                    {
+                        auxiliar[i] = '\0';
+                    }
+                    else
+                    {
+                        auxiliar[i] = auxiliar[i + 1];
+                    }
+                }
+
                 strcpy(p->planilha[num_linha][coluna].expressao, auxiliar);
             }
 
@@ -88,9 +101,9 @@ void le_linha(p_planilha p, char *linha, int num_linha)
         //caso contrário, copiar caractere se for diferente de espaço
         else
         {
-            if (caractere != " ")
+            if (linha[i] != ' ')
             {
-                auxiliar[pos] = caractere;
+                auxiliar[pos] = linha[i];
                 pos++;
             }
         }
@@ -107,7 +120,7 @@ p_planilha le_arquivo(p_planilha p, char *nome_arquivo)
 
     while (fgets(linha, sizeof(linha), arquivo))
     {
-        le_linha(linha, strlen(linha), linha_atual);
+        le_linha(p, linha, linha_atual);
         linha_atual++;
     }
 
@@ -120,7 +133,8 @@ int resolve_expressao(p_planilha p, char *expressao)
 {
     //caso básico apenas um termo
     int tam = strlen(expressao);
-    if(tam == 2 || tam == 3){
+    if (tam == 2 || tam == 3)
+    {
 
         //calcula coluna a partir da letra
         int coluna = expressao[0] - letra_A;
@@ -133,80 +147,88 @@ int resolve_expressao(p_planilha p, char *expressao)
         }
         int linha = atoi(aux);
 
-        //se for numero 
-        if (strlen(p->planilha[linha][coluna].expressao) == 0){
+        //se for numero
+        if (strlen(p->planilha[linha][coluna].expressao) == 0)
+        {
             //devolve valor
             return p->planilha[linha][coluna].valor;
         }
-        //se for expressão, 
-        else{
+        //se for expressão,
+        else
+        {
+            return resolve_expressao(p, p->planilha[linha][coluna].expressao);  //serve só até o teste 4
             //se não for ciclo
-                //devolve valor 
+                //devolve valor
             //devolve #ERRO#
-        }   
+        }
     }
 
-    //recursão 
-    else{
-        //eliminar parênteses 
-        for(int i = 0; i < tam - 1; i++){
-            if(i == tam - 2){
-                expressao[i] = "\0";
-
+    //recursão
+    else
+    {
+        //eliminar parênteses
+        for (int i = 0; i < tam - 1; i++)
+        {
+            if (i == tam - 2)
+            {
+                expressao[i] = '\0';
             }
-            else{
-                expressao[i] = expressao[i+1];
+            else
+            {
+                expressao[i] = expressao[i + 1];
             }
         }
 
         tam = strlen(expressao);
-       
-        //percorrer normal e de trás p frente até achar o primeiro mais ou menos 
-        int i = 0; 
+
+        //percorrer normal e de trás p frente até achar o primeiro mais ou menos
+        int i = 0;
         int j = tam;
         int y = 0;
         char parcela1[56];
         char parcela2[56];
-        
-        while(i < tam && j > 0){
+        char operacao; 
+
+        while (i < tam && j > 0)
+        {
 
             //fazer chamadas recursivas
 
-            if (expressao[i] ==  "+" || expressao[i] == "-"){
-            
-                strncpy(parcela1, expressao, i-1);
-                //copia restante da expressao 
-                for(int x = i+1; x < tam; x++){
+            if (expressao[i] == '+' || expressao[i] == '-')
+            {
+                operacao = expressao[i];
+                strncpy(parcela1, expressao, i - 1);
+                //copia restante da expressao
+                for (int x = i + 1; x < tam; x++)
+                {
                     parcela2[y] = expressao[x];
                     y++;
-                }
-
-                return resolve_expressao(p, parcela1) + resolve_expressao(p, parcela2);
-
-                
+                }          
             }
-            if (expressao[j] ==  "+" || expressao[j] == "-"){
-                
+
+            if (expressao[j] == '+' || expressao[j] == '-')
+            {
+                operacao = expressao[j];
                 strncpy(parcela1, expressao, j - 1);
-                
-                //copia restante da expressao 
-                for(int x = j+1; x < tam; x++){
+                //copia restante da expressao
+                for (int x = j + 1; x < tam; x++)
+                {
                     parcela2[y] = expressao[x];
                     y++;
-                }
-
-                return resolve_expressao(p, parcela1) + resolve_expressao(p, parcela2);
-                
+                } 
             }
-            
+
             i++;
             j--;
 
+            if (operacao == '+'){
+                return resolve_expressao(p, parcela1) + resolve_expressao(p, parcela2);
+            }
+            else{
+                return resolve_expressao(p, parcela1) - resolve_expressao(p, parcela2);
+            }
         }
-        
     }
-    
-        
 }
 
 void leitura_e_calculo(p_planilha p, int linha, int coluna)
@@ -222,11 +244,18 @@ void leitura_e_calculo(p_planilha p, int linha, int coluna)
     else
     {
         int resultado = resolve_expressao(p, p->planilha[linha][coluna - letra_A].expressao);
+        printf("%c%d: %d", coluna, linha, resultado);
     }
 }
 
-void atualizacao(p_planilha p, int linha, int coluna, int novo_valor)
+p_planilha atualizacao(p_planilha p, int linha, int coluna, int novo_valor)
 {
+    int col = coluna - letra_A;
+    int valor_antigo = p->planilha[linha][col].valor;  
+    p->planilha[linha][col].valor = novo_valor;
+    
+    printf("%c%d: %d -> %d", coluna, linha, valor_antigo, novo_valor);
+    return p;
 }
 
 int main()
@@ -235,7 +264,7 @@ int main()
     //lê nome do arquivo e dimensões da planilha
     char nome_arquivo[56];
     int m, n;
-    scanf("%s %d %d", nome_arquivo, m, n);
+    scanf("%s %d %d", nome_arquivo, &m, &n);
 
     //aloca planilha
     p_planilha p = aloca_planilha(m, n);
@@ -247,7 +276,7 @@ int main()
     int retorno = 1;
     char operacao;
 
-    scanf("%c", operacao);
+    scanf("%c", &operacao);
     do
     {
 
@@ -270,7 +299,7 @@ int main()
         linha = atoi(aux);
 
         //operacao de leitura e calculo do valor atual
-        if (operacao == "G")
+        if (operacao == 'G')
         {
             leitura_e_calculo(p, linha, coluna);
         }
@@ -280,11 +309,11 @@ int main()
             int novo_valor;
             scanf("%d", &novo_valor);
 
-            atualizacao(p, linha, coluna, novo_valor);
+            p = atualizacao(p, linha, coluna, novo_valor);
         }
 
         //lê próxima operação se existir
-        retorno = scanf("%c", operacao);
+        retorno = scanf("%c", &operacao);
 
     } while (retorno != EOF);
 
