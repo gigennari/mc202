@@ -16,16 +16,23 @@ typedef struct No
 
 typedef struct No *p_no;
 
-int encontra_elemento(p_no linha, int coluna){
+p_no encontra_elemento(p_no linha, int coluna){
 
     p_no atual = linha->prox;
 
     while(atual != linha){
         if(atual->n == coluna){
-            return atual->dado;
+            return atual;
         }
         else{
             atual = atual->prox;
         }
     }
+}
+
+p_no altera_matriz(p_no linha, int coluna, int novo_dado){
+
+    p_no buscado = encontra_elemento(linha, coluna);
+    buscado->dado = novo_dado;
+    return linha;
 }
