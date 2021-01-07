@@ -114,8 +114,32 @@ p_planilha le_arquivo(p_planilha p, char *nome_arquivo)
     return p;
 }
 
-int resolve_expressao(p_planilha p, char *expressao)
+int resolve_expressao(p_planilha p, int linha, int coluna, char *expressao)
 {
+    //caso básico apenas um termo
+    int tam = strlen(expressao);
+    if(tam == 2 || tam == 3){
+        //se for numero 
+            //devolve valor
+
+        //se for expressão, 
+            //se não for ciclo
+                //devolve valor 
+            //devolve #ERRO#    
+
+
+    }
+
+    //recursão 
+    else{
+        //eliminar parênteses 
+
+        //percorrer normal e de trás p frente até achar o primeiro mais ou menos 
+
+        //fazer chamadas recursivas
+    }
+    
+        
 }
 
 void leitura_e_calculo(p_planilha p, int linha, int coluna)
@@ -130,7 +154,7 @@ void leitura_e_calculo(p_planilha p, int linha, int coluna)
     //se for uma expressão
     else
     {
-        int resultado = resolve_expressao(p, p->planilha[linha][coluna - letra_A].expressao);
+        int resultado = resolve_expressao(p, linha, coluna, p->planilha[linha][coluna - letra_A].expressao);
     }
 }
 
