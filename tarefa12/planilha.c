@@ -111,6 +111,14 @@ p_planilha le_arquivo(p_planilha p, char *nome_arquivo)
     return p;
 }
 
+void leitura_e_calculo(p_planilha p, char *celula){
+
+}
+
+void atualizacao(p_planilha p, char *celula, int novo_valor){
+    
+}
+
 int main()
 {
 
@@ -126,6 +134,29 @@ int main()
     p = le_arquivo(p, nome_arquivo);
 
     //lê e realiza operações
+    int retorno;
+    char operacao;
+    
+    scanf("%c", operacao);
+    do{
+        //operacao de leitura e calculo do valor atual
+        if(operacao == "G"){
+            char celula[10];
+            scanf("%c", celula);
+            leitura_e_calculo(p, celula);
+        }
+        //operacao de atualizar célula e calcular novo valor
+        else{
+            char celula[10];
+            int novo_valor;
+            scanf("%s %d", celula, &novo_valor);
+            atualizacao(p, celula, novo_valor);
+        }
+
+        //lê próxima operação se existir 
+        retorno = scanf("%c", operacao);
+
+    }while(retorno != EOF);
 
     return 0;
 }
