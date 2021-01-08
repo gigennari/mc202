@@ -7,7 +7,7 @@
 typedef struct Token
 {
     int valor;
-    char expressao[56];
+    char *expressao;
 
 } Token;
 
@@ -35,6 +35,11 @@ p_planilha aloca_planilha(int m, int n)
         p->planilha[i] = calloc(n, sizeof(Token));
     }
 
+    for(int i = 0; i < m; i++){
+        for(int j = 0; j < n; j++){
+            p->planilha[i][j].expressao = calloc(56, sizeof(char));
+        }
+    }
     p->visitados = malloc(m * sizeof(int *));
 
     for (int i = 0; i < m; i++)
@@ -62,13 +67,14 @@ void le_linha(p_planilha p, char *linha, int num_linha, int colunas)
     char auxiliar[56];
 
     for(int i = 0; i < colunas; i++){
-        printf("%d", colunas);
         sscanf(linha, "%[^,]", auxiliar);
-        printf("%s\n", auxiliar);
-
+        
         if(auxiliar[0] == '='){
 
-            strcpy(p->planilha[num_linha][i].expressao, auxiliar + 1);
+            //remove = 
+            auxiliar[0] = ' ';
+            
+            strcpy(p->planilha[num_linha][i].expressao, auxiliar+2);
         }
         else{
             p->planilha[num_linha][i].valor = atoi(auxiliar);
@@ -218,10 +224,12 @@ int resolve_expressao(p_planilha p, int linha, int coluna)
 void leitura_e_calculo(p_planilha p, int linha, int coluna)
 {
 
+    int col = coluna - 'A';
+
     //se for um número, a expressao é vazia
-    if (strlen(p->planilha[linha][coluna - letra_A].expressao) == 0)
+    if (strlen(p->planilha[linha-1][col].expressao) == 0)
     {
-        printf("%c%d: %d\n", coluna, linha, p->planilha[linha][coluna].valor);
+        printf("%c%d: %d\n", coluna, linha, p->planilha[linha-1][col].valor);
     }
 
     //se for uma expressão
@@ -235,11 +243,10 @@ void leitura_e_calculo(p_planilha p, int linha, int coluna)
 p_planilha atualizacao(p_planilha p, int linha, int coluna, int novo_valor)
 {
     int col = coluna - 'A';
-    int valor_antigo = p->planilha[linha][col].valor;
-    p->planilha[linha][col].valor = novo_valor;
+    int valor_antigo = p->planilha[linha-1][col].valor;
+    p->planilha[linha-1][col].valor = novo_valor;
 
-    char letra = coluna + '0';
-    printf("%c%d: %d -> %d\n", letra, linha, valor_antigo, novo_valor);
+    printf("%c%d: %d -> %d\n", coluna, linha, valor_antigo, novo_valor);
     return p;
 }
 
