@@ -132,12 +132,13 @@ int resolve_expressao(p_planilha p, int linha, int coluna)
         else
         {
             int nova_col = expressao[0];
+            
             expressao[0] = ' ';
             int nova_linha = atoi(expressao);
             expressao[0] = nova_col + 'A';
 
-            if(p->visitados[nova_linha][nova_col] != 1){
-                 return resolve_expressao(p, nova_linha, nova_col);
+            if(p->visitados[nova_linha - 1][nova_col - 'A'] != 1){
+                 //return leitura_e_calculo(p, nova_linha, nova_col);
             }
             else{
                 printf("#ERRO#\n");
@@ -221,30 +222,36 @@ int resolve_expressao(p_planilha p, int linha, int coluna)
     return 0;
 }
 
-void leitura_e_calculo(p_planilha p, int linha, int coluna)
+int leitura_e_calculo(p_planilha p, int linha, int coluna)
 {
-
-    int col = coluna - 'A';
-
+ 
     //se for um número, a expressao é vazia
-    if (strlen(p->planilha[linha-1][col].expressao) == 0)
+    if (strlen(p->planilha[linha-1][coluna - 'A'].expressao) == 0)
     {
-        printf("%c%d: %d\n", coluna, linha, p->planilha[linha-1][col].valor);
+        return p->planilha[linha-1][coluna - 'A'].valor;
+        
     }
 
     //se for uma expressão
     else
     {
-        int resultado = resolve_expressao(p, linha, coluna);
-        printf("%c%d: %d\n", coluna, linha, resultado);
+       
+       char *expressao = p->planilha[linha-1][coluna - 'A'].expressao;
+
+        int nova_col = expressao[0];  
+        expressao[0] = ' ';
+        int nova_linha = atoi(expressao);
+        p->planilha[linha-1][coluna - 'A'].expressao[0] = nova_col;
+        return leitura_e_calculo(p, nova_linha, nova_col);
+        
     }
 }
 
 p_planilha atualizacao(p_planilha p, int linha, int coluna, int novo_valor)
 {
-    int col = coluna - 'A';
-    int valor_antigo = p->planilha[linha-1][col].valor;
-    p->planilha[linha-1][col].valor = novo_valor;
+
+    int valor_antigo = p->planilha[linha-1][coluna - 'A'].valor;
+    p->planilha[linha-1][coluna - 'A'].valor = novo_valor;
 
     printf("%c%d: %d -> %d\n", coluna, linha, valor_antigo, novo_valor);
     return p;
@@ -298,7 +305,8 @@ int main()
         //operacao de leitura e calculo do valor atual
         if (operacao == 'G')
         {
-            leitura_e_calculo(p, linha, coluna);
+            int resultado = leitura_e_calculo(p, linha, coluna);
+            printf("%c%d: %d\n", coluna, linha, resultado);
         }
         //operacao de atualizar célula e calcular novo valor
         else
