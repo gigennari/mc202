@@ -12,7 +12,7 @@ typedef struct No *p_no;
 typedef struct pilha
 {
     p_no topo;   // prox posição livre
-    int tam;
+    int tam, valor_max;
 }Pilha;
 
 typedef Pilha *p_pilha;
@@ -29,6 +29,14 @@ void empilhar(p_pilha pilha, int x){
     novo->prox = pilha->topo;
     pilha->topo = novo;
     pilha->tam += 1;
+    if(pilha->topo == NULL){
+        pilha->valor_max = x;
+    }
+    else{
+        if (x > pilha->valor_max){
+            pilha->valor_max = x;
+        }
+    }
 }
 
 int desempilhar(p_pilha pilha){
@@ -45,4 +53,10 @@ int eh_vazia(p_pilha pilha){
         return 1;
     }
     return 0;
+}
+
+int valor_maximo(p_pilha pilha){
+    if(pilha->topo != NULL){
+        return pilha->valor_max;
+    }
 }
