@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 typedef struct No
 {
     int dado;
-    struct No *prox;
+    struct No *prox, *ant;
 } No;
 
 typedef struct No *p_no;
@@ -31,6 +30,8 @@ void enfileira(p_fila f, int x){
     novo = malloc(sizeof(No));
     novo->dado = x;
     novo->prox = NULL;
+    novo->ant = f->fim;
+    
     if (f->ini == NULL){
         f->ini = novo;
     }
@@ -42,6 +43,16 @@ void enfileira(p_fila f, int x){
     
 }
 
-void desenfileira(p_fila f){
+p_no desenfileira(p_fila f){
+    p_no removido = f->ini;
+    f->ini = f->ini->prox;  
+    
+    return removido;
+}
 
+int eh_vazia(p_fila f){
+    if(f->ini == NULL){
+        return 1;
+    }
+    return 0;
 }
