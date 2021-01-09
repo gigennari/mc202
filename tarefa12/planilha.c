@@ -11,6 +11,14 @@ typedef struct Token
 
 } Token;
 
+typedef struct Resultado
+{
+    int valor, visitado;
+
+} Resultado;
+
+typedef struct Resultado *p_resultado;
+
 typedef struct Planilha
 {
     Token **planilha;
@@ -67,7 +75,7 @@ p_planilha zera_visitados(p_planilha p)
 void le_linha(p_planilha p, char *linha, int num_linha, int colunas)
 {
     char auxiliar[56];
-
+    
     for (int i = 0; i < colunas; i++)
     {
         sscanf(linha, "%[^,]", auxiliar);
@@ -75,7 +83,7 @@ void le_linha(p_planilha p, char *linha, int num_linha, int colunas)
         if (auxiliar[0] == '=')
         {
 
-            //remove =
+            // remove =
             auxiliar[0] = ' ';
 
             strcpy(p->planilha[num_linha][i].expressao, auxiliar + 2);
@@ -275,6 +283,7 @@ int leitura_e_calculo(p_planilha p, int linha, int coluna)
     }
 }
 
+
 p_planilha atualizacao(p_planilha p, int linha, int coluna, int novo_valor)
 {
 
@@ -340,8 +349,12 @@ int main()
         //operacao de leitura e calculo do valor atual
         if (operacao == 'G')
         {
-            int resultado = leitura_e_calculo(p, linha, coluna);
-            printf("%c%d: %d\n", coluna, linha, resultado);
+            
+            int r = leitura_e_calculo(p, linha, coluna);
+            
+            printf("%c%d: %d\n", coluna, linha, r);
+            
+            
         }
         //operacao de atualizar célula e calcular novo valor
         else
