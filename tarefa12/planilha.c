@@ -290,9 +290,15 @@ void libera_planilha(p_planilha p, int linhas, int colunas)
 
     for (int i = 0; i < linhas; i++)
     {
+        for (int j = 0; j < colunas; j++){
+            free(p->planilha[i][j].expressao);
+        }    
+    }
+    for (int i = 0; i < linhas; i++){
         free(p->planilha[i]);
         free(p->visitados[i]);
     }
+        
     free(p->planilha);
     free(p->visitados);
     free(p);
