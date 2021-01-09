@@ -35,8 +35,10 @@ p_planilha aloca_planilha(int m, int n)
         p->planilha[i] = calloc(n, sizeof(Token));
     }
 
-    for(int i = 0; i < m; i++){
-        for(int j = 0; j < n; j++){
+    for (int i = 0; i < m; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
             p->planilha[i][j].expressao = calloc(56, sizeof(char));
         }
     }
@@ -66,22 +68,24 @@ void le_linha(p_planilha p, char *linha, int num_linha, int colunas)
 {
     char auxiliar[56];
 
-    for(int i = 0; i < colunas; i++){
+    for (int i = 0; i < colunas; i++)
+    {
         sscanf(linha, "%[^,]", auxiliar);
-        
-        if(auxiliar[0] == '='){
 
-            //remove = 
+        if (auxiliar[0] == '=')
+        {
+
+            //remove =
             auxiliar[0] = ' ';
-            
-            strcpy(p->planilha[num_linha][i].expressao, auxiliar+2);
+
+            strcpy(p->planilha[num_linha][i].expressao, auxiliar + 2);
         }
-        else{
+        else
+        {
             p->planilha[num_linha][i].valor = atoi(auxiliar);
         }
-        
-        
-        linha += strlen(auxiliar)+1;
+
+        linha += strlen(auxiliar) + 1;
     }
 }
 
@@ -104,6 +108,7 @@ p_planilha le_arquivo(p_planilha p, char *nome_arquivo, int colunas)
     return p;
 }
 
+/**
 int resolve_expressao(p_planilha p, int linha, int coluna)
 {
     //calcula coluna a partir da letra
@@ -147,7 +152,7 @@ int resolve_expressao(p_planilha p, int linha, int coluna)
         }
     }
 
-    /**
+   
     //recursão
     else
     {
@@ -218,47 +223,71 @@ int resolve_expressao(p_planilha p, int linha, int coluna)
             }
         }
     }
-    */
+    
     return 0;
 }
+*/
 
 int leitura_e_calculo(p_planilha p, int linha, int coluna)
 {
- 
+    char *expressao = p->planilha[linha - 1][coluna - 'A'].expressao;
+    
     //se for um número, a expressao é vazia
-    if (strlen(p->planilha[linha-1][coluna - 'A'].expressao) == 0)
+    if (strlen(expressao) == 0)
     {
-        return p->planilha[linha-1][coluna - 'A'].valor;
-        
+        return p->planilha[linha - 1][coluna - 'A'].valor;
     }
 
     //se for uma expressão
+    else if (expressao[0] == '(')
+    {
+        char termo1[28], termo2[28];
+        char operacao;
+        
+
+        sscanf(expressao, "%*c %s %c %s %*c", termo1, &operacao, termo2);
+
+        int col1 = termo1[0];
+        termo1[0] = ' ';
+        int lin1 = atoi(termo1);
+
+        int col2 = termo2[0];
+        termo2[0] = ' ';
+        int lin2 = atoi(termo2);
+        
+        if (operacao == '+'){
+            return leitura_e_calculo(p, lin1, col1) + leitura_e_calculo(p, lin2, col2);
+        }
+        else{
+             return leitura_e_calculo(p, lin1, col1) - leitura_e_calculo(p, lin2, col2);
+        }
+        
+    }
     else
     {
-       
-       char *expressao = p->planilha[linha-1][coluna - 'A'].expressao;
 
-        int nova_col = expressao[0];  
+        
+        int nova_col = expressao[0];
         expressao[0] = ' ';
         int nova_linha = atoi(expressao);
-        p->planilha[linha-1][coluna - 'A'].expressao[0] = nova_col;
+        expressao[0] = nova_col;
         return leitura_e_calculo(p, nova_linha, nova_col);
-        
     }
 }
 
 p_planilha atualizacao(p_planilha p, int linha, int coluna, int novo_valor)
 {
 
-    int valor_antigo = p->planilha[linha-1][coluna - 'A'].valor;
-    p->planilha[linha-1][coluna - 'A'].valor = novo_valor;
+    int valor_antigo = p->planilha[linha - 1][coluna - 'A'].valor;
+    p->planilha[linha - 1][coluna - 'A'].valor = novo_valor;
 
     printf("%c%d: %d -> %d\n", coluna, linha, valor_antigo, novo_valor);
     return p;
 }
 
-void libera_planilha(p_planilha p, int linhas, int colunas){
-    
+void libera_planilha(p_planilha p, int linhas, int colunas)
+{
+
     for (int i = 0; i < linhas; i++)
     {
         free(p->planilha[i]);
